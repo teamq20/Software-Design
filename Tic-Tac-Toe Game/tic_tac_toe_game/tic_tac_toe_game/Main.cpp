@@ -7,6 +7,7 @@ using namespace std;
 
 int main() {
 
+<<<<<<< HEAD
 	string player[2] = { "X", "O" };			//array that holds player letter
 
 	bool p1Turn;								//Boolean variables used to switch between player turns
@@ -18,6 +19,8 @@ int main() {
 		"(4)", "(5)", "(6)",
 		"(7)", "(8)", "(9)" };
 
+=======
+>>>>>>> master
 	int menuChoice;						//int to hold the player's input choice in the main menu
 
 										//MAIN MENU
@@ -45,6 +48,7 @@ int main() {
 
 	cout << endl;
 
+<<<<<<< HEAD
 	//GAME
 	if (menuChoice == 1) {									//If player chooses 1, start SINGLE PLAYER game
 		cout << "SINGLE PLAYER" << endl;
@@ -101,6 +105,18 @@ int main() {
 		}
 
 		position(board, p1Choice, player[0]);
+=======
+	if (menuChoice == 1) {									//If player chooses 1, start single player game
+		cout << "SINGLE PLAYER" << endl;
+
+		gameBoard();			//Call gameBoard function to display tic tac toe board
+
+	}
+	else if (menuChoice == 2) {								//If player chooses 2, start multiplayer game
+		cout << "MULTIPLAYER" << endl;
+
+		gameBoard();			//Call gameBoard function to display tic tac toe board
+>>>>>>> master
 	}
 	else if (menuChoice == 3) {								//If player chooses 3, exit the program
 		cout << "QUIT" << endl;
