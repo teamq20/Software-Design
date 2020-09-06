@@ -213,3 +213,167 @@ void position(string board[][3], int pos, string player) {
 =======
 }
 >>>>>>> master
+
+void comPosition(string board[][3], int pos, string player) {
+	switch (pos) {						//switch statement to determine which tile on the board to fill in depending on pos parameter
+	case 1:
+		if (board[0][0] == "[X]" || board[0][0] == "[O]") {				//if statement to make sure the spot isn't already filled
+																		//Spot is filled
+			pos = rand() % 9 + 1;	//Make computer choose a new number
+
+			comPosition(board, pos, player);		//Call the position function again with the new choice
+		}
+		else {
+			//Spot is available
+			board[0][0] = "[O]";
+			cout << "The computer chose spot " << pos << endl;
+		}
+		break;
+	case 2:
+		if (board[0][1] == "[X]" || board[0][1] == "[O]") {				//if statement to make sure the spot isn't already filled
+																		//Spot is filled
+			pos = rand() % 9 + 1;	//Make computer choose a new number
+
+			comPosition(board, pos, player);		//Call the position function again with the new choice
+		}
+		else {
+			//Spot is available
+			board[0][1] = "[O]";
+			cout << "The computer chose spot " << pos << endl;
+		}
+		break;
+	case 3:
+		if (board[0][2] == "[X]" || board[0][2] == "[O]") {				//if statement to make sure the spot isn't already filled
+																		//Spot is filled
+			pos = rand() % 9 + 1;	//Make computer choose a new number
+
+			comPosition(board, pos, player);		//Call the position function again with the new choice
+		}
+		else {
+			//Spot is available
+			board[0][2] = "[O]";
+			cout << "The computer chose spot " << pos << endl;
+		}
+		break;
+	case 4:
+		if (board[1][0] == "[X]" || board[1][0] == "[O]") {				//if statement to make sure the spot isn't already filled
+																		//Spot is filled
+			pos = rand() % 9 + 1;	//Make computer choose a new number
+
+			comPosition(board, pos, player);		//Call the position function again with the new choice
+		}
+		else {
+			//Spot is available
+			board[1][0] = "[O]";
+			cout << "The computer chose spot " << pos << endl;
+		}
+		break;
+	case 5:
+		if (board[1][1] == "[X]" || board[1][1] == "[O]") {				//if statement to make sure the spot isn't already filled
+																		//Spot is filled
+			pos = rand() % 9 + 1;	//Make computer choose a new number
+
+			comPosition(board, pos, player);		//Call the position function again with the new choice
+		}
+		else {
+			//Spot is available
+			board[1][1] = "[O]";
+			cout << "The computer chose spot " << pos << endl;
+		}
+		break;
+	case 6:
+		if (board[1][2] == "[X]" || board[1][2] == "[O]") {				//if statement to make sure the spot isn't already filled
+																		//Spot is filled
+			pos = rand() % 9 + 1;	//Make computer choose a new number
+
+			comPosition(board, pos, player);		//Call the position function again with the new choice
+		}
+		else {
+			//Spot is available
+			board[1][2] = "[O]";
+			cout << "The computer chose spot " << pos << endl;
+		}
+		break;
+	case 7:
+		if (board[2][0] == "[X]" || board[2][0] == "[O]") {				//if statement to make sure the spot isn't already filled
+																		//Spot is filled
+			pos = rand() % 9 + 1;	//Make computer choose a new number
+
+			comPosition(board, pos, player);		//Call the position function again with the new choice
+		}
+		else {
+			//Spot is available
+			board[2][0] = "[O]";
+			cout << "The computer chose spot " << pos << endl;
+		}
+		break;
+	case 8:
+		if (board[2][1] == "[X]" || board[2][1] == "[O]") {				//if statement to make sure the spot isn't already filled
+																		//Spot is filled
+			pos = rand() % 9 + 1;	//Make computer choose a new number
+
+			comPosition(board, pos, player);		//Call the position function again with the new choice
+		}
+		else {
+			//Spot is available
+			board[2][1] = "[O]";
+			cout << "The computer chose spot " << pos << endl;
+		}
+		break;
+	case 9:
+		if (board[2][2] == "[X]" || board[2][2] == "[O]") {				//if statement to make sure the spot isn't already filled
+																		//Spot is filled
+			pos = rand() % 9 + 1;	//Make computer choose a new number
+
+			comPosition(board, pos, player);		//Call the position function again with the new choice
+		}
+		else {
+			//Spot is available
+			board[2][2] = "[O]";
+			cout << "The computer chose spot " << pos << endl;
+		}
+		break;
+	}
+}
+
+void checkWinner(string board[][3], string player, bool gameOver) {
+
+	string p = "[" + player + "]";		//variable used so that the if statements can recognize the filled positions
+
+	if (board[0][0] == p && board[0][1] == p && board[0][2] == p) {		//if/else statements to check if the winning combinations are met by current player
+		cout << "Player " << player << " has won!" << endl;
+		gameOver = true;
+	}
+	else if (board[0][0] == p && board[1][0] == p && board[2][0] == p) {
+		cout << "Player " << player << " has won!" << endl;
+		gameOver = true;
+	}
+	else if (board[0][0] == p && board[1][1] == p && board[2][2] == p) {
+		cout << "Player " << player << " has won!" << endl;
+		gameOver = true;
+	}
+	else if (board[0][1] == p && board[1][1] == p && board[2][1] == p) {
+		cout << "Player " << player << " has won!" << endl;
+		gameOver = true;
+	}
+	else if (board[0][2] == p && board[1][1] == p && board[2][0] == p) {
+		cout << "Player " << player << " has won!" << endl;
+		gameOver = true;
+	}
+	else if (board[0][2] == p && board[1][2] == p && board[2][2] == p) {
+		cout << "Player " << player << " has won!" << endl;
+		gameOver = true;
+	}
+	else if (board[1][0] == p && board[1][1] == p && board[1][2] == p) {
+		cout << "Player " << player << " has won!" << endl;
+		gameOver = true;
+	}
+	else if (board[2][0] == p && board[2][1] == p && board[2][2] == p) {
+		cout << "Player " << player << " has won!" << endl;
+		gameOver = true;
+	}
+	else {		//If there is no winner, switch players (next player's turn)
+		gameOver = false;
+
+	}
+}

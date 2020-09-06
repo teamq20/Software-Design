@@ -53,12 +53,65 @@ int main() {
 	if (menuChoice == 1) {									//If player chooses 1, start SINGLE PLAYER game
 		cout << "SINGLE PLAYER" << endl;
 
-		gameBoard(board);			//Call gameBoard function to display tic tac toe board
+		int counter = 9;		//counter to keep track of how many spaces left (9 at the beginning)
+
+		int p1Choice, comChoice;			//variables to hold the player's choice and the computer's choice
+
+		p1Turn = true;				//Set p1turn to true to begin the game
+
+		while (!gameOver) {
+			if (p1Turn == true) {
+				gameBoard(board);			//Call gameBoard function to display tic tac toe board
+				cout << endl;
+
+				cout << "Player " << player[0] << " choose an available spot on the board" << endl;
+				cin >> p1Choice;			//Player 1 inputs desired spot on board
+
+				while (p1Choice < 1 || p1Choice > 9) {		//Input validation (make sure player chooses a spot on the board
+					cout << "This is not a valid spot. Please input a number from 1-9.";
+					cin >> p1Choice;
+				}
+
+				position(board, p1Choice, player[0], counter);		//Call the position function to place the player on the desired position on the board
+
+				checkWinner(board, player[0], gameOver);	//Call the checkWinner function to see if there is a winner
+
+				if (counter == 0) {
+					gameOver = true;
+					cout << "It is a tie" << endl;
+				}
+
+				if (!gameOver) {							//Check if the game is not over. If it is not, then the game continues
+					p1Turn = false;
+					comTurn = true;
+				}
+			}
+			else if (comTurn == true && counter != 0) {
+				cout << endl;
+
+				comChoice = rand() % 9 + 1;			//computer chooses what number it desires
+
+				comPosition(board, comChoice, player[1]);		//call the comPosition function to place the computer on the desired position
+
+				checkWinner(board, player[1], gameOver);	//Call the checkWinner function to see if there is a winner
+
+				if (counter == 0) {
+					gameOver = true;
+					cout << "It is a tie" << endl;
+				}
+
+				if (!gameOver) {
+					p1Turn = true;
+					comTurn = false;
+				}
+			}
+		}
 
 	}
 	else if (menuChoice == 2) {								//If player chooses 2, start MULTIPLAYER game
 		int p1Choice, p2Choice;
 		cout << "MULTIPLAYER" << endl;
+		int counter = 9;		//counter to keep track of how many spaces left (9 at the beginning)
 
 		p1Turn = true;				//Set p1turn to true to begin the game
 
@@ -69,7 +122,7 @@ int main() {
 				gameBoard(board);			//Call gameBoard function to display tic tac toe board
 				cout << endl;
 
-				cout << "Player " << player[0] << " choose an available spot on the board" << endl;	
+				cout << "Player " << player[0] << " choose an available spot on the board" << endl;
 				cin >> p1Choice;			//Player 1 inputs desired spot on board
 
 				while (p1Choice < 1 || p1Choice > 9) {		//Input validation (make sure player chooses a spot on the board
@@ -77,10 +130,19 @@ int main() {
 					cin >> p1Choice;
 				}
 
-				position(board, p1Choice, player[0]);		//Call the position function to place the player on the desired position on the board
+				position(board, p1Choice, player[0], counter);		//Call the position function to place the player on the desired position on the board
 
-				p1Turn = false;
-				p2Turn = true;
+				checkWinner(board, player[0], gameOver);	//Call the checkWinner function to see if there is a winner
+
+				if (counter == 0) {
+					gameOver = true;
+					cout << "It is a tie" << endl;
+				}
+
+				if (!gameOver) {							//Check if the game is not over. If it is not, then the game continues
+					p1Turn = false;
+					p2Turn = true;
+				}
 
 			}
 			else if (p2Turn == true) {
@@ -96,15 +158,22 @@ int main() {
 					cin >> p2Choice;
 				}
 
-				position(board, p2Choice, player[1]);		//Call the position function to place the player on the desired position on the board
+				position(board, p2Choice, player[1], counter);		//Call the position function to place the player on the desired position on the board
 
-				p1Turn = true;
-				p2Turn = false;
+				checkWinner(board, player[1], gameOver);			//Call the checkWinner function to see if there is a winner
+
+				if (counter == 0) {
+					gameOver = true;
+					cout << "It is a tie" << endl;
+				}
+
+				if (!gameOver) {
+					p1Turn = true;
+					p2Turn = false;
+				}
 
 			}
 		}
-
-		position(board, p1Choice, player[0]);
 =======
 	if (menuChoice == 1) {									//If player chooses 1, start single player game
 		cout << "SINGLE PLAYER" << endl;
@@ -119,7 +188,7 @@ int main() {
 >>>>>>> master
 	}
 	else if (menuChoice == 3) {								//If player chooses 3, exit the program
-		cout << "QUIT" << endl;
+		exit(0);		//exit the program
 	}
 
 	system("pause");
