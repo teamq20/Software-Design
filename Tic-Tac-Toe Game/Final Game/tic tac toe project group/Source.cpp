@@ -38,7 +38,11 @@ int main() {
 	cin >> menuChoice;
 
 	//Input Validation
-	while (menuChoice < 1 || menuChoice > 3) {			//while loop to make sure the player inputs a valid digit
+	while (menuChoice < 1 || menuChoice > 3 || cin.fail()) {			//while loop to make sure the player inputs a valid digit
+		if (cin.fail()) {		//If the input is not a number, clear the error
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
 		cout << "This is an invalid input!" << endl;
 		cout << "Enter 1 to play single player, 2 for multiplayer, or 3 to quit the program" << endl;
 		cin >> menuChoice;
@@ -56,7 +60,7 @@ int main() {
 
 		p1Turn = true;				//Set p1turn to true to begin the game
 
-		while (!gameOver) {
+		do {
 			if (p1Turn == true) {
 				gameBoard(board);			//Call gameBoard function to display tic tac toe board
 				cout << endl;
@@ -71,7 +75,7 @@ int main() {
 
 				position(board, p1Choice, player[0], counter);		//Call the position function to place the player on the desired position on the board
 
-				checkWinner(board, player[0], gameOver);	//Call the checkWinner function to see if there is a winner
+				gameOver = checkWinner(board, player[0]);	//Call the checkWinner function to see if there is a winner
 
 				if (counter == 0) {
 					gameOver = true;
@@ -90,24 +94,50 @@ int main() {
 
 				comPosition(board, comChoice, player[1]);		//call the comPosition function to place the computer on the desired position
 
-				checkWinner(board, player[1], gameOver);	//Call the checkWinner function to see if there is a winner
+				gameOver = checkWinner(board, player[1]);	//Call the checkWinner function to see if there is a winner
 
 				if (!gameOver) {
 					p1Turn = true;
 					comTurn = false;
 				}
 			}
+		} while (gameOver == false);
+
+		cout << endl << endl;
+		int c;		//int to hold player's choice
+
+		cout << "Enter 1 to go to the main menu or 2 to quit the program" << endl;
+		cin >> c;
+
+		//INPUT VALIDATION
+		while (c < 1 || c > 2 || cin.fail()) {
+			if (cin.fail()) {	//if input is not a number, clear the error
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			}
+			cout << "This is an invalid input!" << endl;
+			cout << "Enter 1 to go to the main menu or 2 to quit the program" << endl;
+			cin >> c;
+
+		}
+
+		if (c == 1) {
+			displayMenu();	//display the menu if the player input is 1
+		}
+		else {
+			exit(0);		//close the program if player input is 2
 		}
 
 	}
 	else if (menuChoice == 2) {								//If player chooses 2, start MULTIPLAYER game
 		int p1Choice, p2Choice;
+
 		cout << "MULTIPLAYER" << endl;
 		int counter = 9;		//counter to keep track of how many spaces left (9 at the beginning)
 
 		p1Turn = true;				//Set p1turn to true to begin the game
 
-		while (!gameOver) {			//while loop to keep the game in session
+		do {			//while loop to keep the game in session
 
 			if (p1Turn == true) {		//if/else statement to switch between players during the game
 
@@ -124,7 +154,7 @@ int main() {
 
 				position(board, p1Choice, player[0], counter);		//Call the position function to place the player on the desired position on the board
 
-				checkWinner(board, player[0], gameOver);	//Call the checkWinner function to see if there is a winner
+				gameOver = checkWinner(board, player[0]);	//Call the checkWinner function to see if there is a winner
 
 				if (counter == 0) {
 					gameOver = true;
@@ -152,7 +182,7 @@ int main() {
 
 				position(board, p2Choice, player[1], counter);		//Call the position function to place the player on the desired position on the board
 
-				checkWinner(board, player[1], gameOver);			//Call the checkWinner function to see if there is a winner
+				gameOver = checkWinner(board, player[1]);			//Call the checkWinner function to see if there is a winner
 
 				if (counter == 0) {
 					gameOver = true;
@@ -165,6 +195,31 @@ int main() {
 				}
 
 			}
+		} while (gameOver == false);
+
+		cout << endl << endl;
+		int c;		//int to hold player's choice
+
+		cout << "Enter 1 to go to the main menu or 2 to quit the program" << endl;
+		cin >> c;
+
+		//INPUT VALIDATION
+		while (c < 1 || c > 2 || cin.fail()) {
+			if (cin.fail()) {	//if input is not a number, clear the error
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			}
+			cout << "This is an invalid input!" << endl;
+			cout << "Enter 1 to go to the main menu or 2 to quit the program" << endl;
+			cin >> c;
+
+		}
+
+		if (c == 1) {
+			displayMenu();	//display the menu if the player input is 1
+		}
+		else {
+			exit(0);		//close the program if player input is 2
 		}
 	}
 	else if (menuChoice == 3) {								//If player chooses 3, exit the program
@@ -173,4 +228,4 @@ int main() {
 
 	system("pause");
 	return 0;
-}
+}}
