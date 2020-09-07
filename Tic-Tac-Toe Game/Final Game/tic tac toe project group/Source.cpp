@@ -56,7 +56,7 @@ int main() {
 
 		p1Turn = true;				//Set p1turn to true to begin the game
 
-		while (!gameOver) {
+		do {
 			if (p1Turn == true) {
 				gameBoard(board);			//Call gameBoard function to display tic tac toe board
 				cout << endl;
@@ -71,7 +71,7 @@ int main() {
 
 				position(board, p1Choice, player[0], counter);		//Call the position function to place the player on the desired position on the board
 
-				checkWinner(board, player[0], gameOver);	//Call the checkWinner function to see if there is a winner
+				gameOver = checkWinner(board, player[0]);	//Call the checkWinner function to see if there is a winner
 
 				if (counter == 0) {
 					gameOver = true;
@@ -90,14 +90,18 @@ int main() {
 
 				comPosition(board, comChoice, player[1]);		//call the comPosition function to place the computer on the desired position
 
-				checkWinner(board, player[1], gameOver);	//Call the checkWinner function to see if there is a winner
+				gameOver = checkWinner(board, player[1]);	//Call the checkWinner function to see if there is a winner
 
 				if (!gameOver) {
 					p1Turn = true;
 					comTurn = false;
 				}
 			}
-		}
+		} while (gameOver == false);
+
+		int c;		//int to hold player's choice
+
+
 
 	}
 	else if (menuChoice == 2) {								//If player chooses 2, start MULTIPLAYER game
@@ -107,7 +111,7 @@ int main() {
 
 		p1Turn = true;				//Set p1turn to true to begin the game
 
-		while (!gameOver) {			//while loop to keep the game in session
+		do {			//while loop to keep the game in session
 
 			if (p1Turn == true) {		//if/else statement to switch between players during the game
 
@@ -124,7 +128,7 @@ int main() {
 
 				position(board, p1Choice, player[0], counter);		//Call the position function to place the player on the desired position on the board
 
-				checkWinner(board, player[0], gameOver);	//Call the checkWinner function to see if there is a winner
+				gameOver = checkWinner(board, player[0]);	//Call the checkWinner function to see if there is a winner
 
 				if (counter == 0) {
 					gameOver = true;
@@ -152,7 +156,7 @@ int main() {
 
 				position(board, p2Choice, player[1], counter);		//Call the position function to place the player on the desired position on the board
 
-				checkWinner(board, player[1], gameOver);			//Call the checkWinner function to see if there is a winner
+				gameOver = checkWinner(board, player[1]);			//Call the checkWinner function to see if there is a winner
 
 				if (counter == 0) {
 					gameOver = true;
@@ -165,7 +169,7 @@ int main() {
 				}
 
 			}
-		}
+		} while (gameOver == false);
 	}
 	else if (menuChoice == 3) {								//If player chooses 3, exit the program
 		exit(0);

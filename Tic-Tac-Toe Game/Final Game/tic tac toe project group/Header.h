@@ -339,44 +339,44 @@ void comPosition(string board[][3], int pos, string player) {
 	}
 }
 
-void checkWinner(string board[][3], string player, bool gameOver) {
+bool checkWinner(string board[][3], string player) {
 
 	string p = "[" + player + "]";		//variable used so that the if statements can recognize the filled positions
 
 	if (board[0][0] == p && board[0][1] == p && board[0][2] == p) {		//if/else statements to check if the winning combinations are met by current player
 		cout << "Player " << player << " has won!" << endl;
-		gameOver = true;
+		return true;					//return true and assign to gameOver variable
 	}
 	else if (board[0][0] == p && board[1][0] == p && board[2][0] == p) {
 		cout << "Player " << player << " has won!" << endl;
-		gameOver = true;
+		return true;
 	}
 	else if (board[0][0] == p && board[1][1] == p && board[2][2] == p) {
 		cout << "Player " << player << " has won!" << endl;
-		gameOver = true;
+		return true;
 	}
 	else if (board[0][1] == p && board[1][1] == p && board[2][1] == p) {
 		cout << "Player " << player << " has won!" << endl;
-		gameOver = true;
+		return true;
 	}
 	else if (board[0][2] == p && board[1][1] == p && board[2][0] == p) {
 		cout << "Player " << player << " has won!" << endl;
-		gameOver = true;
+		return true;
 	}
 	else if (board[0][2] == p && board[1][2] == p && board[2][2] == p) {
 		cout << "Player " << player << " has won!" << endl;
-		gameOver = true;
+		return true;
 	}
 	else if (board[1][0] == p && board[1][1] == p && board[1][2] == p) {
 		cout << "Player " << player << " has won!" << endl;
-		gameOver = true;
+		return true;
 	}
 	else if (board[2][0] == p && board[2][1] == p && board[2][2] == p) {
 		cout << "Player " << player << " has won!" << endl;
-		gameOver = true;
+		return true;
 	}
 	else {		//If there is no winner, switch players (next player's turn)
-		gameOver = false;
+		return false;		//return false and assign to gameOver variable
 
 	}
 }

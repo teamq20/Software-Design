@@ -1,3 +1,1 @@
-﻿  Source.cpp
-C:\Users\cnken\Downloads\tic tac toe project group\Final Game\tic tac toe project group\Source.cpp(1,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  tic tac toe project group.vcxproj -> C:\Users\cnken\Downloads\tic tac toe project group\Final Game\Debug\tic tac toe project group.exe
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.Cpp.Platform.targets(57,5): error MSB8020: The build tools for v142 (Platform Toolset = 'v142') cannot be found. To build using the v142 build tools, please install v142 build tools.  Alternatively, you may upgrade to the current Visual Studio tools by selecting the Project menu or right-click the solution, and then selecting "Retarget solution".
