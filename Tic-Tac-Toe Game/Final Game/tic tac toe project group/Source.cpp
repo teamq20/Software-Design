@@ -38,11 +38,7 @@ int main() {
 	cin >> menuChoice;
 
 	//Input Validation
-	while (menuChoice < 1 || menuChoice > 3 || cin.fail()) {			//while loop to make sure the player inputs a valid digit
-		if (cin.fail()) {		//If the input is not a number, clear the error
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		}
+	while (menuChoice < 1 || menuChoice > 3) {			//while loop to make sure the player inputs a valid digit
 		cout << "This is an invalid input!" << endl;
 		cout << "Enter 1 to play single player, 2 for multiplayer, or 3 to quit the program" << endl;
 		cin >> menuChoice;
@@ -103,35 +99,13 @@ int main() {
 			}
 		} while (gameOver == false);
 
-		cout << endl << endl;
 		int c;		//int to hold player's choice
 
-		cout << "Enter 1 to go to the main menu or 2 to quit the program" << endl;
-		cin >> c;
 
-		//INPUT VALIDATION
-		while (c < 1 || c > 2 || cin.fail()) {
-			if (cin.fail()) {	//if input is not a number, clear the error
-				cin.clear();
-				cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			}
-			cout << "This is an invalid input!" << endl;
-			cout << "Enter 1 to go to the main menu or 2 to quit the program" << endl;
-			cin >> c;
-
-		}
-
-		if (c == 1) {
-			displayMenu();	//display the menu if the player input is 1
-		}
-		else {
-			exit(0);		//close the program if player input is 2
-		}
 
 	}
 	else if (menuChoice == 2) {								//If player chooses 2, start MULTIPLAYER game
 		int p1Choice, p2Choice;
-
 		cout << "MULTIPLAYER" << endl;
 		int counter = 9;		//counter to keep track of how many spaces left (9 at the beginning)
 
@@ -196,31 +170,6 @@ int main() {
 
 			}
 		} while (gameOver == false);
-
-		cout << endl << endl;
-		int c;		//int to hold player's choice
-
-		cout << "Enter 1 to go to the main menu or 2 to quit the program" << endl;
-		cin >> c;
-
-		//INPUT VALIDATION
-		while (c < 1 || c > 2 || cin.fail()) {
-			if (cin.fail()) {	//if input is not a number, clear the error
-				cin.clear();
-				cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			}
-			cout << "This is an invalid input!" << endl;
-			cout << "Enter 1 to go to the main menu or 2 to quit the program" << endl;
-			cin >> c;
-
-		}
-
-		if (c == 1) {
-			displayMenu();	//display the menu if the player input is 1
-		}
-		else {
-			exit(0);		//close the program if player input is 2
-		}
 	}
 	else if (menuChoice == 3) {								//If player chooses 3, exit the program
 		exit(0);
@@ -228,4 +177,4 @@ int main() {
 
 	system("pause");
 	return 0;
-}}
+}
