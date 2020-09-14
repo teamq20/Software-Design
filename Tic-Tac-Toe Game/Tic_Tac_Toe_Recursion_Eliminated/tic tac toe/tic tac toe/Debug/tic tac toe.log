@@ -1,0 +1,10 @@
+﻿  Functions.cpp
+C:\Users\cnken\Downloads\tic tac toe (1)\tic tac toe\tic tac toe\Functions.cpp(1,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\cnken\Downloads\tic tac toe (1)\tic tac toe\tic tac toe\Header.h(15,2): warning C4091: 'static ': ignored on left of 'boardPositions' when no variable is declared
+  Source.cpp
+C:\Users\cnken\Downloads\tic tac toe (1)\tic tac toe\tic tac toe\Source.cpp(1,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\cnken\Downloads\tic tac toe (1)\tic tac toe\tic tac toe\Header.h(15,2): warning C4091: 'static ': ignored on left of 'boardPositions' when no variable is declared
+  Source1.cpp
+  Generating Code...
+C:\Users\cnken\Downloads\tic tac toe (1)\tic tac toe\tic tac toe\Functions.cpp(273): warning C4715: 'positionAvailable': not all control paths return a value
+  tic tac toe.vcxproj -> C:\Users\cnken\Downloads\tic tac toe (1)\tic tac toe\Debug\tic tac toe.exe
