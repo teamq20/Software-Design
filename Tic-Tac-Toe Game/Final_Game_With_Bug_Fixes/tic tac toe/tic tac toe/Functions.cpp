@@ -43,8 +43,8 @@ void gameBoard(string board[][3]) {
 
 }
 
-void displayMenu() {		//display the main menu
-	string player[2] = { "X", "O" };			//array that holds player letter
+void displayMenu(boardPositions position[]) {		//display the main menu
+	string player[2] = { "[X]", "[O]" };			//array that holds player letter
 	bool p1Turn = true;								//Boolean variables used to switch between player turns
 	bool p2Turn = false;								//
 
@@ -71,11 +71,11 @@ void displayMenu() {		//display the main menu
 
 	if (menuChoice == 1) {
 
-		singlePlayer(player, p1Turn, p2Turn);
+		singlePlayer(player, p1Turn, p2Turn, position);
 	}
 	else if (menuChoice == 2) {
 
-		multiPlayer(player, p1Turn, p2Turn);
+		multiPlayer(player, p1Turn, p2Turn, position);
 	}
 	else if (menuChoice == 0) {
 		exit(0);		//if player input is 0, close the program
@@ -84,67 +84,90 @@ void displayMenu() {		//display the main menu
 	cout << endl;
 }
 
-void singlePlayer(string player[], bool p1Turn, bool comTurn) {		//begin single player mode
+void singlePlayer(string player[], bool p1Turn, bool p2Turn, boardPositions position[]) {		//begin single player mode
 	cout << "SINGLE PLAYER" << endl;
 
-	bool gameOver = false;	//determines if the game is over
+	bool gameOver = false;
 
 	int counter = 9;		//counter to keep track of how many spaces left (9 at the beginning)
 
-	int p1Choice, comChoice;			//variables to hold the player's choice and the computer's choice
+	int p1Choice, p2Choice;
 
 	const int ROWS = 3, COLS = 3;		// Set the number of rows and columns
-	string board[ROWS][COLS] = { "(1)", "(2)", "(3)",			//2 dimensional array to create tic tac toe board
-		"(4)", "(5)", "(6)",
-		"(7)", "(8)", "(9)" };
+	string board[ROWS][COLS] = { " 1 ", " 2 ", " 3 ",			//2 dimensional array to create tic tac toe board
+		" 4 ", " 5 ", " 6 ",
+		" 7 ", " 8 ", " 9 " };
 
-	p1Turn = true;				//Set p1turn to true to begin the game
+	p1Turn = true;
 
-	do {
-		if (p1Turn == true) {
-			gameBoard(board);			//Call gameBoard function to display tic tac toe board
-			cout << endl;
+	do {			//while loop to keep the game in session
+		cout << endl;
+		gameBoard(board);			//Call gameBoard function to display tic tac toe board
+		cout << endl << endl;
+
+		if (p1Turn == true) {		//if/else statement to switch between players during the game
 
 			cout << "Player " << player[0] << " choose an available spot on the board" << endl;
 			cin >> p1Choice;			//Player 1 inputs desired spot on board
 
-			p1Choice = inputValidate(p1Choice, 1, (ROWS * COLS));
+			p1Choice = inputValidate(p1Choice, 0, (ROWS * COLS));
+			bool available = positionAvailable(position, p1Choice, player, board);
 
-			position(board, p1Choice, player[0], counter);		//Call the position function to place the player on the desired position on the board
-
-			gameOver = checkWinner(board, player[0]);	//Call the checkWinner function to see if there is a winner
-
-			if (counter == 0) {
-				gameOver = true;
-				cout << "It is a tie" << endl;
-			}
-
-			if (!gameOver) {							//Check if the game is not over. If it is not, then the game continues
-				p1Turn = false;
-				comTurn = true;
-			}
-		}
-		else if (comTurn == true && counter != 0) {
-			cout << endl;
-
-			comChoice = rand() % 9 + 1;			//computer chooses what number it desires
-
-			comPosition(board, comChoice, player[1]);		//call the comPosition function to place the computer on the desired position
-
-			gameOver = checkWinner(board, player[1]);	//Call the checkWinner function to see if there is a winner
-
-			if (!gameOver) {
+			if (available == false) {
+				cout << "This position is not available." << endl;
 				p1Turn = true;
-				comTurn = false;
 			}
+			else {
+				fillPosition(board, p1Choice, player[0], position);
+				counter--;
+				gameOver = checkWinner(board, player[0]);	//Call the checkWinner function to see if there is a winner
+
+				if (counter == 0) {
+					gameOver = true;
+					cout << "It is a tie" << endl;
+				}
+
+				if (!gameOver) {							//Check if the game is not over. If it is not, then the game continues
+					p1Turn = false;
+					p2Turn = true;
+				}
+			}
+
+		}
+		else if (p2Turn == true) {
+			p2Choice = rand() % 9 + 1;
+
+			bool available = positionAvailable(position, p2Choice, player, board);
+
+			if (available == false) {
+				p2Turn = true;
+			}
+			else {
+				cout << endl <<
+					"Player " << player[1] << " chose position " << p2Choice << endl;
+				fillPosition(board, p2Choice, player[1], position);
+				counter--;
+				gameOver = checkWinner(board, player[1]);	//Call the checkWinner function to see if there is a winner
+
+				if (counter == 0) {
+					gameOver = true;
+					cout << "It is a tie" << endl;
+				}
+
+				if (!gameOver) {							//Check if the game is not over. If it is not, then the game continues
+					p1Turn = true;
+					p2Turn = false;
+				}
+			}
+
 		}
 	} while (gameOver == false);
 
 	cout << endl << endl;
-	endScreen();
+	endScreen(position);
 }
 
-void multiPlayer(string player[], bool p1Turn, bool p2Turn) {		//begin multiplayer mode
+void multiPlayer(string player[], bool p1Turn, bool p2Turn, boardPositions position[]) {		//begin multiplayer mode
 	int p1Choice, p2Choice;								//
 
 	bool gameOver = false;	//determines if the game is over
@@ -153,61 +176,73 @@ void multiPlayer(string player[], bool p1Turn, bool p2Turn) {		//begin multiplay
 	int counter = 9;		//counter to keep track of how many spaces left (9 at the beginning)
 
 	const int ROWS = 3, COLS = 3;		// Set the number of rows and columns
-	string board[ROWS][COLS] = { "(1)", "(2)", "(3)",			//2 dimensional array to create tic tac toe board
-		"(4)", "(5)", "(6)",
-		"(7)", "(8)", "(9)" };
+	string board[ROWS][COLS] = { " 1 ", " 2 ", " 3 ",			//2 dimensional array to create tic tac toe board
+		" 4 ", " 5 ", " 6 ",
+		" 7 ", " 8 ", " 9 " };
 
 	p1Turn = true;				//Set p1turn to true to begin the game
 
 	do {			//while loop to keep the game in session
+		cout << endl;
+		gameBoard(board);			//Call gameBoard function to display tic tac toe board
+		cout << endl << endl;
 
 		if (p1Turn == true) {		//if/else statement to switch between players during the game
-
-			gameBoard(board);			//Call gameBoard function to display tic tac toe board
-			cout << endl;
 
 			cout << "Player " << player[0] << " choose an available spot on the board" << endl;
 			cin >> p1Choice;			//Player 1 inputs desired spot on board
 
 			p1Choice = inputValidate(p1Choice, 0, (ROWS * COLS));
+			bool available = positionAvailable(position, p1Choice, player, board);
 
-			position(board, p1Choice, player[0], counter);		//Call the position function to place the player on the desired position on the board
-
-			gameOver = checkWinner(board, player[0]);	//Call the checkWinner function to see if there is a winner
-
-			if (counter == 0) {
-				gameOver = true;
-				cout << "It is a tie" << endl;
+			if (available == false) {
+				cout << "This position is not available." << endl;
+				p1Turn = true;
 			}
+			else {
+				fillPosition(board, p1Choice, player[0], position);
+				counter--;
+				gameOver = checkWinner(board, player[0]);	//Call the checkWinner function to see if there is a winner
 
-			if (!gameOver) {							//Check if the game is not over. If it is not, then the game continues
-				p1Turn = false;
-				p2Turn = true;
+				if (counter == 0) {
+					gameOver = true;
+					cout << "It is a tie" << endl;
+				}
+
+				if (!gameOver) {							//Check if the game is not over. If it is not, then the game continues
+					p1Turn = false;
+					p2Turn = true;
+				}
 			}
 
 		}
 		else if (p2Turn == true) {
 
-			gameBoard(board);			//Call gameBoard function to display tic tac toe board
-			cout << endl;
-
 			cout << "Player " << player[1] << " choose an available spot on the board" << endl;
 			cin >> p2Choice;			//Player 1 inputs desired spot on board
 
-			p1Choice = inputValidate(p1Choice, 0, (ROWS * COLS));
+			p2Choice = inputValidate(p2Choice, 0, (ROWS * COLS));
 
-			position(board, p2Choice, player[1], counter);		//Call the position function to place the player on the desired position on the board
+			bool available = positionAvailable(position, p2Choice, player, board);
 
-			gameOver = checkWinner(board, player[1]);			//Call the checkWinner function to see if there is a winner
-
-			if (counter == 0) {
-				gameOver = true;
-				cout << "It is a tie" << endl;
+			if (available == false) {
+				cout << "This position is not available." << endl;
+				p2Turn = true;
 			}
+			else {
+				fillPosition(board, p2Choice, player[1], position);
+				counter--;
+				gameOver = checkWinner(board, player[1]);	//Call the checkWinner function to see if there is a winner
 
-			if (!gameOver) {
-				p1Turn = true;
-				p2Turn = false;
+				if (counter == 0) {
+					gameOver = true;
+					cout << "It is a tie" << endl;
+				}
+
+				if (!gameOver) {							//Check if the game is not over. If it is not, then the game continues
+					p1Turn = true;
+					p2Turn = false;
+				}
 			}
 
 		}
@@ -215,353 +250,76 @@ void multiPlayer(string player[], bool p1Turn, bool p2Turn) {		//begin multiplay
 
 	cout << endl << endl;
 
-	endScreen();
+	endScreen(position);
 }
 
-void position(string board[][3], int pos, string player, int counter) {
+bool positionAvailable(boardPositions position[], int pos, string playerArray[], string board[][3]) {
+	string player1 = playerArray[0];
+	string player2 = playerArray[1];
 
+	for (int i = 0; i < 9; i++) {
+		if (pos == position[i].pos) {
+			int x = position[i].boardX;
+			int y = position[i].boardY;
 
-	switch (pos) {						//switch statement to determine which tile on the board to fill in depending on pos parameter
-	case 1:
-		if (board[0][0] == "[X]" || board[0][0] == "[O]") {				//if statement to make sure the spot isn't already filled
-																		//Spot is filled
-			cout << "This spot is already filled. Please choose an available spot" << endl;
-			cin >> pos;
-
-			position(board, pos, player, counter);		//Call the position function again with the new choice
-		}
-		else {
-			//Spot is available
-			if (player == "X") {			//If player X chose the spot, fill in 'X'
-				board[0][0] = "[X]";
-				counter--;					//subtract one from counter because a place on the board has been filled
+			if (board[x][y] == player1 || board[x][y] == player2) {
+				return false;
 			}
-			else if (player == "O") {		//If player O chose the spot, fill in 'O'
-				board[0][0] = "[O]";
-				counter--;					//subtract one from counter because a place on the board has been filled
+			else {
+				return true;
 			}
 		}
-		break;
-	case 2:
-		if (board[0][1] == "[X]" || board[0][1] == "[O]") {				//if statement to make sure the spot isn't already filled
-																		//Spot is filled
-			cout << "This spot is already filled. Please choose an available spot" << endl;
-			cin >> pos;
-
-			position(board, pos, player, counter);		//Call the position function again with the new choice
-		}
-		else {
-			//Spot is available
-			if (player == "X") {			//If player X chose the spot, fill in 'X'
-				board[0][1] = "[X]";
-				counter--;					//subtract one from counter because a place on the board has been filled
-			}
-			else if (player == "O") {		//If player O chose the spot, fill in 'O'
-				board[0][1] = "[O]";
-				counter--;					//subtract one from counter because a place on the board has been filled
-			}
-		}
-		break;
-	case 3:
-		if (board[0][2] == "[X]" || board[0][2] == "[O]") {				//if statement to make sure the spot isn't already filled
-																		//Spot is filled
-			cout << "This spot is already filled. Please choose an available spot" << endl;
-			cin >> pos;
-
-			position(board, pos, player, counter);		//Call the position function again with the new choice
-		}
-		else {
-			//Spot is available
-			if (player == "X") {			//If player X chose the spot, fill in 'X'
-				board[0][2] = "[X]";
-				counter--;					//subtract one from counter because a place on the board has been filled
-			}
-			else if (player == "O") {		//If player O chose the spot, fill in 'O'
-				board[0][2] = "[O]";
-				counter--;					//subtract one from counter because a place on the board has been filled
-			}
-		}
-		break;
-	case 4:
-		if (board[1][0] == "[X]" || board[1][0] == "[O]") {				//if statement to make sure the spot isn't already filled
-																		//Spot is filled
-			cout << "This spot is already filled. Please choose an available spot" << endl;
-			cin >> pos;
-
-			position(board, pos, player, counter);		//Call the position function again with the new choice
-		}
-		else {
-			//Spot is available
-			if (player == "X") {			//If player X chose the spot, fill in 'X'
-				board[1][0] = "[X]";
-				counter--;					//subtract one from counter because a place on the board has been filled
-			}
-			else if (player == "O") {		//If player O chose the spot, fill in 'O'
-				board[1][0] = "[O]";
-				counter--;					//subtract one from counter because a place on the board has been filled
-			}
-		}
-		break;
-	case 5:
-		if (board[1][1] == "[X]" || board[1][1] == "[O]") {				//if statement to make sure the spot isn't already filled
-																		//Spot is filled
-			cout << "This spot is already filled. Please choose an available spot" << endl;
-			cin >> pos;
-
-			position(board, pos, player, counter);		//Call the position function again with the new choice
-		}
-		else {
-			//Spot is available
-			if (player == "X") {			//If player X chose the spot, fill in 'X'
-				board[1][1] = "[X]";
-				counter--;					//subtract one from counter because a place on the board has been filled
-			}
-			else if (player == "O") {		//If player O chose the spot, fill in 'O'
-				board[1][1] = "[O]";
-				counter--;					//subtract one from counter because a place on the board has been filled
-			}
-		}
-		break;
-	case 6:
-		if (board[1][2] == "[X]" || board[1][2] == "[O]") {				//if statement to make sure the spot isn't already filled
-																		//Spot is filled
-			cout << "This spot is already filled. Please choose an available spot" << endl;
-			cin >> pos;
-
-			position(board, pos, player, counter);		//Call the position function again with the new choice
-		}
-		else {
-			//Spot is available
-			if (player == "X") {			//If player X chose the spot, fill in 'X'
-				board[1][2] = "[X]";
-				counter--;					//subtract one from counter because a place on the board has been filled
-			}
-			else if (player == "O") {		//If player O chose the spot, fill in 'O'
-				board[1][2] = "[O]";
-				counter--;					//subtract one from counter because a place on the board has been filled
-			}
-		}
-		break;
-	case 7:
-		if (board[2][0] == "[X]" || board[2][0] == "[O]") {				//if statement to make sure the spot isn't already filled
-																		//Spot is filled
-			cout << "This spot is already filled. Please choose an available spot" << endl;
-			cin >> pos;
-
-			position(board, pos, player, counter);		//Call the position function again with the new choice
-		}
-		else {
-			//Spot is available
-			if (player == "X") {			//If player X chose the spot, fill in 'X'
-				board[2][0] = "[X]";
-				counter--;					//subtract one from counter because a place on the board has been filled
-			}
-			else if (player == "O") {		//If player O chose the spot, fill in 'O'
-				board[2][0] = "[O]";
-				counter--;					//subtract one from counter because a place on the board has been filled
-			}
-		}
-		break;
-	case 8:
-		if (board[2][1] == "[X]" || board[2][1] == "[O]") {				//if statement to make sure the spot isn't already filled
-																		//Spot is filled
-			cout << "This spot is already filled. Please choose an available spot" << endl;
-			cin >> pos;
-
-			position(board, pos, player, counter);		//Call the position function again with the new choice
-		}
-		else {
-			//Spot is available
-			if (player == "X") {			//If player X chose the spot, fill in 'X'
-				board[2][1] = "[X]";
-				counter--;					//subtract one from counter because a place on the board has been filled
-			}
-			else if (player == "O") {		//If player O chose the spot, fill in 'O'
-				board[2][1] = "[O]";
-				counter--;					//subtract one from counter because a place on the board has been filled
-			}
-		}
-		break;
-	case 9:
-		if (board[2][2] == "[X]" || board[2][2] == "[O]") {				//if statement to make sure the spot isn't already filled
-																		//Spot is filled
-			cout << "This spot is already filled. Please choose an available spot" << endl;
-			cin >> pos;
-
-			position(board, pos, player, counter);		//Call the position function again with the new choice
-		}
-		else {
-			//Spot is available
-			if (player == "X") {			//If player X chose the spot, fill in 'X'
-				board[2][2] = "[X]";
-				counter--;					//subtract one from counter because a place on the board has been filled
-			}
-			else if (player == "O") {		//If player O chose the spot, fill in 'O'
-				board[2][2] = "[O]";
-				counter--;					//subtract one from counter because a place on the board has been filled
-			}
-		}
-		break;
 	}
-
 }
 
-void comPosition(string board[][3], int pos, string player) {
-	switch (pos) {						//switch statement to determine which tile on the board to fill in depending on pos parameter
-	case 1:
-		if (board[0][0] == "[X]" || board[0][0] == "[O]") {				//if statement to make sure the spot isn't already filled
-																		//Spot is filled
-			pos = rand() % 9 + 1;	//Make computer choose a new number
+void fillPosition(string board[][3], int pos, string player, boardPositions position[]) {
+	int x = position[pos - 1].boardX;
+	int y = position[pos - 1].boardY;
 
-			comPosition(board, pos, player);		//Call the position function again with the new choice
-		}
-		else {
-			//Spot is available
-			board[0][0] = "[O]";
-			cout << "The computer chose spot " << pos << endl;
-		}
-		break;
-	case 2:
-		if (board[0][1] == "[X]" || board[0][1] == "[O]") {				//if statement to make sure the spot isn't already filled
-																		//Spot is filled
-			pos = rand() % 9 + 1;	//Make computer choose a new number
-
-			comPosition(board, pos, player);		//Call the position function again with the new choice
-		}
-		else {
-			//Spot is available
-			board[0][1] = "[O]";
-			cout << "The computer chose spot " << pos << endl;
-		}
-		break;
-	case 3:
-		if (board[0][2] == "[X]" || board[0][2] == "[O]") {				//if statement to make sure the spot isn't already filled
-																		//Spot is filled
-			pos = rand() % 9 + 1;	//Make computer choose a new number
-
-			comPosition(board, pos, player);		//Call the position function again with the new choice
-		}
-		else {
-			//Spot is available
-			board[0][2] = "[O]";
-			cout << "The computer chose spot " << pos << endl;
-		}
-		break;
-	case 4:
-		if (board[1][0] == "[X]" || board[1][0] == "[O]") {				//if statement to make sure the spot isn't already filled
-																		//Spot is filled
-			pos = rand() % 9 + 1;	//Make computer choose a new number
-
-			comPosition(board, pos, player);		//Call the position function again with the new choice
-		}
-		else {
-			//Spot is available
-			board[1][0] = "[O]";
-			cout << "The computer chose spot " << pos << endl;
-		}
-		break;
-	case 5:
-		if (board[1][1] == "[X]" || board[1][1] == "[O]") {				//if statement to make sure the spot isn't already filled
-																		//Spot is filled
-			pos = rand() % 9 + 1;	//Make computer choose a new number
-
-			comPosition(board, pos, player);		//Call the position function again with the new choice
-		}
-		else {
-			//Spot is available
-			board[1][1] = "[O]";
-			cout << "The computer chose spot " << pos << endl;
-		}
-		break;
-	case 6:
-		if (board[1][2] == "[X]" || board[1][2] == "[O]") {				//if statement to make sure the spot isn't already filled
-																		//Spot is filled
-			pos = rand() % 9 + 1;	//Make computer choose a new number
-
-			comPosition(board, pos, player);		//Call the position function again with the new choice
-		}
-		else {
-			//Spot is available
-			board[1][2] = "[O]";
-			cout << "The computer chose spot " << pos << endl;
-		}
-		break;
-	case 7:
-		if (board[2][0] == "[X]" || board[2][0] == "[O]") {				//if statement to make sure the spot isn't already filled
-																		//Spot is filled
-			pos = rand() % 9 + 1;	//Make computer choose a new number
-
-			comPosition(board, pos, player);		//Call the position function again with the new choice
-		}
-		else {
-			//Spot is available
-			board[2][0] = "[O]";
-			cout << "The computer chose spot " << pos << endl;
-		}
-		break;
-	case 8:
-		if (board[2][1] == "[X]" || board[2][1] == "[O]") {				//if statement to make sure the spot isn't already filled
-																		//Spot is filled
-			pos = rand() % 9 + 1;	//Make computer choose a new number
-
-			comPosition(board, pos, player);		//Call the position function again with the new choice
-		}
-		else {
-			//Spot is available
-			board[2][1] = "[O]";
-			cout << "The computer chose spot " << pos << endl;
-		}
-		break;
-	case 9:
-		if (board[2][2] == "[X]" || board[2][2] == "[O]") {				//if statement to make sure the spot isn't already filled
-																		//Spot is filled
-			pos = rand() % 9 + 1;	//Make computer choose a new number
-
-			comPosition(board, pos, player);		//Call the position function again with the new choice
-		}
-		else {
-			//Spot is available
-			board[2][2] = "[O]";
-			cout << "The computer chose spot " << pos << endl;
-		}
-		break;
-	}
+	board[x][y] = player;
 }
 
 bool checkWinner(string board[][3], string player) {
 
-	string p = "[" + player + "]";		//variable used so that the if statements can recognize the filled positions
 
-	if (board[0][0] == p && board[0][1] == p && board[0][2] == p) {		//if/else statements to check if the winning combinations are met by current player
+	if (board[0][0] == player && board[0][1] == player && board[0][2] == player) {		//if/else statements to check if the winning combinations are met by current player
 		cout << "Player " << player << " has won!" << endl;
+		gameBoard(board);
 		return true;					//return true and assign to gameOver variable
 	}
-	else if (board[0][0] == p && board[1][0] == p && board[2][0] == p) {
+	else if (board[0][0] == player && board[1][0] == player && board[2][0] == player) {
 		cout << "Player " << player << " has won!" << endl;
+		gameBoard(board);
 		return true;
 	}
-	else if (board[0][0] == p && board[1][1] == p && board[2][2] == p) {
+	else if (board[0][0] == player && board[1][1] == player && board[2][2] == player) {
 		cout << "Player " << player << " has won!" << endl;
+		gameBoard(board);
 		return true;
 	}
-	else if (board[0][1] == p && board[1][1] == p && board[2][1] == p) {
+	else if (board[0][1] == player && board[1][1] == player && board[2][1] == player) {
 		cout << "Player " << player << " has won!" << endl;
+		gameBoard(board);
 		return true;
 	}
-	else if (board[0][2] == p && board[1][1] == p && board[2][0] == p) {
+	else if (board[0][2] == player && board[1][1] == player && board[2][0] == player) {
 		cout << "Player " << player << " has won!" << endl;
+		gameBoard(board);
 		return true;
 	}
-	else if (board[0][2] == p && board[1][2] == p && board[2][2] == p) {
+	else if (board[0][2] == player && board[1][2] == player && board[2][2] == player) {
 		cout << "Player " << player << " has won!" << endl;
+		gameBoard(board);
 		return true;
 	}
-	else if (board[1][0] == p && board[1][1] == p && board[1][2] == p) {
+	else if (board[1][0] == player && board[1][1] == player && board[1][2] == player) {
 		cout << "Player " << player << " has won!" << endl;
+		gameBoard(board);
 		return true;
 	}
-	else if (board[2][0] == p && board[2][1] == p && board[2][2] == p) {
+	else if (board[2][0] == player && board[2][1] == player && board[2][2] == player) {
 		cout << "Player " << player << " has won!" << endl;
+		gameBoard(board);
 		return true;
 	}
 	else {		//If there is no winner, switch players (next player's turn)
@@ -570,7 +328,7 @@ bool checkWinner(string board[][3], string player) {
 	}
 }
 
-void endScreen() {
+void endScreen(boardPositions position[]) {
 	int choice;
 
 	cout << "Enter 1 to go to the main menu or 0 to quit the program" << endl;
@@ -580,7 +338,7 @@ void endScreen() {
 	inputValidate(choice, 0, 1);
 
 	if (choice == 1) {
-		displayMenu();	//display the menu if the player input is 1
+		displayMenu(position);	//display the menu if the player input is 1
 	}
 	else {
 		exit(0);		//close the program if player input is 2
