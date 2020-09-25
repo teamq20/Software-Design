@@ -5,7 +5,7 @@ using namespace std;
 
 class Player
 {
-private:
+protected:
 	int health = 3;
 	string Name;
 public:
@@ -28,7 +28,7 @@ public:
 	}
 };
 
-class Invintory 
+class Invintory: public Player
 {
 private:
 	string Item_1;
@@ -38,10 +38,6 @@ private:
 
 public:
 
-	void Set_Item_1(string);
-	void Set_Item_2(string);
-	void Set_Item_3(string);
-	void Set_Item_4(string);
 
 	void Destroy_item(string X)
 	{
@@ -60,6 +56,23 @@ public:
 		}
 
 };
+
+class Starting_items
+{
+public:
+	string items;
+	Starting_items *next;
+	Starting_items()
+	{
+
+	}
+	Starting_items(string tool)
+	{
+		items = tool;
+		next = nullptr;
+	}
+};
+
 
 
 
