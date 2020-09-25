@@ -6,4 +6,5 @@ using namespace std;
 
 int main()
 {
-	Player VST_7426; 
+	Player VST_7426;
+}
