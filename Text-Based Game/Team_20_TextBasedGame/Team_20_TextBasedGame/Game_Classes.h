@@ -5,7 +5,7 @@ using namespace std;
 
 class Player
 {
-protected:
+private:
 	int health = 3;
 	string Name;
 public:
@@ -44,6 +44,11 @@ public:
 		Item = "";
 		cout << "the item was destroyed in use";
 	}
+	void Set_Item_1(string);
+	void Set_Item_2(string);
+	void Set_Item_3(string);
+	void Set_Item_4(string);
+
 
 		Invintory(string Excavation, string Liquid, string Weapon, string Illumination, Player) : Player()
 		{
