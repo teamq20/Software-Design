@@ -28,7 +28,7 @@ public:
 	}
 };
 
-class Invintory: public Player
+class Invintory
 {
 private:
 	string Item_1;
@@ -38,16 +38,17 @@ private:
 
 public:
 
+	void Set_Item_1(string);
+	void Set_Item_2(string);
+	void Set_Item_3(string);
+	void Set_Item_4(string);
+
 	void Destroy_item(string X)
 	{
 		string Item = X;
 		Item = "";
 		cout << "the item was destroyed in use";
 	}
-	void Set_Item_1(string);
-	void Set_Item_2(string);
-	void Set_Item_3(string);
-	void Set_Item_4(string);
 
 
 		Invintory(string Excavation, string Liquid, string Weapon, string Illumination, Player) : Player()
