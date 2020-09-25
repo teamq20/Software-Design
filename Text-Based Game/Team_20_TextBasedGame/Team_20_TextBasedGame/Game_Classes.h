@@ -28,7 +28,7 @@ public:
 	}
 };
 
-class Invintory
+class Invintory 
 {
 private:
 	string Item_1;
