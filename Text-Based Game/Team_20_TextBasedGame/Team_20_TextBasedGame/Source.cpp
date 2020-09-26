@@ -6,4 +6,5 @@ using namespace std;
 int main() {
 
 	mainMenu();
+	string Starting_Items
 }
