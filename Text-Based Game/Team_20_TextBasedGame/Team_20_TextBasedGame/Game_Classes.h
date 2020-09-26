@@ -55,45 +55,99 @@ public:
 	}
 };
 
-class Inventory:public Player 
-{
-private:
-	string Item_1;
-	string Item_2;
-	string Item_3;
-	string Item_4;
-
-public:
-	
-	void Destroy_item(string X)
-	{
-		string Item = X;
-		Item = "";
-		cout << "the item was destroyed in use";
-	}
-	Inventory(string Excavation, string Liquid, string Weapon, string Illumination, Player) : Player()
-	{
-		Item_1 = Excavation;
-		Item_2 = Liquid;
-		Item_3 = Weapon;
-		Item_4 = Illumination;
-	}
-};
-
-class Starting_Items
+class Items
 {
 public:
 	string data;
-	Starting_Items *next;
-	Starting_Items() {}
-	Starting_Items(int tools)
+	Items *next;
+	Items() {}
+	Items(string tools)
 	{
 		data = tools;
 		next = nullptr;
 	}
 };
 
+class Inventory:public Player
+{
+public:
+	Items *head;
+	Inventory() : Player()
+	{
+		head = nullptr;
+	}
 
+	void Add_to_Inventory(string Tool)
+	{
+		Items *X = new Items(Tool);
+
+		if (head == nullptr)
+		{
+			head = X;
+			return;
+		}
+
+		Items *Selected_Item = head;
+		while (Selected_Item->next != nullptr)
+		{
+			Selected_Item = Selected_Item->next;
+		}
+		Selected_Item->next = X;
+	}
+
+	int Find_Item(string Item)
+	{
+		Items *Selected_Item = head;
+		int location_of_item = -1;
+
+		while (Selected_Item != nullptr)
+		{
+			if (Selected_Item->data == Item)
+			{
+				return location_of_item;
+			}
+			else
+			{
+				Selected_Item = Selected_Item->next;
+				location_of_item++;
+			}
+		}
+		return location_of_item;
+	}
+
+	void Destroy_Item_position(int position)
+	{
+		Items * Selected_Item = head;
+
+		for (int count =1 ; count < position-1; count++)
+			Selected_Item = Selected_Item->next;
+		Items * Destroy = Selected_Item->next;
+		Selected_Item->next = Destroy->next;
+		delete Destroy;
+	}
+
+	void Item_Destroyed(string Tool)
+	{
+		Items *Selected_Item = head;
+		while (Selected_Item != nullptr)
+		{
+			int position = Find_Item(Tool);
+			if (position != -1)
+
+		}
+	}
+
+	void Print()
+	{
+		Items* Selected_Item = head;
+		while (Selected_Item)
+		{
+			cout << Selected_Item->data << " ";
+			Selected_Item = Selected_Item->next;
+		}
+		cout << endl;
+	}
+};
 
 void mainMenu();
 void singlePlayer();
