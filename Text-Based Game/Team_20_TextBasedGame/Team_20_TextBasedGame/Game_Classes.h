@@ -133,8 +133,17 @@ public:
 		{
 			int position = Find_Item(Tool);
 			if (position != -1)
-
+				Destroy_Item_position(position);
+			Selected_Item = Selected_Item->next;
 		}
+	}
+
+	void Destroy_First_Item()
+	{
+		Items *Selected_Item = head;
+
+		head = head->next;
+		delete Selected_Item;
 	}
 
 	void Print()
