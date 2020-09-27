@@ -4,14 +4,8 @@
 #include <cmath>
 using namespace std;
 
-<<<<<<< Updated upstream
 void mainMenu() {
 	string menuChoice;
-=======
-void mainMenu() 
-{
-	int menuChoice;
->>>>>>> Stashed changes
 
 	cout << "ESCAPE FROM MINERVA" << endl;
 	cout << "(1) Single Player" << endl;
@@ -23,7 +17,6 @@ void mainMenu()
 	int input = convertToInt(menuChoice);
 	inputValidation(input);
 
-<<<<<<< Updated upstream
 	if (input == 1) {
 		singlePlayer();
 	}
@@ -31,18 +24,6 @@ void mainMenu()
 		multiPlayer();
 	}
 	else if (input == 0) {
-=======
-	if (menuChoice == 1) 
-	{
-		singlePlayer();
-	}
-	else if (menuChoice == 2) 
-	{
-		multiPlayer();
-	}
-	else if (menuChoice == 0)
-	{
->>>>>>> Stashed changes
 		cout << "Exit" << endl;
 		_Exit(10);
 	}
