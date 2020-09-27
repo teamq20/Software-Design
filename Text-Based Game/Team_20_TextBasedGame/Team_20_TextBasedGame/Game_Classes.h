@@ -21,7 +21,7 @@ public:
 			" you completely alone.Given the current circumstances of your predicament, you have"
 			" approximately 3 days to fix these systems before running out of oxygen.Luckily, however, this"
 			" region of Minerva contains valuable minerals that may aid your fixing of these parts.Choose"
-			" your path wisely, VST - 7426, and good luck";
+			" your path wisely, VST - 7426, and good luck.\n";
 
 		multiPlayerIntro = "Greetings VST-7426 and VST-7427. You are the two core members of Operation Vesta that"
 			" have voyaged to examine the distant planet of Minerva, which shows great promise as a"
@@ -32,7 +32,7 @@ public:
 			" damaged by the crash.Given the current circumstances of your predicament, you have"
 			" approximately 3 days to fix these systems before running out of oxygen.Luckily, however, this"
 			" region of Minerva contains valuable minerals that may aid your fixing of these parts. Choose"
-			" your path wisely, and good luck.";
+			" your path wisely, and good luck.\n";
 	}
 
 	string getIntro(int i) {

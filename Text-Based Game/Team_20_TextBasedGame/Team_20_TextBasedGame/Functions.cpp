@@ -35,7 +35,8 @@ void singlePlayer() {
 	Story *story = new Story();
 	story->setIntro();
 
-	string intro = story.getIntro(1);
+	string intro = story->getIntro(1);
+	cout << intro << endl;
 }
 
 void multiPlayer() {
@@ -44,7 +45,8 @@ void multiPlayer() {
 	Story *story2 = new Story();
 	story2->setIntro();
 
-	string intro = story.getIntro(1);
+	string intro = story2->getIntro(1);
+	cout << intro << endl;
 }
 
 int convertToInt(string input) {
