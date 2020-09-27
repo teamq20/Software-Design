@@ -4,47 +4,6 @@
 
 using namespace std;
 
-class Story {
-private:
-	char *singlePlayerIntro;
-	char *multiPlayerIntro;
-
-public:
-	void setIntro() {
-		singlePlayerIntro = "Greetings VST - 7426. You are one of two brave astronauts, the core members of Operation"
-			" Vesta, that have voyaged to examine the distant planet of Minerva, which shows great promise"
-			" as a potential new home for the inhabitants of Earth.Unfortunately, due to a miscalculation in"
-			" the navigation system of the Demeter(your ship), you have crash landed in an inhospitable"
-			" region of Minerva, roughly 400 kilometers south of your initial destination.After running a"
-			" systems check, you have found that there are four crucial systems on the Demeter that have"
-			" been damaged by the crash.Your crewmate, VST - 7427, has also suffered fatal injuries, leaving"
-			" you completely alone.Given the current circumstances of your predicament, you have"
-			" approximately 3 days to fix these systems before running out of oxygen.Luckily, however, this"
-			" region of Minerva contains valuable minerals that may aid your fixing of these parts.Choose"
-			" your path wisely, VST - 7426, and good luck";
-
-		multiPlayerIntro = "Greetings VST-7426 and VST-7427. You are the two core members of Operation Vesta that"
-			" have voyaged to examine the distant planet of Minerva, which shows great promise as a"
-			" potential new home for the inhabitants of Earth.Unfortunately, due to a miscalculation in the"
-			" navigation system of the Demeter(your ship), you have crash landed in an inhospitable region"
-			" of Minerva, roughly 400 kilometers south of your initial destination.After running a systems"
-			" check, you have found that there are four crucial systems on the Demeter that have been"
-			" damaged by the crash.Given the current circumstances of your predicament, you have"
-			" approximately 3 days to fix these systems before running out of oxygen.Luckily, however, this"
-			" region of Minerva contains valuable minerals that may aid your fixing of these parts. Choose"
-			" your path wisely, and good luck.";
-	}
-
-	string getIntro(int i) {
-		if (i == 1) {
-			return singlePlayerIntro;
-		}
-		else if (i == 2) {
-			return multiPlayerIntro;
-		}
-	}
-};
-
 class Player
 {
 protected:
@@ -53,6 +12,61 @@ public:
 	void damage()
 	{
 		health--;
+	}
+};
+
+class Minerva {
+private:
+	string neededItem;
+	string setting;
+
+public:
+	void setItem(string item) {
+		neededItem = item;
+	}
+
+	void setSetting(string location) {
+		setting = location;
+	}
+
+	string getItem() {
+		return neededItem;
+	}
+
+	string getSetting() {
+		return setting;
+	}
+};
+
+class DemeterStatus {
+private:
+	string reactorCore;
+	string navSystem;
+	string leftThruster;
+	string oxidizer;
+
+public:
+	DemeterStatus() {
+		reactorCore = "Damaged";
+		navSystem = "Damaged";
+		leftThruster = "Damaged";
+		oxidizer = "Damaged";
+	}
+
+	string getReactorCore() {
+		return reactorCore;
+	}
+
+	string getNavSystem() {
+		return navSystem;
+	}
+
+	string getLeftThruster() {
+		return leftThruster;
+	}
+
+	string getOxidizer() {
+		return oxidizer;
 	}
 };
 
@@ -69,10 +83,10 @@ public:
 	}
 };
 
-class Inventory:public Player
+class Inventory :public Player
 {
 public:
-	Items *head;
+	Items * head;
 	Inventory() : Player()
 	{
 		head = nullptr;
@@ -120,7 +134,7 @@ public:
 	{
 		Items * Selected_Item = head;
 
-		for (int count =1 ; count < position-1; count++)
+		for (int count = 1; count < position - 1; count++)
 			Selected_Item = Selected_Item->next;
 		Items * Destroy = Selected_Item->next;
 		Selected_Item->next = Destroy->next;
@@ -163,5 +177,7 @@ void mainMenu();
 void singlePlayer();
 void multiPlayer();
 void inputValidation(int);
+void options(int);
+void gameRules();
 
 int convertToInt(string);
