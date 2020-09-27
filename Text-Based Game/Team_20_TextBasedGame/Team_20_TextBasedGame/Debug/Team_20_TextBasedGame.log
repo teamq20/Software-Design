@@ -1,7 +1,6 @@
-﻿  Functions.cpp
+﻿  Source.cpp
+  Functions.cpp
   Generating Code...
-c:\users\eliji\onedrive\documents\github\design\actual-design\software-design\text-based game\team_20_textbasedgame\team_20_textbasedgame\game_classes.h(45): warning C4715: 'Story::getIntro': not all control paths return a value
-  Skipping... (no relevant changes detected)
-  Source.cpp
+  LINK : C:\Users\eliji\OneDrive\Documents\GitHub\DESIGN\Actual-Design\Software-Design\Text-Based Game\Team_20_TextBasedGame\Debug\Team_20_TextBasedGame.exe not found or not built by the last incremental link; performing full link
   Team_20_TextBasedGame.vcxproj -> C:\Users\eliji\OneDrive\Documents\GitHub\DESIGN\Actual-Design\Software-Design\Text-Based Game\Team_20_TextBasedGame\Debug\Team_20_TextBasedGame.exe
   Team_20_TextBasedGame.vcxproj -> C:\Users\eliji\OneDrive\Documents\GitHub\DESIGN\Actual-Design\Software-Design\Text-Based Game\Team_20_TextBasedGame\Debug\Team_20_TextBasedGame.pdb (Partial PDB)
