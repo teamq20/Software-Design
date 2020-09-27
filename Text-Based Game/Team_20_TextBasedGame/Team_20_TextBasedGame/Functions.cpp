@@ -35,12 +35,7 @@ void singlePlayer() {
 	Story *story = new Story();
 	story->setIntro();
 
-<<<<<<< Updated upstream
 	string intro = story.getIntro(1);
-=======
-	string intro = story->getIntro(1);
-	cout << intro << endl <<endl <<endl;
->>>>>>> Stashed changes
 }
 
 void multiPlayer() {
@@ -49,12 +44,7 @@ void multiPlayer() {
 	Story *story2 = new Story();
 	story2->setIntro();
 
-<<<<<<< Updated upstream
 	string intro = story.getIntro(1);
-=======
-	string intro = story2->getIntro(2);
-	cout << intro << endl <<endl <<endl;
->>>>>>> Stashed changes
 }
 
 int convertToInt(string input) {
@@ -62,15 +52,8 @@ int convertToInt(string input) {
 	return choice;
 }
 
-<<<<<<< Updated upstream
 void inputValidation(int input) {
 	while (input < 0 || input > 2) {
-=======
-void inputValidation(int input) 
-{
-	while (input < 0 || input > 2) 
-	{
->>>>>>> Stashed changes
 		string menuChoice;
 
 		cout << "This is an invalid input" << endl;
