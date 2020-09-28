@@ -50,6 +50,22 @@ void multiPlayer() {
 }
 
 int convertToInt(string input) {
+	int stringCounter = 1;
+
+	while (stringCounter != 0) {
+		stringCounter = 0;
+		for (int i = 0; i < input.length(); i++) {
+			if (isalpha(input[i])) {
+				stringCounter++;
+			}
+		}
+
+		if (stringCounter != 0) {
+			cout << "This is not an valid input. Enter a numeric input." << endl;
+			cin >> input;
+		}
+	}
+
 	int choice = stoi(input);
 	return choice;
 }
