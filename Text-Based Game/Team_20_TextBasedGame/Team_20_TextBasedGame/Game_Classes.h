@@ -157,6 +157,19 @@ public:
 		}
 		cout << endl;
 	}
+
+	void remove_from_starting(string Selected, string Item_List[])
+	{
+		for (int count = 0; count < 7; count++)
+		{
+			if (Selected == Item_List[count])
+			{
+				Item_List[count] = " ";
+				cout << "item selected." << endl;
+			}
+			
+		}
+	}
 };
 
 void mainMenu();
