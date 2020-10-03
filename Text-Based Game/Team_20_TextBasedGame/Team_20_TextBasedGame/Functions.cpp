@@ -95,7 +95,7 @@ void singlePlayer() {
 	gameIntro(1);
 
 	static int health = 30;
-	bool ship;
+	bool ship = "";
 
 	do {
 		string choice;
@@ -196,5 +196,10 @@ void inputValidation(int input, int max) {
 		cin >> menuChoice;
 		input = convertToInt(menuChoice);
 	}
+}
+
+void Beginning_stage()
+{
+	cout << "As you wake up in your ship, you ";
 }
 

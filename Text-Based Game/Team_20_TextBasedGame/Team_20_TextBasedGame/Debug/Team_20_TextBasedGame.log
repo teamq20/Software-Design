@@ -1,3 +1,4 @@
 ﻿  Functions.cpp
 c:\users\eliji\onedrive\documents\github\design\actual-design\software-design\text-based game\team_20_textbasedgame\team_20_textbasedgame\functions.cpp(173): warning C4018: '<': signed/unsigned mismatch
-c:\users\eliji\onedrive\documents\github\design\actual-design\software-design\text-based game\team_20_textbasedgame\team_20_textbasedgame\functions.cpp(122): error C4700: uninitialized local variable 'ship' used
+  Team_20_TextBasedGame.vcxproj -> C:\Users\eliji\OneDrive\Documents\GitHub\DESIGN\Actual-Design\Software-Design\Text-Based Game\Team_20_TextBasedGame\Debug\Team_20_TextBasedGame.exe
+  Team_20_TextBasedGame.vcxproj -> C:\Users\eliji\OneDrive\Documents\GitHub\DESIGN\Actual-Design\Software-Design\Text-Based Game\Team_20_TextBasedGame\Debug\Team_20_TextBasedGame.pdb (Partial PDB)
