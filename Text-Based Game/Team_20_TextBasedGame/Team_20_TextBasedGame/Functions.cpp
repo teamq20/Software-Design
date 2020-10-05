@@ -1,4 +1,4 @@
-#include "Header.h"
+#include "Game_Classes.h"
 #include <iostream>
 #include <string>
 #include <cstring>
@@ -57,7 +57,7 @@ void gameIntro(int playerMode) {
 	}
 
 	cout << "While looking through the wreckage of the Demeter, you found out that the exploration dispensery was damaged, but still operational." <<
-		"\nFour systems need repair:" <<
+		"\n\nFour systems need repair:" <<
 		"\n-Reactor Core\n-Navigation System\n-Left Thruster\n-Oxidizer";
 
 	gameRules();
@@ -65,7 +65,7 @@ void gameIntro(int playerMode) {
 
 void locationSelection() {
 	string choice;
-	cout << "What region of Minerva do you want to explore?" << endl;
+	cout << "\nWhat region of Minerva do you want to explore?" << endl;
 	cout << "(1) North: Minerva Volcanos" << endl;
 	cout << "(2) East: Caves" << endl;
 	cout << "(3) South: Liquid Streams" << endl;
@@ -76,16 +76,16 @@ void locationSelection() {
 	inputValidation(input, 4);
 
 	if (input == 1) {
-		cout << "LOCATION: Minerva Volcanos" << endl;
+		cout << "\nLOCATION: Minerva Volcanos" << endl;
 	}
 	else if (input == 2) {
-		cout << "LOCATION: Caves" << endl;
+		cout << "\nLOCATION: Caves" << endl;
 	}
 	else if (input == 3) {
-		cout << "LOCATION: Liquid Streams" << endl;
+		cout << "\nLOCATION: Liquid Streams" << endl;
 	}
 	else if (input == 4) {
-		cout << "LOCATION: Clusters of Rocks" << endl;
+		cout << "\nLOCATION: Clusters of Rocks" << endl;
 	}
 }
 
@@ -95,11 +95,11 @@ void singlePlayer() {
 	gameIntro(1);
 
 	static int health = 30;
-	bool ship;
+	bool ship = "";
 
 	do {
 		string choice;
-		cout << "LOCATION: Demeter" << endl << endl;
+		cout << "\nLOCATION: Demeter" << endl << endl;
 		cout << "What is your next move?" << endl;
 		cout << "(1) Explore Minerva" << endl;
 		cout << "(2) Repair Ship" << endl;
@@ -131,9 +131,9 @@ void multiPlayer() {
 void options(int playerMode, int health) {
 	string menuChoice;
 
-	cout << "HEALTH: " << health;
+	cout << "[HEALTH: " << health << "]";
 
-	cout << "OPTIONS MENU" << endl;
+	cout << "\nOPTIONS MENU" << endl;
 	cout << "(1) Go to main menu" << endl;
 	cout << "(2) Reset Game" << endl;
 	cout << "(0) Quit" << endl;
@@ -160,7 +160,7 @@ void options(int playerMode, int health) {
 
 void gameRules() {
 
-	cout << "Objective: Repair the ship so you can get off the planet. You will be given two or more options at each stage./nYour choices impact your survival." << endl;
+	cout << "\n\nObjective: Repair the ship so you can get off the planet. You will be given two or more options at each stage./nYour choices impact your survival." << endl;
 	cout << "Collect 4 specific items to repair your ship" << endl;
 	cout << "Input '0' at any time to open the options menu. Here you will be able to see your inventory, repair status, and health." << endl;
 }
