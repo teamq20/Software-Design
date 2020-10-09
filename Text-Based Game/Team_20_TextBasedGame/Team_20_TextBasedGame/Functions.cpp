@@ -38,75 +38,74 @@ void Beginning_stage()
 	Inventory *P1_Inventory = new Inventory;
 
 	int player_choice = 0;
-	cout << "While looking through the wreckage of the Demeter, you found out that the exploration dispensery was damaged, but still operational." << endl
-		<< "When you selected the tools needed, the dispensery can only operate to an extent that it can only dispense one item of each catagory." << endl
-		<< "\nFor exploration, the categories are:\n" << "Excavation\n" << "Liquid containment\n" << "Weaponry\n" << "Illumination\n" << endl
+	cout << "\nWhen selecting the tools needed, the dispensery can only operate to an extent that it can only dispense one item of each category." << endl
+		<< "\nFor exploration, the categories are:\n" << "-Excavation\n" << "-Liquid containment\n" << "-Weaponry\n" << "-Illumination\n" << endl
 		<< "In the field of Excavation, would you prefer:\n" << "(1) Pickaxe\n" << "or\n" << "(2) Drill" << endl << endl;
 
-	cout << "Please Select your tool: ";
+	cout << "Please select your tool: ";
 
 	cin >> player_choice;
 	inputValidation(player_choice, 2);
 
 	if (player_choice == 1)
 	{
-		cout << "Upon your selection, the dispensery produced a standard issue, P1K-4X Pickaxe. it has a wooden handle attaged to a two-headed, steel pick. it looks pretty sharp" << endl << endl;
+		cout << "Upon your selection, the dispensery produced a standard issue, P1K-4X Pickaxe. It has a wooden handle attached to a two-headed, steel pick. It looks pretty sharp." << endl << endl;
 		P1_Inventory->Add_to_Inventory("Pickaxe");
 	}
 	else if (player_choice == 2)
 	{
-		cout << "Upon making your selection, the dispensery produced a standard issue, DR111 handheld Drilling device. when inspected, the grip is rubberized and ergonomic." << endl
-			<< "The pointed end is sharpened to a point. And when activated the sounding of the drill bounces around the entire room." << endl << endl;
+		cout << "Upon making your selection, the dispensery produced a standard issue, DR111 handheld Drilling device. When inspected, the grip is rubberized and ergonomic." << endl
+			<< "The pointed end is sharpened to a point, and when activated, the sounding of the drill bounces around the entire room." << endl << endl;
 		P1_Inventory->Add_to_Inventory("Drill");
 	}
 
-	cout << "In the field of Liquid containment, would you perfer: \n" << "(1) Bucket\n" << "or\n" << "(2) Flask" << endl << endl;
+	cout << "In the field of Liquid containment, would you prefer: \n" << "(1) Bucket\n" << "or\n" << "(2) Flask" << endl << endl;
 	cout << "Please select your tool: ";
 	cin >> player_choice;
 	inputValidation(player_choice, 2);
 
 	if (player_choice == 1)
 	{
-		cout << "Upon your selection, the dispensery produced a standard issue, BUK37T Exploration Bucket. Upon inspection, it looks like a regular metal bucket" << endl << endl;
+		cout << "Upon your selection, the dispensery produced a standard issue, BUK37T Exploration Bucket. Upon inspection, it looks like a regular metal bucket." << endl << endl;
 		P1_Inventory->Add_to_Inventory("Bucket");
 	}
 	else if (player_choice == 2)
 	{
-		cout << "Upon making your selection, the dispensery produced a standard issue, F14SK Exploration Flask. When inspected, it seems to bee a small, round container. There is a lining found inside of the flask" << endl;
+		cout << "Upon making your selection, the dispensery produced a standard issue, F14SK Exploration Flask. When inspected, it seems to be a small, round container. There is a lining found inside of the flask." << endl << endl;
 		P1_Inventory->Add_to_Inventory("Flask");
 	}
 
-	cout << "In the field of Weaponry, would you perfer: \n" << "(1) Knife \n" << "or \n" << "(2) Gun \n" << endl << endl;
+	cout << "In the field of Weaponry, would you prefer: \n" << "(1) Knife \n" << "or \n" << "(2) Gun \n" << endl << endl;
 	cin >> player_choice;
 	inputValidation(player_choice, 2);
 
 	if (player_choice == 1)
 	{
-		cout << "Upon making your selection, the dispensery produced for you an explorer's combat knife. The knife is extremely sharp, with a easy to grip handle. " << endl << endl;
+		cout << "Upon making your selection, the dispensery produced for you an explorer's Combat Knife. The knife is extremely sharp, with a easy to grip handle. " << endl << endl;
 		P1_Inventory->Add_to_Inventory("Knife");
 	}
 	else if (player_choice == 2)
 	{
-		cout << "Upon making your selection, the dispensery produced for you an explorer's balistic handgun. It is a fairly old fashion firearm, you can assume that it packs a punch." << endl << endl;
+		cout << "Upon making your selection, the dispensery produced for you an explorer's Balistic Handgun. It is a fairly old fashioned firearm; you can assume that it packs a punch." << endl << endl;
 		P1_Inventory->Add_to_Inventory("Gun");
 	}
 
-	cout << "Finally in the field of Illumination, would you perfer: \n" << "(1) Flashlight\n" << "or\n" << "(2) Lantern\n" << endl << endl;
+	cout << "Finally, in the field of Illumination, would you prefer: \n" << "(1) Flashlight\n" << "or\n" << "(2) Lantern\n" << endl << endl;
 	cin >> player_choice;
 	inputValidation(player_choice, 2);
 
 	if (player_choice == 1)
 	{
-		cout << "When selecting your tool, the dispensery produced for you a standard issue explorer's light stick. The light is exeptionally bright for a standard issue, but it doesnt really illuminate much." << endl << endl;
+		cout << "When selecting your tool, the dispensery produced for you a standard issue explorer's Light Stick. The light is exceptionally bright for a standard issue, but it doesn't really illuminate much." << endl << endl;
 		P1_Inventory->Add_to_Inventory("Flashlight");
 	}
 	else if (player_choice == 2)
 	{
-		cout << "After your selection, the dispensery produced for you a explorers lantern. Upon activation the flame in the lantern coats the room in a warm, yet dull light" << endl << endl;
+		cout << "After your selection, the dispensery produced for you an explorer's Lantern. Upon activation, the flame in the lantern coats the room in a warm, yet dull light." << endl << endl;
 		P1_Inventory->Add_to_Inventory("Lantern");
 	}
 
-	cout << "After your selection of an Illumination tool, the dispensery shuts down. it doesn't seem to be able to be reactivated. as of right now your invintory includes: " << endl;
+	cout << "After your selection of an Illumination tool, the dispensery shuts down. It doesn't seem to be able to be reactivated. \nAs of right now your inventory includes: " << endl;
 	P1_Inventory->Print();
 }
 
@@ -148,7 +147,7 @@ void gameIntro(int playerMode) {
 void locationSelection() {
 	string choice;
 	cout << "\nWhat region of Minerva do you want to explore?" << endl;
-	cout << "(1) North: Minerva Volcanos" << endl;
+	cout << "(1) North: Minerva Volcanoes" << endl;
 	cout << "(2) East: Caves" << endl;
 	cout << "(3) South: Liquid Streams" << endl;
 	cout << "(4) West: Clusters of Rocks" << endl;
@@ -158,7 +157,7 @@ void locationSelection() {
 	inputValidation(input, 4);
 
 	if (input == 1) {
-		cout << "\nLOCATION: Minerva Volcanos" << endl;
+		cout << "\nLOCATION: Minerva Volcanoes" << endl;
 	}
 	else if (input == 2) {
 		cout << "\nLOCATION: Caves" << endl;
@@ -172,7 +171,9 @@ void locationSelection() {
 }
 
 void singlePlayer() {
-	cout << "SINGLE PLAYER MODE" << endl;
+	cout << "\n-----------------------------" << endl;
+	cout << "    SINGLE PLAYER MODE" << endl;
+	cout << "-----------------------------\n" << endl;
 
 	gameIntro(1);
 	static int health = 30;
@@ -207,7 +208,9 @@ void singlePlayer() {
 }
 
 void multiPlayer() {
-	cout << "MULTIPLAYER MODE" << endl;
+	cout << "\n-----------------------------" << endl;
+	cout << "      MULTIPLAYER MODE" << endl;
+	cout << "-----------------------------\n" << endl;
 
 	gameIntro(2);
 	Player *P1 = new Player();
@@ -248,7 +251,7 @@ void options(int playerMode, int health) {
 
 void gameRules() {
 
-	cout << "\n\nObjective: Repair the ship so you can get off the planet. You will be given two or more options at each stage./nYour choices impact your survival." << endl;
+	cout << "\n\nObjective: Repair the ship so you can get off the planet. You will be given two or more options at each stage.\nYour choices impact your survival." << endl;
 	cout << "Collect 4 specific items to repair your ship" << endl;
 	cout << "Input '0' at any time to open the options menu. Here you will be able to see your inventory, repair status, and health." << endl;
 }
