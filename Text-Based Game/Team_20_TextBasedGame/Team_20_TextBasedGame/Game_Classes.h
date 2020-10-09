@@ -7,7 +7,7 @@ using namespace std;
 class Player
 {
 protected:
-	int health = 30;
+	int health = 3;
 public:
 	void damage()
 	{
