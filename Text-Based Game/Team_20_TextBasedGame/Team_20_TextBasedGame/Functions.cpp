@@ -2,7 +2,6 @@
 #include <iostream>
 #include <string>
 #include <cstring>
-#include <cctype>
 using namespace std;
 
 void mainMenu() {
@@ -260,7 +259,7 @@ int convertToInt(string input) {
 	while (stringCounter != 0) {
 		stringCounter = 0;
 		for (int i = 0; i < input.length(); i++) {
-			if (isdigit(input[i]) == false) {
+			if (isalpha(input[i])) {
 				stringCounter++;
 			}
 		}
