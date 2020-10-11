@@ -18,7 +18,8 @@ int main() {
 	west.setSetting("Clusters of Rock");
 	west.setItem("Fluorine");
 
-	string Starting_Items[8] = { "Pickaxe","Drill","Bucket","Flask","Knife","Gun","Flashlight","Lantern" };
+	string Starting_Items[8] = {
+	"Pickaxe", "Drill", "Bucket", "Flask", "Knife", "Gun", "Flashlight", "Lantern" };
 
 	mainMenu();
 
