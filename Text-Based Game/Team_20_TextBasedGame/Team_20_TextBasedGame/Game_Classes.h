@@ -173,6 +173,58 @@ public:
 	}
 };
 
+class Enemy
+{
+private:
+	string Name;
+	int Health;
+	int Damage;
+	int Sight;
+	bool Alive = true;
+	int Chance;
+
+public:
+	Enemy() {}
+	Enemy(string N, int H, int D, int S, int C)
+	{
+		Name = N;
+		Health = H;
+		Damage = D;
+		Sight = S;
+		Chance = C;
+	}
+
+	void Increase_Sight()
+	{
+		Sight = Sight + 2;
+	}
+
+	void Decrease_Sight()
+	{
+		if (Sight != 0 || Sight != 1)
+		{
+			Sight = Sight - 2;
+		}
+	}
+
+	bool Died()
+	{
+		Alive = false;
+		return Alive;
+	}
+
+	void Enemy_Hit_Player()
+	{
+		const int Player_Chance = 12;
+		int Hit_Chance;
+		Hit_Chance = rand() % 20 + 1;
+		if (Hit_Chance >= Player_Chance)
+		{
+
+		}
+	}
+};
+
 void mainMenu();
 void singlePlayer();
 void multiPlayer();
