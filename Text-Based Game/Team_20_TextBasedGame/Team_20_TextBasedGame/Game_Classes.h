@@ -53,7 +53,7 @@ public:
 		oxidizer = "Damaged";
 	}
 
-	string getReactorCore(){
+	string getReactorCore() {
 		return reactorCore;
 	}
 
@@ -233,6 +233,8 @@ void multiPlayer();
 void inputValidation(int, int);
 void options(int, int);
 void gameRules();
-void locationSelection();
+void locationSelection(int);
+void currentLocation(string, int);
+void locationDemeter(int);
 
 int convertToInt(string);

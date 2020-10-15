@@ -144,7 +144,7 @@ void gameIntro(int playerMode) {
 	gameRules();
 }
 
-void locationSelection() {
+void locationSelection(int health) {
 	string choice;
 	cout << "\nWhat region of Minerva do you want to explore?" << endl;
 	cout << "(1) North: Minerva Volcanoes" << endl;
@@ -157,16 +157,68 @@ void locationSelection() {
 	inputValidation(input, 4);
 
 	if (input == 1) {
-		cout << "\nLOCATION: Minerva Volcanoes" << endl;
+		currentLocation("Minerva Volcanoes", health);
 	}
 	else if (input == 2) {
-		cout << "\nLOCATION: Caves" << endl;
+		currentLocation("Caves", health);
 	}
 	else if (input == 3) {
-		cout << "\nLOCATION: Liquid Streams" << endl;
+		currentLocation("Liquid Streams", health);
 	}
 	else if (input == 4) {
-		cout << "\nLOCATION: Clusters of Rocks" << endl;
+		currentLocation("Clusters of Rocks", health);
+	}
+}
+
+void currentLocation(string location, int health) {
+	cout << "\nLOCATION: " + location << endl;
+
+	//while loop for Combat/exploration code
+	health--;
+
+	string choice;
+	cout << "What is your next move?" << endl;
+	cout << "(1) Explore Minerva" << endl;
+	cout << "(2) Go To Ship" << endl;
+	cin >> choice;
+
+	int input = convertToInt(choice);
+	inputValidation(input, 2);
+
+	if (input == 0) {
+		options(1, health);
+	}
+	if (input == 1) {
+		health--;
+		locationSelection(health);
+	}
+	else if (input == 2) {
+		health--;
+		locationDemeter(health);
+	}
+}
+
+void locationDemeter(int health) {
+	string choice;
+	cout << "\nLOCATION: Demeter" << endl << endl;
+	cout << "What is your next move?" << endl;
+	cout << "(1) Explore Minerva" << endl;
+	cout << "(2) Repair Ship" << endl;
+	cin >> choice;
+
+	int input = convertToInt(choice);
+	inputValidation(input, 2);
+
+	if (input == 0) {
+		options(1, health);
+	}
+	if (input == 1) {
+		health--;
+		locationSelection(health);
+	}
+	else if (input == 2) {
+		health--;
+
 	}
 }
 
@@ -178,33 +230,10 @@ void singlePlayer() {
 	gameIntro(1);
 	static int health = 30;
 	bool ship = "";
-  
+
 	Beginning_stage();
 
-
-	do {
-		string choice;
-		cout << "\nLOCATION: Demeter" << endl << endl;
-		cout << "What is your next move?" << endl;
-		cout << "(1) Explore Minerva" << endl;
-		cout << "(2) Repair Ship" << endl;
-		cin >> choice;
-
-		int input = convertToInt(choice);
-		inputValidation(input, 2);
-
-		if (input == 0) {
-			options(1, health);
-		}
-		if (input == 1) {
-			health--;
-			locationSelection();
-		}
-		else if (input == 2) {
-			health--;
-
-		}
-	} while (ship == true);
+	locationDemeter(health);
 }
 
 void multiPlayer() {
