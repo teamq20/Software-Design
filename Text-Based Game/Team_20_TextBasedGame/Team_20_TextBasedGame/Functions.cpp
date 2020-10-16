@@ -172,30 +172,35 @@ void locationSelection(int health) {
 
 void currentLocation(string location, int health) {
 	cout << "\nLOCATION: " + location << endl;
+	bool goToShip;
 
-	//while loop for Combat/exploration code
-	health--;
-
-	string choice;
-	cout << "What is your next move?" << endl;
-	cout << "(1) Explore Minerva" << endl;
-	cout << "(2) Go To Ship" << endl;
-	cin >> choice;
-
-	int input = convertToInt(choice);
-	inputValidation(input, 2);
-
-	if (input == 0) {
-		options(1, health);
-	}
-	if (input == 1) {
+	do {
+		//Exploration/Combat code goes here
 		health--;
-		locationSelection(health);
-	}
-	else if (input == 2) {
-		health--;
-		locationDemeter(health);
-	}
+
+		string choice;
+		cout << "What is your next move?" << endl;
+		cout << "(1) Keep exploring " + location << endl;
+		cout << "(2) Go To Ship" << endl;
+		cin >> choice;
+
+		int input = convertToInt(choice);
+		inputValidation(input, 2);
+
+		if (input == 0) {
+			options(1, health);
+		}
+		if (input == 1) {
+			health--;
+			goToShip = false;
+		}
+		else if (input == 2) {
+			health--;
+			goToShip = true;
+		}
+	} while (goToShip == false);
+
+	locationDemeter(health);
 }
 
 void locationDemeter(int health) {
