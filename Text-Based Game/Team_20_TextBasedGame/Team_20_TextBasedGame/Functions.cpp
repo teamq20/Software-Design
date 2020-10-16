@@ -1,7 +1,8 @@
-#include "Game_Classes.h"
+#include "Header.h"
 #include <iostream>
 #include <string>
 #include <cstring>
+#include <iomanip>
 using namespace std;
 
 void mainMenu() {
@@ -144,7 +145,7 @@ void gameIntro(int playerMode) {
 	gameRules();
 }
 
-void locationSelection(int health) {
+void locationSelection(int oxygen) {
 	string choice;
 	cout << "\nWhat region of Minerva do you want to explore?" << endl;
 	cout << "(1) North: Minerva Volcanoes" << endl;
@@ -157,26 +158,27 @@ void locationSelection(int health) {
 	inputValidation(input, 4);
 
 	if (input == 1) {
-		currentLocation("Minerva Volcanoes", health);
+		currentLocation("Minerva Volcanoes", oxygen);
 	}
 	else if (input == 2) {
-		currentLocation("Caves", health);
+		currentLocation("Caves", oxygen);
 	}
 	else if (input == 3) {
-		currentLocation("Liquid Streams", health);
+		currentLocation("Liquid Streams", oxygen);
 	}
 	else if (input == 4) {
-		currentLocation("Clusters of Rocks", health);
+		currentLocation("Clusters of Rocks", oxygen);
 	}
 }
 
-void currentLocation(string location, int health) {
+void currentLocation(string location, int oxygen) {
 	cout << "\nLOCATION: " + location << endl;
 	bool goToShip;
 
 	do {
 		//Exploration/Combat code goes here
-		health--;
+		oxygen--;
+
 
 		string choice;
 		cout << "What is your next move?" << endl;
@@ -188,22 +190,23 @@ void currentLocation(string location, int health) {
 		inputValidation(input, 2);
 
 		if (input == 0) {
-			options(1, health);
+			options(1, oxygen);
+			goToShip = false;
 		}
 		if (input == 1) {
-			health--;
+			oxygen--;
 			goToShip = false;
 		}
 		else if (input == 2) {
-			health--;
+			oxygen--;
 			goToShip = true;
 		}
 	} while (goToShip == false);
 
-	locationDemeter(health);
+	locationDemeter(oxygen);
 }
 
-void locationDemeter(int health) {
+void locationDemeter(int oxygen) {
 	string choice;
 	cout << "\nLOCATION: Demeter" << endl << endl;
 	cout << "What is your next move?" << endl;
@@ -215,14 +218,14 @@ void locationDemeter(int health) {
 	inputValidation(input, 2);
 
 	if (input == 0) {
-		options(1, health);
+		options(1, oxygen);
 	}
 	if (input == 1) {
-		health--;
-		locationSelection(health);
+		oxygen--;
+		locationSelection(oxygen);
 	}
 	else if (input == 2) {
-		health--;
+		oxygen--;
 
 	}
 }
@@ -233,12 +236,12 @@ void singlePlayer() {
 	cout << "-----------------------------\n" << endl;
 
 	gameIntro(1);
-	static int health = 30;
+	static int oxygen = 30;
 	bool ship = "";
 
 	Beginning_stage();
 
-	locationDemeter(health);
+	locationDemeter(oxygen);
 }
 
 void multiPlayer() {
@@ -253,19 +256,24 @@ void multiPlayer() {
 	Beginning_stage();
 }
 
-void options(int playerMode, int health) {
+void options(int playerMode, int oxygen) {
 	string menuChoice;
+	DemeterStatus status;
+	int width = 20;
+	cout << "\nOPTIONS MENU" << endl << endl;
 
-	cout << "[HEALTH: " << health << "]";
+	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
+	cout << left << setw(width) << "Reactor Core" << setw(width) << "Navigation System" << setw(width) << "Left Thruster" << setw(width) << "Oxidizer" << endl;
+	cout << left << setw(width) << status.getReactorCore() << setw(width) << status.getNavSystem() << setw(width) << status.getLeftThruster() << setw(width) << status.getOxidizer() << endl;
 
-	cout << "\nOPTIONS MENU" << endl;
-	cout << "(1) Go to main menu" << endl;
+	cout << endl << "(1) Go to main menu" << endl;
 	cout << "(2) Reset Game" << endl;
+	cout << "(3) Close Options Menu" << endl;
 	cout << "(0) Quit" << endl;
 	cin >> menuChoice;
 
 	int input = convertToInt(menuChoice);
-	inputValidation(input, 2);
+	inputValidation(input, 3);
 
 	if (input == 1) {
 		mainMenu();
@@ -279,7 +287,7 @@ void options(int playerMode, int health) {
 		}
 	}
 	else if (input == 0) {
-
+		_Exit(10);
 	}
 }
 
