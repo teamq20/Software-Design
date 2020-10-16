@@ -179,6 +179,7 @@ void currentLocation(string location, int oxygen) {
 		//Exploration/Combat code goes here
 		oxygen--;
 
+
 		string choice;
 		cout << "What is your next move?" << endl;
 		cout << "(1) Keep exploring " + location << endl;
