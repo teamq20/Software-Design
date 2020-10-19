@@ -1,1 +1,7 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Platforms\Win32\PlatformToolsets\v141\Toolset.targets(34,5): error MSB8036: The Windows SDK version 10.0.18362.0 was not found. Install the required version of Windows SDK or change the SDK version in the project property pages or by right-clicking the solution and selecting "Retarget solution".
+﻿  Functions.cpp
+c:\users\eliji\onedrive\documents\github\design\actual-design\software-design\text-based game\team_20_textbasedgame\team_20_textbasedgame\functions.cpp(308): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  Source.cpp
+  Team_20_TextBasedGame.vcxproj -> C:\Users\eliji\OneDrive\Documents\GitHub\DESIGN\Actual-Design\Software-Design\Text-Based Game\Team_20_TextBasedGame\Debug\Team_20_TextBasedGame.exe
+  Team_20_TextBasedGame.vcxproj -> C:\Users\eliji\OneDrive\Documents\GitHub\DESIGN\Actual-Design\Software-Design\Text-Based Game\Team_20_TextBasedGame\Debug\Team_20_TextBasedGame.pdb (Partial PDB)

@@ -166,7 +166,7 @@ public:
 		Items* Selected_Item = head;
 		while (Selected_Item)
 		{
-			cout << Selected_Item->data << " ";
+			cout << Selected_Item->data << endl;
 			Selected_Item = Selected_Item->next;
 		}
 		cout << endl;
