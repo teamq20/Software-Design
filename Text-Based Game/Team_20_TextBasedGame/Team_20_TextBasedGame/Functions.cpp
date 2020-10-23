@@ -145,6 +145,39 @@ void gameIntro(int playerMode) {
 	gameRules();
 }
 
+void locationIntro(string location, int oxygen) {
+	if (location == "Minerva Volcanoes") {
+		cout << "\nAs you walk over fields of rock, the clouds dissolve into a black overcast overhead." <<
+			"\nAhead, you see the formidable peak, lava flowing down its slopes and smoke pluming from its" <<
+			"\nsummit. The heat becomes more intense as you approach. Eventually, you reach the mouth of the" <<
+			"\ncave system that leads inside the volcanic mass. The environment is hostile, but luckily," <<
+			"\nyour systems detect high quantities of Uranium." << endl << endl;
+	}
+	else if (location == "Caves") {
+		cout << "\nYou don't have to walk long before you see the looming entrance of an expansive cave system," <<
+			"\ncarved out of a sheer rock face. The darkness is all-consuming; you won’t be able to navigate" <<
+			"\nwithout an illumination device. Standing at the entrance, you can hear distant echoes of creatures" <<
+			"\nmoving throughout the vast cave. Your systems detect high quantities of Copper." << endl << endl;
+	}
+	else if (location == "Liquid Streams") {
+		cout << "\nAfter trekking over rolling expanses of rock, you finally come upon a system of streams." <<
+			"\nPale blue liquid flows over the rocks and for a brief moment, you feel a sense of peace as you" <<
+			"\nrecall sitting by the stream behind your childhood home. Your memories of Earth are soon overtaken," <<
+			"\nhowever, as these streams are not water. Life forms weave their way amongst the flowing liquid," <<
+			"\nwhich your systems detect is a mixture of various compounds, including Hydrazine. You may utilize" <<
+			"\nthe Demeter's liquid filtration system to extract the Hydrazine once the liquid is collected." << endl << endl;
+	}
+	else if (location == "Clusters of Rocks") {
+		cout << "\nTraveling over endless rock, you spot, in the distance, more rock. Except these rocks are large" <<
+			"\nand staggered, creating a forest of spires, a biome unlike that which you've ever seen before." <<
+			"\nThe closer you get, the more you realize how tremendously large this environment of pure rock is." <<
+			"\nGlobular creatures float towards the tops of the spires, while smaller creatures scuttle on the ground." <<
+			"\nYour systems detect many minerals embedded in this rock forest, including Fluorine." << endl << endl;
+	}
+
+	currentLocation(location, oxygen);
+}
+
 void locationSelection(int oxygen) {
 	string choice;
 	cout << "\nWhat region of Minerva do you want to explore?" << endl;
@@ -162,19 +195,19 @@ void locationSelection(int oxygen) {
 	}
 	else if (input == 1) {
 		oxygen = oxygen - 4;
-		currentLocation("Minerva Volcanoes", oxygen);
+		locationIntro("Minerva Volcanoes", oxygen);
 	}
 	else if (input == 2) {
 		oxygen = oxygen - 3;
-		currentLocation("Caves", oxygen);
+		locationIntro("Caves", oxygen);
 	}
 	else if (input == 3) {
 		oxygen = oxygen - 6;
-		currentLocation("Liquid Streams", oxygen);
+		locationIntro("Liquid Streams", oxygen);
 	}
 	else if (input == 4) {
 		oxygen = oxygen - 5;
-		currentLocation("Clusters of Rocks", oxygen);
+		locationIntro("Clusters of Rocks", oxygen);
 	}
 }
 

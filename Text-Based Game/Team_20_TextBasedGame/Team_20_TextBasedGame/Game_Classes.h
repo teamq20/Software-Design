@@ -236,5 +236,6 @@ void gameRules();
 void locationSelection(int);
 void currentLocation(string, int);
 void locationDemeter(int);
+void locationIntro(string, int);
 
 int convertToInt(string);
