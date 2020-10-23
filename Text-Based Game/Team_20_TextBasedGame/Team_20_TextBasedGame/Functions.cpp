@@ -242,7 +242,7 @@ void singlePlayer() {
 	cout << "-----------------------------\n" << endl;
 
 	gameIntro(1);
-	static int oxygen = 30;
+	static int oxygen = 100;
 	bool ship = "";
 
 	Beginning_stage();
