@@ -440,6 +440,9 @@ void options(int playerMode, int oxygen, string location) {
 		else if (location == "Select") {
 			locationSelection(oxygen);
 		}
+		else {
+			currentLocation(location, oxygen);
+		}
 	}
 	else if (input == 0) {
 		_Exit(10);
