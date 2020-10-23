@@ -231,7 +231,7 @@ void multiPlayer();
 void singlePlayer();
 void multiPlayer();
 void inputValidation(int, int);
-void options(int, int);
+void options(int, int, string);
 void gameRules();
 void locationSelection(int);
 void currentLocation(string, int);

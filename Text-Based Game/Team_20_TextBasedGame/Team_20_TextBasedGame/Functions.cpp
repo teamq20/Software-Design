@@ -157,16 +157,23 @@ void locationSelection(int oxygen) {
 	int input = convertToInt(choice);
 	inputValidation(input, 4);
 
-	if (input == 1) {
+	if (input == 0) {
+		options(1, oxygen, "Select");		//current player mode is 1 here until we figure out multiplayer
+	}
+	else if (input == 1) {
+		oxygen = oxygen - 4;
 		currentLocation("Minerva Volcanoes", oxygen);
 	}
 	else if (input == 2) {
+		oxygen = oxygen - 3;
 		currentLocation("Caves", oxygen);
 	}
 	else if (input == 3) {
+		oxygen = oxygen - 6;
 		currentLocation("Liquid Streams", oxygen);
 	}
 	else if (input == 4) {
+		oxygen = oxygen - 5;
 		currentLocation("Clusters of Rocks", oxygen);
 	}
 }
@@ -177,11 +184,10 @@ void currentLocation(string location, int oxygen) {
 
 	do {
 		//Exploration/Combat code goes here
-		oxygen--;
 
 
 		string choice;
-		cout << "What is your next move?" << endl;
+		cout << "\nWhat is your next move?" << endl;
 		cout << "(1) Keep exploring " + location << endl;
 		cout << "(2) Go To Ship" << endl;
 		cin >> choice;
@@ -190,11 +196,11 @@ void currentLocation(string location, int oxygen) {
 		inputValidation(input, 2);
 
 		if (input == 0) {
-			options(1, oxygen);
+			options(1, oxygen, location);
 			goToShip = false;
 		}
 		if (input == 1) {
-			oxygen--;
+			//oxygen--;
 			goToShip = false;
 		}
 		else if (input == 2) {
@@ -218,14 +224,14 @@ void locationDemeter(int oxygen) {
 	inputValidation(input, 2);
 
 	if (input == 0) {
-		options(1, oxygen);
+		options(1, oxygen, "Demeter");
 	}
 	if (input == 1) {
-		oxygen--;
 		locationSelection(oxygen);
 	}
 	else if (input == 2) {
 		oxygen--;
+		//this is where the personal inventory can empty the material into the ship's inventory
 
 	}
 }
@@ -256,7 +262,7 @@ void multiPlayer() {
 	Beginning_stage();
 }
 
-void options(int playerMode, int oxygen) {
+void options(int playerMode, int oxygen, string location) {
 	string menuChoice;
 	DemeterStatus status;
 	int width = 20;
@@ -284,6 +290,14 @@ void options(int playerMode, int oxygen) {
 		}
 		else if (playerMode == 2) {
 			multiPlayer();
+		}
+	}
+	else if (input == 3) {
+		if (location == "Demeter") {
+			locationDemeter(oxygen);
+		}
+		else if (location == "Select") {
+			locationSelection(oxygen);
 		}
 	}
 	else if (input == 0) {
