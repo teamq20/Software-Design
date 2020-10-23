@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <random>
 
 using namespace std;
 
@@ -222,6 +223,17 @@ public:
 		{
 
 		}
+	}
+	
+	int determineSpawn()
+	{
+		int number;
+		random_device rd;
+		mt19937 gen(rd());
+		uniform_int_distribution<> distr(0, 100);
+		number = distr(gen);
+
+		return number;
 	}
 };
 
