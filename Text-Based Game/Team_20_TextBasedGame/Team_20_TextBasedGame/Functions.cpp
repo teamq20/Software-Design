@@ -30,13 +30,16 @@ void mainMenu() {
 	}
 }
 
+Inventory *P1_Inventory = new Inventory;
+Player *P1 = new Player;
+Player *P2 = new Player;
 void Beginning_stage()
 {
 	string Starting_Items[8] = { "Pickaxe","Drill","Bucket","Flask","Knife","Gun","Flashlight","Lantern" };
 
-	Player *P1 = new Player;
 
-	Inventory *P1_Inventory = new Inventory;
+
+	
 
 	int player_choice = 0;
 	cout << "\nWhen selecting the tools needed, the dispensery can only operate to an extent that it can only dispense one item of each category." << endl
@@ -106,7 +109,7 @@ void Beginning_stage()
 		P1_Inventory->Add_to_Inventory("Lantern");
 	}
 
-	cout << "After your selection of an Illumination tool, the dispensery shuts down. It doesn't seem to be able to be reactivated. \nAs of right now your inventory includes: " << endl;
+	cout << "After your selection of an Illumination tool, the dispensery shuts down. It doesn't seem to be able to be reactivated. \nAs of right now your inventory includes: " << endl << endl;
 	P1_Inventory->Print();
 }
 
@@ -184,9 +187,12 @@ void locationSelection(int oxygen) {
 	cout << "(1) North: Minerva Volcanoes" << endl;
 	cout << "(2) East: Caves" << endl;
 	cout << "(3) South: Liquid Streams" << endl;
-	cout << "(4) West: Clusters of Rocks" << endl;
-	cin >> choice;
+	cout << "(4) West: Clusters of Rocks" << endl << endl;
+	cout << "Current Inventory:" << endl << endl;
+	
+	P1_Inventory->Print();
 
+	cin >> choice;
 	int input = convertToInt(choice);
 	inputValidation(input, 4);
 
@@ -223,7 +229,11 @@ void currentLocation(string location, int oxygen) {
 		cout << "\nWhat is your next move?" << endl;
 		cout << "(1) Keep exploring " + location << endl;
 		cout << "(2) Go To Ship" << endl;
+		cout << "('I') to reveal your invintory" << endl;
 		cin >> choice;
+
+		if (choice == "I" || choice == "i")
+			P1_Inventory->Print();
 
 		int input = convertToInt(choice);
 		inputValidation(input, 2);
