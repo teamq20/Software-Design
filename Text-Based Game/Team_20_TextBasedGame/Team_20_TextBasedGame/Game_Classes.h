@@ -252,5 +252,9 @@ void currentLocation(string, int);
 void locationDemeter(int);
 void locationIntro(string, int);
 void paths(string, int);
+void pathA(string, int);
+void pathB(string, int);
+void pathC(string, int);
+void pathD(string, int);
 
 int convertToInt(string);

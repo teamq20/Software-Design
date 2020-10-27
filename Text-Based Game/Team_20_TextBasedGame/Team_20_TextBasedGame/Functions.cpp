@@ -273,6 +273,102 @@ void paths(string location, int oxygen) {
 
 	int input = convertToInt(choice);
 	inputValidation(input, 4);
+
+	if (input == 0) {
+		options(1, oxygen, location);
+	}
+	else if (input == 1) {
+		if (location == "Minerva Volcanoes") {
+			pathC(location, oxygen);
+		}
+		else if (location == "Caves") {
+			pathB(location, oxygen);
+		}
+		else if (location == "Liquid Streams") {
+			pathD(location, oxygen);
+		}
+		else if (location == "Clusters of Rocks") {
+			pathA(location, oxygen);
+		}
+	}
+	else if (input == 2) {
+		if (location == "Minerva Volcanoes") {
+			pathB(location, oxygen);
+		}
+		else if (location == "Caves") {
+			pathC(location, oxygen);
+		}
+		else if (location == "Liquid Streams") {
+			pathB(location, oxygen);
+		}
+		else if (location == "Clusters of Rocks") {
+			pathC(location, oxygen);
+		}
+	}
+	else if (input == 3) {
+		if (location == "Minerva Volcanoes") {
+			pathA(location, oxygen);
+		}
+		else if (location == "Caves") {
+			pathD(location, oxygen);
+		}
+		else if (location == "Liquid Streams") {
+			pathC(location, oxygen);
+		}
+		else if (location == "Clusters of Rocks") {
+			pathB(location, oxygen);
+		}
+	}
+	else if (input == 4) {
+		if (location == "Minerva Volcanoes") {
+			pathD(location, oxygen);
+		}
+		else if (location == "Caves") {
+			pathA(location, oxygen);
+		}
+		else if (location == "Liquid Streams") {
+			pathA(location, oxygen);
+		}
+		else if (location == "Clusters of Rocks") {
+			pathD(location, oxygen);
+		}
+	}
+}
+
+void pathA(string location, int oxygen) {
+	oxygen = oxygen - 3;
+	// 0% chance of materials
+	// 7% hazard
+	// enemies chance - small 65%, medium 50%, large 35%
+
+	currentLocation(location, oxygen);
+}
+
+void pathB(string location, int oxygen) {
+	oxygen = oxygen - 1;
+	// 30% chance of materials
+	// 12% hazard
+	// enemies chance - small 25%, medium 20%, large 15%
+
+	currentLocation(location, oxygen);
+}
+
+void pathC(string location, int oxygen) {
+	oxygen = oxygen - 2;
+	// 50% chance of materials
+	// 10% hazard
+	// enemies chance - small 30%, medium 20%, large 10%
+
+	currentLocation(location, oxygen);
+}
+
+void pathD(string location, int oxygen) {
+	oxygen = oxygen - 2;
+	// 100% chance of materials
+	// 15% hazard
+	// enemies chance - small 35%, medium 25%, large 15%
+
+	currentLocation(location, oxygen);
 }
 
 
