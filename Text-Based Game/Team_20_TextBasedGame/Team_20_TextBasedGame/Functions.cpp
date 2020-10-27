@@ -5,13 +5,18 @@
 #include <iomanip>
 using namespace std;
 
+string version = "1.0.0";
+
 void mainMenu() {
 	string menuChoice;
 
-	cout << "ESCAPE FROM MINERVA" << endl;
-	cout << "(1) Single Player" << endl;
-	cout << "(2) Multiplayer" << endl;
-	cout << "(0) Quit" << endl;
+	cout << "\t\t\t\t\t-----------------------------" << endl;
+	cout << "\t\t\t\t\t     ESCAPE FROM MINERVA" << endl;
+	cout << "\t\t\t\t\t        version " + version << endl;
+	cout << "\t\t\t\t\t-----------------------------\n" << endl;
+	cout << "\t\t\t\t\t      (1) Single Player" << endl;
+	cout << "\t\t\t\t\t      (2) Multiplayer" << endl;
+	cout << "\t\t\t\t\t      (0) Quit" << endl;
 
 	cin >> menuChoice;
 
@@ -188,7 +193,6 @@ void locationSelection(int oxygen) {
 	cout << "(2) East: Caves" << endl;
 	cout << "(3) South: Liquid Streams" << endl;
 	cout << "(4) West: Clusters of Rocks" << endl << endl;
-	cout << "Current Inventory:" << endl << endl;
 	
 	P1_Inventory->Print();
 
@@ -229,11 +233,14 @@ void currentLocation(string location, int oxygen) {
 		cout << "\nWhat is your next move?" << endl;
 		cout << "(1) Keep exploring " + location << endl;
 		cout << "(2) Go To Ship" << endl;
-		cout << "('I') to reveal your invintory" << endl;
+		cout << "('I') to reveal your inventory" << endl;
 		cin >> choice;
 
 		if (choice == "I" || choice == "i")
+		{
 			P1_Inventory->Print();
+			currentLocation(location, oxygen);
+		}
 
 		int input = convertToInt(choice);
 		inputValidation(input, 2);
@@ -245,7 +252,7 @@ void currentLocation(string location, int oxygen) {
 		else if (input == 1) {
 				//oxygen--;
 			paths(location, oxygen);
-			//goToShip = false;
+				//goToShip = false;
 		}
 		else if (input == 2) {
 			oxygen--;
@@ -257,6 +264,7 @@ void currentLocation(string location, int oxygen) {
 	//locationDemeter(oxygen);
 }
 
+
 void paths(string location, int oxygen) {
 	string choice;
 	cout << "\nYou are able to go down one of four paths. Which path do you choose to take?" <<
@@ -265,103 +273,8 @@ void paths(string location, int oxygen) {
 
 	int input = convertToInt(choice);
 	inputValidation(input, 4);
-
-	if (input == 0) {
-		options(1, oxygen, location);
-	}
-	else if (input == 1) {
-		if (location == "Minerva Volcanoes") {
-			pathC(location, oxygen);
-		}
-		else if (location == "Caves") {
-			pathB(location, oxygen);
-		}
-		else if (location == "Liquid Streams") {
-			pathD(location, oxygen);
-		}
-		else if (location == "Clusters of Rocks") {
-			pathA(location, oxygen);
-		}
-	}
-	else if (input == 2) {
-		if (location == "Minerva Volcanoes") {
-			pathB(location, oxygen);
-		}
-		else if (location == "Caves") {
-			pathC(location, oxygen);
-		}
-		else if (location == "Liquid Streams") {
-			pathB(location, oxygen);
-		}
-		else if (location == "Clusters of Rocks") {
-			pathC(location, oxygen);
-		}
-	}
-	else if (input == 3) {
-		if (location == "Minerva Volcanoes") {
-			pathA(location, oxygen);
-		}
-		else if (location == "Caves") {
-			pathD(location, oxygen);
-		}
-		else if (location == "Liquid Streams") {
-			pathC(location, oxygen);
-		}
-		else if (location == "Clusters of Rocks") {
-			pathB(location, oxygen);
-		}
-	}
-	else if (input == 4) {
-		if (location == "Minerva Volcanoes") {
-			pathD(location, oxygen);
-		}
-		else if (location == "Caves") {
-			pathA(location, oxygen);
-		}
-		else if (location == "Liquid Streams") {
-			pathA(location, oxygen);
-		}
-		else if (location == "Clusters of Rocks") {
-			pathD(location, oxygen);
-		}
-	}
 }
 
-void pathA(string location, int oxygen) {
-	oxygen = oxygen - 3;
-	// 0% chance of materials
-	// 7% hazard
-	// enemies chance - small 65%, medium 50%, large 35%
-
-	currentLocation(location, oxygen);
-}
-
-void pathB(string location, int oxygen) {
-	oxygen = oxygen - 1;
-	// 30% chance of materials
-	// 12% hazard
-	// enemies chance - small 25%, medium 20%, large 15%
-
-	currentLocation(location, oxygen);
-}
-
-void pathC(string location, int oxygen) {
-	oxygen = oxygen - 2;
-	// 50% chance of materials
-	// 10% hazard
-	// enemies chance - small 30%, medium 20%, large 10%
-
-	currentLocation(location, oxygen);
-}
-
-void pathD(string location, int oxygen) {
-	oxygen = oxygen - 2;
-	// 100% chance of materials
-	// 15% hazard
-	// enemies chance - small 35%, medium 25%, large 15%
-
-	currentLocation(location, oxygen);
-}
 
 void locationDemeter(int oxygen) {
 	string choice;
@@ -413,7 +326,7 @@ void multiPlayer() {
 	Beginning_stage();
 }
 
-void options(int playerMode, int oxygen, string location) {
+void options(int playerMode, int oxygen, string optionLocation) {
 	string menuChoice;
 	DemeterStatus status;
 	int width = 20;
@@ -444,14 +357,14 @@ void options(int playerMode, int oxygen, string location) {
 		}
 	}
 	else if (input == 3) {
-		if (location == "Demeter") {
+		if (optionLocation == "Demeter") {
 			locationDemeter(oxygen);
 		}
-		else if (location == "Select") {
+		else if (optionLocation == "Select") {
 			locationSelection(oxygen);
 		}
 		else {
-			currentLocation(location, oxygen);
+			currentLocation(optionLocation, oxygen);
 		}
 	}
 	else if (input == 0) {

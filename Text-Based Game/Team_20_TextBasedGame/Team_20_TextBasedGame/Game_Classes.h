@@ -165,12 +165,14 @@ public:
 	void Print()
 	{
 		Items* Selected_Item = head;
+		cout << "\t[Current Inventory]" << endl;
+		cout << "| ";
 		while (Selected_Item)
 		{
-			cout << Selected_Item->data << endl;
+			cout << Selected_Item->data << " | ";
 			Selected_Item = Selected_Item->next;
 		}
-		cout << endl;
+		cout << endl << endl;
 	}
 };
 
@@ -250,9 +252,5 @@ void currentLocation(string, int);
 void locationDemeter(int);
 void locationIntro(string, int);
 void paths(string, int);
-void pathA(string, int);
-void pathB(string, int);
-void pathC(string, int);
-void pathD(string, int);
 
 int convertToInt(string);
