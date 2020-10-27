@@ -5,13 +5,18 @@
 #include <iomanip>
 using namespace std;
 
+string version = "1.0.0";
+
 void mainMenu() {
 	string menuChoice;
 
-	cout << "ESCAPE FROM MINERVA" << endl;
-	cout << "(1) Single Player" << endl;
-	cout << "(2) Multiplayer" << endl;
-	cout << "(0) Quit" << endl;
+	cout << "\t\t\t\t\t-----------------------------" << endl;
+	cout << "\t\t\t\t\t     ESCAPE FROM MINERVA" << endl;
+	cout << "\t\t\t\t\t        version " + version << endl;
+	cout << "\t\t\t\t\t-----------------------------\n" << endl;
+	cout << "\t\t\t\t\t      (1) Single Player" << endl;
+	cout << "\t\t\t\t\t      (2) Multiplayer" << endl;
+	cout << "\t\t\t\t\t      (0) Quit" << endl;
 
 	cin >> menuChoice;
 
@@ -148,6 +153,39 @@ void gameIntro(int playerMode) {
 	gameRules();
 }
 
+void locationIntro(string location, int oxygen) {
+	if (location == "Minerva Volcanoes") {
+		cout << "\nAs you walk over fields of rock, the clouds dissolve into a black overcast overhead." <<
+			"\nAhead, you see the formidable peak, lava flowing down its slopes and smoke pluming from its" <<
+			"\nsummit. The heat becomes more intense as you approach. Eventually, you reach the mouth of the" <<
+			"\ncave system that leads inside the volcanic mass. The environment is hostile, but luckily," <<
+			"\nyour systems detect high quantities of Uranium." << endl << endl;
+	}
+	else if (location == "Caves") {
+		cout << "\nYou don't have to walk long before you see the looming entrance of an expansive cave system," <<
+			"\ncarved out of a sheer rock face. The darkness is all-consuming; you won’t be able to navigate" <<
+			"\nwithout an illumination device. Standing at the entrance, you can hear distant echoes of creatures" <<
+			"\nmoving throughout the vast cave. Your systems detect high quantities of Copper." << endl << endl;
+	}
+	else if (location == "Liquid Streams") {
+		cout << "\nAfter trekking over rolling expanses of rock, you finally come upon a system of streams." <<
+			"\nPale blue liquid flows over the rocks and for a brief moment, you feel a sense of peace as you" <<
+			"\nrecall sitting by the stream behind your childhood home. Your memories of Earth are soon overtaken," <<
+			"\nhowever, as these streams are not water. Life forms weave their way amongst the flowing liquid," <<
+			"\nwhich your systems detect is a mixture of various compounds, including Hydrazine. You may utilize" <<
+			"\nthe Demeter's liquid filtration system to extract the Hydrazine once the liquid is collected." << endl << endl;
+	}
+	else if (location == "Clusters of Rocks") {
+		cout << "\nTraveling over endless rock, you spot, in the distance, more rock. Except these rocks are large" <<
+			"\nand staggered, creating a forest of spires, a biome unlike that which you've ever seen before." <<
+			"\nThe closer you get, the more you realize how tremendously large this environment of pure rock is." <<
+			"\nGlobular creatures float towards the tops of the spires, while smaller creatures scuttle on the ground." <<
+			"\nYour systems detect many minerals embedded in this rock forest, including Fluorine." << endl << endl;
+	}
+
+	currentLocation(location, oxygen);
+}
+
 void locationSelection(int oxygen) {
 	string choice;
 	cout << "\nWhat region of Minerva do you want to explore?" << endl;
@@ -155,7 +193,6 @@ void locationSelection(int oxygen) {
 	cout << "(2) East: Caves" << endl;
 	cout << "(3) South: Liquid Streams" << endl;
 	cout << "(4) West: Clusters of Rocks" << endl << endl;
-	cout << "Current Inventory:" << endl << endl;
 	
 	P1_Inventory->Print();
 
@@ -168,27 +205,27 @@ void locationSelection(int oxygen) {
 	}
 	else if (input == 1) {
 		oxygen = oxygen - 4;
-		currentLocation("Minerva Volcanoes", oxygen);
+		locationIntro("Minerva Volcanoes", oxygen);
 	}
 	else if (input == 2) {
 		oxygen = oxygen - 3;
-		currentLocation("Caves", oxygen);
+		locationIntro("Caves", oxygen);
 	}
 	else if (input == 3) {
 		oxygen = oxygen - 6;
-		currentLocation("Liquid Streams", oxygen);
+		locationIntro("Liquid Streams", oxygen);
 	}
 	else if (input == 4) {
 		oxygen = oxygen - 5;
-		currentLocation("Clusters of Rocks", oxygen);
+		locationIntro("Clusters of Rocks", oxygen);
 	}
 }
 
 void currentLocation(string location, int oxygen) {
 	cout << "\nLOCATION: " + location << endl;
-	bool goToShip;
+	//bool goToShip;
 
-	do {
+	//do {
 		//Exploration/Combat code goes here
 
 
@@ -196,31 +233,48 @@ void currentLocation(string location, int oxygen) {
 		cout << "\nWhat is your next move?" << endl;
 		cout << "(1) Keep exploring " + location << endl;
 		cout << "(2) Go To Ship" << endl;
-		cout << "('I') to reveal your invintory" << endl;
+		cout << "('I') to reveal your inventory" << endl;
 		cin >> choice;
 
 		if (choice == "I" || choice == "i")
+		{
 			P1_Inventory->Print();
+			currentLocation(location, oxygen);
+		}
 
 		int input = convertToInt(choice);
 		inputValidation(input, 2);
 
 		if (input == 0) {
 			options(1, oxygen, location);
-			goToShip = false;
+			//goToShip = false;
 		}
-		if (input == 1) {
-			//oxygen--;
-			goToShip = false;
+		else if (input == 1) {
+				//oxygen--;
+			paths(location, oxygen);
+				//goToShip = false;
 		}
 		else if (input == 2) {
 			oxygen--;
-			goToShip = true;
+			locationDemeter(oxygen);
+			//goToShip = true;
 		}
-	} while (goToShip == false);
+	//} while (goToShip == false);
 
-	locationDemeter(oxygen);
+	//locationDemeter(oxygen);
 }
+
+
+void paths(string location, int oxygen) {
+	string choice;
+	cout << "\nYou are able to go down one of four paths. Which path do you choose to take?" <<
+		"\nPlease enter a number 1-4:" << endl;
+	cin >> choice;
+
+	int input = convertToInt(choice);
+	inputValidation(input, 4);
+}
+
 
 void locationDemeter(int oxygen) {
 	string choice;
@@ -272,7 +326,7 @@ void multiPlayer() {
 	Beginning_stage();
 }
 
-void options(int playerMode, int oxygen, string location) {
+void options(int playerMode, int oxygen, string optionLocation) {
 	string menuChoice;
 	DemeterStatus status;
 	int width = 20;
@@ -303,11 +357,14 @@ void options(int playerMode, int oxygen, string location) {
 		}
 	}
 	else if (input == 3) {
-		if (location == "Demeter") {
+		if (optionLocation == "Demeter") {
 			locationDemeter(oxygen);
 		}
-		else if (location == "Select") {
+		else if (optionLocation == "Select") {
 			locationSelection(oxygen);
+		}
+		else {
+			currentLocation(optionLocation, oxygen);
 		}
 	}
 	else if (input == 0) {
