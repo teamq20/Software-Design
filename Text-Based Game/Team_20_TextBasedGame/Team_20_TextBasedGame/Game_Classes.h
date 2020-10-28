@@ -185,6 +185,9 @@ private:
 	int Sight;
 	bool Alive = true;
 	int Chance;
+	int small;
+	int medium;
+	int large;
 
 public:
 	Enemy() {}
@@ -227,17 +230,101 @@ public:
 		}
 	}
 	
-	int determineSpawn()
+	void determineSpawn(int s, int m, int l)
 	{
+		small = s;
+		medium = m;
+		large = l;
+		
 		int number;
 		random_device rd;
 		mt19937 gen(rd());
 		uniform_int_distribution<> distr(0, 100);
 		number = distr(gen);
 
-		return number;
+		//return number;
+
+		//if (number <= small) {
+			//small enemy
+		//}
+		//else if (number > small && <= medium) {
+			//medium enemy
+		//}
+		//else if (number > medium && <= large) {
+			//large enemy
+		//}
+		//else {
+			//no enemy
+			//cout << "\nThe path is empty!" << endl;
+		//}
+
+
+
+
 	}
 };
+
+class Path : public Enemy
+{
+private:
+	int oxygen;
+	int matProb;
+	int hazard;
+	string location;
+	int oxygenLevel;
+	int smallEnemy;
+	int medEnemy;
+	int lgEnemy;
+	string material;
+
+public:
+	Path() {}
+	void setPath(int o, int m, int h, int sm, int med, int lg)
+	{
+		oxygen = o;
+		matProb = m;
+		hazard = h;
+		smallEnemy = sm;
+		medEnemy = med;
+		lgEnemy = lg;
+	}
+
+	int goPath(string l, int ox, string mat)
+	{
+		location = l;
+		oxygenLevel = ox;
+		material = mat;
+		oxygenLevel = oxygenLevel - oxygen;
+
+		cout << "\nUpon entering this path, ";
+
+		//determine hazard or enemy (or both)
+		int randNum = (rand() % 3) + 1;
+		if (randNum == 1) {
+			//hazard(prob);
+		}
+		else if (randNum == 2) {
+			determineSpawn(smallEnemy, medEnemy, lgEnemy);
+		}
+		else {
+			//hazard(prob);
+			determineSpawn(smallEnemy, medEnemy, lgEnemy);
+		}
+		
+		// if player survived
+		cout << "\nThat was a close one! You continue down the path in hopes of finding the " << material << "." << endl;
+
+		//material probability
+		//material(matProb);
+
+		return oxygenLevel;
+	}
+};
+
+
+
+
+
 
 void mainMenu();
 void singlePlayer();

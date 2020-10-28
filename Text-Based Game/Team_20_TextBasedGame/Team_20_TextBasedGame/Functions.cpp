@@ -3,6 +3,7 @@
 #include <string>
 #include <cstring>
 #include <iomanip>
+#include <cstdlib>
 using namespace std;
 
 string version = "1.0.0";
@@ -49,7 +50,7 @@ void Beginning_stage()
 	int player_choice = 0;
 	cout << "\nWhen selecting the tools needed, the dispensery can only operate to an extent that it can only dispense one item of each category." << endl
 		<< "\nFor exploration, the categories are:\n" << "-Excavation\n" << "-Liquid containment\n" << "-Weaponry\n" << "-Illumination\n" << endl
-		<< "In the field of Excavation, would you prefer:\n" << "(1) Pickaxe\n" << "or\n" << "(2) Drill" << endl << endl;
+		<< "\nIn the field of Excavation, would you prefer:\n" << "(1) Pickaxe\n" << "or\n" << "(2) Drill" << endl << endl;
 
 	cout << "Please select your tool: ";
 
@@ -58,63 +59,65 @@ void Beginning_stage()
 
 	if (player_choice == 1)
 	{
-		cout << "Upon your selection, the dispensery produced a standard issue, P1K-4X Pickaxe. It has a wooden handle attached to a two-headed, steel pick. It looks pretty sharp." << endl << endl;
+		cout << "\nUpon your selection, the dispensery produced a standard issue, P1K-4X Pickaxe. It has a wooden handle attached to a two-headed, steel pick. It looks pretty sharp." << endl << endl;
 		P1_Inventory->Add_to_Inventory("Pickaxe");
 	}
 	else if (player_choice == 2)
 	{
-		cout << "Upon making your selection, the dispensery produced a standard issue, DR111 handheld Drilling device. When inspected, the grip is rubberized and ergonomic." << endl
+		cout << "\nUpon making your selection, the dispensery produced a standard issue, DR111 handheld Drilling device. When inspected, the grip is rubberized and ergonomic." << endl
 			<< "The pointed end is sharpened to a point, and when activated, the sounding of the drill bounces around the entire room." << endl << endl;
 		P1_Inventory->Add_to_Inventory("Drill");
 	}
 
-	cout << "In the field of Liquid containment, would you prefer: \n" << "(1) Bucket\n" << "or\n" << "(2) Flask" << endl << endl;
+	cout << "\nIn the field of Liquid containment, would you prefer: \n" << "(1) Bucket\n" << "or\n" << "(2) Flask" << endl << endl;
 	cout << "Please select your tool: ";
 	cin >> player_choice;
 	inputValidation(player_choice, 2);
 
 	if (player_choice == 1)
 	{
-		cout << "Upon your selection, the dispensery produced a standard issue, BUK37T Exploration Bucket. Upon inspection, it looks like a regular metal bucket." << endl << endl;
+		cout << "\nUpon your selection, the dispensery produced a standard issue, BUK37T Exploration Bucket. Upon inspection, it looks like a regular metal bucket." << endl << endl;
 		P1_Inventory->Add_to_Inventory("Bucket");
 	}
 	else if (player_choice == 2)
 	{
-		cout << "Upon making your selection, the dispensery produced a standard issue, F14SK Exploration Flask. When inspected, it seems to be a small, round container. There is a lining found inside of the flask." << endl << endl;
+		cout << "\nUpon making your selection, the dispensery produced a standard issue, F14SK Exploration Flask. When inspected, it seems to be a small, round container. There is a lining found inside of the flask." << endl << endl;
 		P1_Inventory->Add_to_Inventory("Flask");
 	}
 
-	cout << "In the field of Weaponry, would you prefer: \n" << "(1) Knife \n" << "or \n" << "(2) Gun \n" << endl << endl;
+	cout << "\nIn the field of Weaponry, would you prefer: \n" << "(1) Knife \n" << "or \n" << "(2) Gun \n" << endl;
+	cout << "Please select your weapon: ";
 	cin >> player_choice;
 	inputValidation(player_choice, 2);
 
 	if (player_choice == 1)
 	{
-		cout << "Upon making your selection, the dispensery produced for you an explorer's Combat Knife. The knife is extremely sharp, with a easy to grip handle. " << endl << endl;
+		cout << "\nUpon making your selection, the dispensery produced for you an explorer's Combat Knife. The knife is extremely sharp, with a easy to grip handle. " << endl << endl;
 		P1_Inventory->Add_to_Inventory("Knife");
 	}
 	else if (player_choice == 2)
 	{
-		cout << "Upon making your selection, the dispensery produced for you an explorer's Balistic Handgun. It is a fairly old fashioned firearm; you can assume that it packs a punch." << endl << endl;
+		cout << "\nUpon making your selection, the dispensery produced for you an explorer's Balistic Handgun. It is a fairly old fashioned firearm; you can assume that it packs a punch." << endl << endl;
 		P1_Inventory->Add_to_Inventory("Gun");
 	}
 
-	cout << "Finally, in the field of Illumination, would you prefer: \n" << "(1) Flashlight\n" << "or\n" << "(2) Lantern\n" << endl << endl;
+	cout << "\nFinally, in the field of Illumination, would you prefer: \n" << "(1) Flashlight\n" << "or\n" << "(2) Lantern\n" << endl;
+	cout << "Please select your tool: ";
 	cin >> player_choice;
 	inputValidation(player_choice, 2);
 
 	if (player_choice == 1)
 	{
-		cout << "When selecting your tool, the dispensery produced for you a standard issue explorer's Light Stick. The light is exceptionally bright for a standard issue, but it doesn't really illuminate much." << endl << endl;
+		cout << "\nWhen selecting your tool, the dispensery produced for you a standard issue explorer's Light Stick. The light is exceptionally bright for a standard issue, but it doesn't really illuminate much." << endl << endl;
 		P1_Inventory->Add_to_Inventory("Flashlight");
 	}
 	else if (player_choice == 2)
 	{
-		cout << "After your selection, the dispensery produced for you an explorer's Lantern. Upon activation, the flame in the lantern coats the room in a warm, yet dull light." << endl << endl;
+		cout << "\nAfter your selection, the dispensery produced for you an explorer's Lantern. Upon activation, the flame in the lantern coats the room in a warm, yet dull light." << endl << endl;
 		P1_Inventory->Add_to_Inventory("Lantern");
 	}
 
-	cout << "After your selection of an Illumination tool, the dispensery shuts down. It doesn't seem to be able to be reactivated. \nAs of right now your inventory includes: " << endl << endl;
+	cout << "\nAfter your selection of an Illumination tool, the dispensery shuts down. It doesn't seem to be able to be reactivated." << endl << endl;
 	P1_Inventory->Print();
 }
 
@@ -266,13 +269,99 @@ void currentLocation(string location, int oxygen) {
 
 
 void paths(string location, int oxygen) {
-	string choice;
-	cout << "\nYou are able to go down one of four paths. Which path do you choose to take?" <<
-		"\nPlease enter a number 1-4:" << endl;
-	cin >> choice;
+	Path pathA, pathB, pathC, pathD;
+	pathA.setPath(3, 0, 7, 40, 60, 70);		//70% chance enemy - 40% small, 20% medium, 10% large
+	pathB.setPath(1, 30, 12, 20, 35, 40);	//40% chance enemy - 20% small, 15% medium, 5% large
+	pathC.setPath(2, 50, 10, 25, 40, 50);	//50% chance enemy - 25% small, 15% medium, 10% large
+	pathD.setPath(2, 100, 15, 35, 50, 60);	//60% chance enemy - 35% small, 15% medium, 10% large
 
-	int input = convertToInt(choice);
-	inputValidation(input, 4);
+	string material1 = "Uranium", material2 = "Copper", material3 = "Hydrazine", material4 = "Fluorine";
+	string choice;
+	int newInput = 1;
+
+	cout << "\nYou are able to go down one of four paths.";
+
+	do
+	{
+		cout << "\nWhich path do you choose to take? Please enter a number 1-4:" << endl;
+		cin >> choice;
+
+		int input = convertToInt(choice);
+		inputValidation(input, 4);
+		
+		
+		if (input == 0) {
+			options(1, oxygen, location);
+		}
+		else if (input == 1) {
+			if (location == "Minerva Volcanoes") {
+				pathC.goPath(location, oxygen, material1);
+			}
+			else if (location == "Caves") {
+				pathB.goPath(location, oxygen, material2);
+			}
+			else if (location == "Liquid Streams") {
+				pathD.goPath(location, oxygen, material3);
+			}
+			else if (location == "Clusters of Rocks") {
+				pathA.goPath(location, oxygen, material4);
+			}
+		}
+		else if (input == 2) {
+			if (location == "Minerva Volcanoes") {
+				pathB.goPath(location, oxygen, material1);
+			}
+			else if (location == "Caves") {
+				pathC.goPath(location, oxygen, material2);
+			}
+			else if (location == "Liquid Streams") {
+				pathB.goPath(location, oxygen, material3);
+			}
+			else if (location == "Clusters of Rocks") {
+				pathC.goPath(location, oxygen, material4);
+			}
+		}
+		else if (input == 3) {
+			if (location == "Minerva Volcanoes") {
+				pathA.goPath(location, oxygen, material1);
+			}
+			else if (location == "Caves") {
+				pathD.goPath(location, oxygen, material2);
+			}
+			else if (location == "Liquid Streams") {
+				pathC.goPath(location, oxygen, material3);
+			}
+			else if (location == "Clusters of Rocks") {
+				pathB.goPath(location, oxygen, material4);
+			}
+		}
+		else if (input == 4) {
+			if (location == "Minerva Volcanoes") {
+				pathD.goPath(location, oxygen, material1);
+			}
+			else if (location == "Caves") {
+				pathA.goPath(location, oxygen, material2);
+			}
+			else if (location == "Liquid Streams") {
+				pathA.goPath(location, oxygen, material3);
+			}
+			else if (location == "Clusters of Rocks") {
+				pathD.goPath(location, oxygen, material4);
+			}
+		}
+		cout << "\nDo you wish to:" << endl;
+		cout << "(1) Continue exploring other paths in this location" << endl;
+		cout << "(2) Leave the " << location << " and go back to the ship" << endl;
+		cin >> choice;
+
+		newInput = convertToInt(choice);
+		inputValidation(newInput, 2);
+		if (newInput == 0) {
+			options(1, oxygen, location);
+		}
+	} while (newInput == 1);
+
+	locationDemeter(oxygen);
 }
 
 
@@ -376,7 +465,7 @@ void gameRules() {
 
 	cout << "\n\nObjective: Repair the ship so you can get off the planet. You will be given two or more options at each stage.\nYour choices impact your survival." << endl;
 	cout << "Collect 4 specific items to repair your ship" << endl;
-	cout << "Input '0' at any time to open the options menu. Here you will be able to see your inventory, repair status, and health." << endl;
+	cout << "Input '0' at any time to open the options menu. Here you will be able to see your inventory, repair status, and oxygen level." << endl;
 }
 
 int convertToInt(string input) {
@@ -405,7 +494,7 @@ void inputValidation(int input, int max) {
 		string menuChoice;
 
 		cout << "This is an invalid input" << endl;
-		cout << "Please enter either 0, 1, or 2" << endl;
+		cout << "Please enter a number between 0 and " << max << endl;
 
 		cin >> menuChoice;
 		input = convertToInt(menuChoice);
