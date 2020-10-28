@@ -270,10 +270,10 @@ void currentLocation(string location, int oxygen) {
 
 void paths(string location, int oxygen) {
 	Path pathA, pathB, pathC, pathD;
-	pathA.setPath(3, 0, 7, 40, 60, 70);
-	pathB.setPath(1, 30, 12, 20, 35, 40);
-	pathC.setPath(2, 50, 10, 25, 40, 50);
-	pathD.setPath(2, 100, 15, 35, 50, 60);
+	pathA.setPath(3, 0, 7, 40, 60, 70);		//70% chance enemy - 40% small, 20% medium, 10% large
+	pathB.setPath(1, 30, 12, 20, 35, 40);	//40% chance enemy - 20% small, 15% medium, 5% large
+	pathC.setPath(2, 50, 10, 25, 40, 50);	//50% chance enemy - 25% small, 15% medium, 10% large
+	pathD.setPath(2, 100, 15, 35, 50, 60);	//60% chance enemy - 35% small, 15% medium, 10% large
 
 	string material1 = "Uranium", material2 = "Copper", material3 = "Hydrazine", material4 = "Fluorine";
 	string choice;
