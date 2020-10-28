@@ -349,8 +349,9 @@ void paths(string location, int oxygen) {
 				pathD.goPath(location, oxygen, material4);
 			}
 		}
-		cout << "\nDo you wish to continue exploring other paths in this location, or leave the " << location << " and go back to the ship?" << endl;
-		cout << "Enter '1' to continue exploring, or '2' to leave" << endl;
+		cout << "\nDo you wish to:" << endl;
+		cout << "(1) Continue exploring other paths in this location" << endl;
+		cout << "(2) Leave the " << location << " and go back to the ship" << endl;
 		cin >> choice;
 
 		newInput = convertToInt(choice);
