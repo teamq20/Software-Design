@@ -9,10 +9,32 @@ class Player
 {
 protected:
 	int health = 30;
+	int damAmount;
 public:
-	void damage()
+	Player() {}
+	void damage(int d)
 	{
-		health--;
+		damAmount = d;
+		health = health - d;
+	}
+
+	bool isAlive()
+	{
+		if (health > 0) {
+			return true;
+		}
+		else { 
+			return false;
+		}
+	}
+
+	void dead()
+	{
+		if (isAlive() == false) {
+			cout << "\n\nUnfortunately, you have died! Minerva got the best of you." << endl;
+			cout << "Try again if you wish to redeem yourself..." << endl;
+			//mainMenu();
+		}
 	}
 };
 
@@ -84,7 +106,7 @@ public:
 	}
 };
 
-class Inventory :public Player
+class Inventory : public Player
 {
 public:
 	Items * head;
@@ -188,6 +210,7 @@ private:
 	int small;
 	int medium;
 	int large;
+	string location;
 
 public:
 	Enemy() {}
@@ -230,11 +253,12 @@ public:
 		}
 	}
 	
-	void determineSpawn(int s, int m, int l)
+	void determineSpawn(int s, int m, int l, string loc)
 	{
 		small = s;
 		medium = m;
 		large = l;
+		location = loc;
 		
 		int number;
 		random_device rd;
@@ -264,7 +288,70 @@ public:
 	}
 };
 
-class Path : public Enemy
+class Hazards : public Player
+{
+private:
+	int prob;
+	int health;
+	string location;
+	string hazard;
+
+public:
+	Hazards() : Player()
+	{}
+	void setHazard(string loc)
+	{
+		location = loc;
+
+		if (location == "Minerva Volcanoes") {
+			hazard = "flowing lava";
+		}
+		else if (location == "Caves") {
+			hazard = "a falling rock";
+		}
+		else if (location == "Liquid Streams") {
+			hazard = "a strong current";
+		}
+		else if (location == "Clusters of Rocks") {
+			hazard = "a falling rock";
+		}
+	}
+
+	void determineProb(int p)
+	{
+		prob = p;
+
+		int number1;
+		random_device rd1;
+		mt19937 gen1(rd1());
+		uniform_int_distribution<> distr(0, 100);
+		number1 = distr(gen1);
+
+		if (number1 <= prob) {
+			deployHazard();
+		}
+		else {
+			cout << "you notice there doesn't seem to be any hazards down this way." << endl;
+			cout << "You continue on exploring this path." << endl;
+		}
+	}
+
+	void deployHazard()
+	{
+		cout << "you get hurt by " << hazard << "!" << endl;
+
+		Player::damage(3);
+
+		if (Player::isAlive() == true) {
+			cout << "\nThe damage wasn't too bad, so you continue on exploring." << endl;
+		}
+		else {
+			Player::dead();
+		}
+	}
+};
+
+class Path : public Enemy, public Hazards
 {
 private:
 	int oxygen;
@@ -278,7 +365,8 @@ private:
 	string material;
 
 public:
-	Path() {}
+	Path() : Hazards(), Enemy()
+	{}
 	void setPath(int o, int m, int h, int sm, int med, int lg)
 	{
 		oxygen = o;
@@ -301,18 +389,20 @@ public:
 		//determine hazard or enemy (or both)
 		int randNum = (rand() % 3) + 1;
 		if (randNum == 1) {
-			//hazard(prob);
+			Hazards::setHazard(location);
+			Hazards::determineProb(matProb);		//hazards
 		}
 		else if (randNum == 2) {
-			determineSpawn(smallEnemy, medEnemy, lgEnemy);
+			Enemy::determineSpawn(smallEnemy, medEnemy, lgEnemy, location);
 		}
 		else {
-			//hazard(prob);
-			determineSpawn(smallEnemy, medEnemy, lgEnemy);
+			Hazards::setHazard(location);
+			Hazards::determineProb(matProb);		//hazards
+			Enemy::determineSpawn(smallEnemy, medEnemy, lgEnemy, location);
 		}
 		
-		// if player survived
-		cout << "\nThat was a close one! You continue down the path in hopes of finding the " << material << "." << endl;
+		// if player survived (put this in enemy with bool isAlive from Player)
+		//cout << "\nThat was a close one! You continue down the path in hopes of finding the " << material << "." << endl;
 
 		//material probability
 		//material(matProb);
@@ -320,6 +410,7 @@ public:
 		return oxygenLevel;
 	}
 };
+
 
 
 

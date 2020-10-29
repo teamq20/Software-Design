@@ -384,6 +384,7 @@ void locationDemeter(int oxygen) {
 	}
 	else if (input == 2) {
 		oxygen--;
+		locationDemeter(oxygen);	//keep this for now so game doesn't break until this is created
 		//this is where the personal inventory can empty the material into the ship's inventory
 
 	}
