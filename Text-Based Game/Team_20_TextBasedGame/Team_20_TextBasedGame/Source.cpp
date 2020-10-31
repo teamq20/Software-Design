@@ -1,6 +1,9 @@
 #include "Game_Classes.h"
 #include <iostream>
 #include <string>
+#include <cctype>
+#include <iomanip>
+#include <cstdlib>
 using namespace std;
 
 int main() {
