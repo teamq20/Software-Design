@@ -3,10 +3,13 @@
 #include <string>
 #include <cctype>
 #include <iomanip>
+#include <ctime>
 #include <cstdlib>
 using namespace std;
 
 int main() {
+	srand(time(0));		//seed for random generator
+	
 	Minerva north, south, east, west;
 
 	north.setSetting("Volcano");
