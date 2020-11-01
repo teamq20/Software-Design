@@ -5,11 +5,13 @@
 
 using namespace std;
 
+
 class Player
 {
 protected:
 	int health = 30;
 	int damAmount;
+	string causeDeath;
 public:
 	Player() {}
 	void damage(int d)
@@ -28,11 +30,13 @@ public:
 		}
 	}
 
-	void dead()
+	void dead(string cod)
 	{
+		causeDeath = cod;
+		
 		if (isAlive() == false) {
-			cout << "\n\nUnfortunately, you have died! Minerva got the best of you." << endl;
-			cout << "Try again if you wish to redeem yourself..." << endl;
+			cout << "\n\n*GAME OVER* VST-7426, you have been terminated by " << causeDeath << "." << endl;
+			cout << "Play again if you wish to redeem yourself..." << endl;
 			//mainMenu();
 		}
 	}
@@ -346,17 +350,70 @@ public:
 			cout << "\nThe damage wasn't too bad, so you continue on exploring." << endl;
 		}
 		else {
-			Player::dead();
+			Player::dead(hazard);
 		}
 	}
 };
 
-class Path : public Enemy, public Hazards
+class Materials
+{
+private:
+	string material;
+	int materialProbability;
+	string location;
+
+public:
+	void setMaterial(string loc)
+	{
+		location = loc;
+
+		if (location == "Minerva Volcanoes") {
+			material = "Uranium";
+		}
+		else if (location == "Caves") {
+			material = "Copper";
+		}
+		else if (location == "Liquid Streams") {
+			material = "Hydrazine ";
+		}
+		else if (location == "Clusters of Rocks") {
+			material = "Fluorine";
+		}
+	}
+
+	void determineAmount(int prob)
+	{
+		materialProbability = prob;
+
+		int number2;
+		random_device rd2;
+		mt19937 gen2(rd2());
+		uniform_int_distribution<> distr(0, 100);
+		number2 = distr(gen2);
+
+		if (number2 <= prob) {
+			//material to collect
+		}
+		else {
+			cout << "\nUnfortunately, there doesn't seem to be any " << material << "down this path." << endl;
+			cout << "Maybe you should try another one...\n" << endl;
+		}
+	}
+
+	void collectMaterial()
+	{
+
+	}
+
+
+};
+
+class Path : public Enemy, public Hazards, public Materials
 {
 private:
 	int oxygen;
 	int matProb;
-	int hazard;
+	int hazardProb;
 	string location;
 	int oxygenLevel;
 	int smallEnemy;
@@ -365,13 +422,13 @@ private:
 	string material;
 
 public:
-	Path() : Hazards(), Enemy()
+	Path() : Hazards(), Enemy(), Materials()
 	{}
 	void setPath(int o, int m, int h, int sm, int med, int lg)
 	{
 		oxygen = o;
 		matProb = m;
-		hazard = h;
+		hazardProb = h;
 		smallEnemy = sm;
 		medEnemy = med;
 		lgEnemy = lg;
@@ -390,14 +447,15 @@ public:
 		int randNum = (rand() % 3) + 1;
 		if (randNum == 1) {
 			Hazards::setHazard(location);
-			Hazards::determineProb(matProb);		//hazards
+			Hazards::determineProb(hazardProb);		//hazards
 		}
 		else if (randNum == 2) {
+			cout << "[Enemy placeholder]" << endl;
 			Enemy::determineSpawn(smallEnemy, medEnemy, lgEnemy, location);
 		}
 		else {
 			Hazards::setHazard(location);
-			Hazards::determineProb(matProb);		//hazards
+			Hazards::determineProb(hazardProb);		//hazards
 			Enemy::determineSpawn(smallEnemy, medEnemy, lgEnemy, location);
 		}
 		
@@ -406,6 +464,11 @@ public:
 
 		//material probability
 		//material(matProb);
+
+		//material collection
+		//Materials::setMaterial(location);
+		//Materials::determineAmount(matProb);
+
 
 		return oxygenLevel;
 	}
