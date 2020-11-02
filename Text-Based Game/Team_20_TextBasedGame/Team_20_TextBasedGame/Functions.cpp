@@ -29,7 +29,7 @@ void mainMenu() {
 		singlePlayer();
 	}
 	else if (input == 2) {
-		multiPlayer();
+		multiPlayer();  
 	}
 	else if (input == 0) {
 		cout << "Exit" << endl;
@@ -192,11 +192,14 @@ void locationIntro(string location, int oxygen) {
 
 void locationSelection(int oxygen) {
 	string choice;
+	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
+ 
 	cout << "\nWhat region of Minerva do you want to explore?" << endl;
 	cout << "(1) North: Minerva Volcanoes" << endl;
 	cout << "(2) East: Caves" << endl;
 	cout << "(3) South: Liquid Streams" << endl;
-	cout << "(4) West: Clusters of Rocks" << endl << endl;
+	cout << "(4) West: Clusters of Rocks" << endl;
+	cout << "(0) Options menu" << endl << endl;
 	
 	P1_Inventory->Print();
 
@@ -227,6 +230,9 @@ void locationSelection(int oxygen) {
 
 void currentLocation(string location, int oxygen) {
 	cout << "\nLOCATION: " + location << endl;
+
+	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
+
 	//bool goToShip;
 
 	//do {
@@ -289,6 +295,8 @@ void paths(string location, int oxygen) {
 
 	do
 	{
+		cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
+
 		cout << "\nWhich path do you choose to take? Please enter a number 1-4:" << endl;
 		cin >> choice;
 
@@ -370,13 +378,15 @@ void paths(string location, int oxygen) {
 	locationDemeter(oxygen);
 }
 
-
+Inventory *Ship_Inventory = new Inventory; //The ship's inventory, so the player can input thier materials.
 void locationDemeter(int oxygen) {
 	string choice;
 	cout << "\nLOCATION: Demeter" << endl << endl;
 	cout << "What is your next move?" << endl;
 	cout << "(1) Explore Minerva" << endl;
 	cout << "(2) Repair Ship" << endl;
+	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
+
 	cin >> choice;
 
 	int input = convertToInt(choice);
@@ -404,6 +414,8 @@ void singlePlayer() {
 	gameIntro(1);
 	static int oxygen = 100;
 	bool ship = "";
+	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
+	system("pause");
 
 	Beginning_stage();
 
@@ -507,6 +519,8 @@ void inputValidation(int input, int max) {
 		input = convertToInt(menuChoice);
 	}
 }
+
+
 
 
 
