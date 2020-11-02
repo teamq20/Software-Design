@@ -1,8 +1,11 @@
 #include "Game_Classes.h"
 #include <iostream>
 #include <string>
+#include <cctype>
+#include <iomanip>
 #include <ctime>
 #include <cstdlib>
+#include <random>
 using namespace std;
 
 int main() {
