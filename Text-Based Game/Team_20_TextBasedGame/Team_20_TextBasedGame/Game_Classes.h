@@ -551,6 +551,7 @@ public:
 		oxygenLevel = ox;
 		material = mat;
 		oxygenLevel = oxygenLevel - oxygen;
+		Check_Oxygen(oxygenLevel);
 
 		cout << "\nUpon entering this path, ";
 

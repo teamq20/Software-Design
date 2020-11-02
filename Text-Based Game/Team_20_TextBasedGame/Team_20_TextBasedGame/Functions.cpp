@@ -122,6 +122,20 @@ void Beginning_stage()
 	P1_Inventory->Print();
 }
 
+void Check_Oxygen(int Oxygen) //will check the oxygen lavel of the player after every scenery change, and input they provide.
+{
+	if (Oxygen <= 20)
+	{
+		cout << "CAUTION!!! CAUTION!!! CAUTION!!!" << endl << "OXYGEN LEVEL CRITICAL !!!" << endl << endl;
+	}
+	if (Oxygen <= 0) 
+	{
+		cout << "\n\n*GAME OVER* VST-7426, your Oxygen Levels have been depleted, and you have perished on Minerva "<< endl;
+		cout << "Play again if you wish to redeem yourself..." << endl;
+		system("pause");
+		mainMenu();
+	}
+}
 
 void gameIntro(int playerMode) {
 	if (playerMode == 1) {
@@ -192,6 +206,7 @@ void locationIntro(string location, int oxygen) {
 
 void locationSelection(int oxygen) {
 	string choice;
+	Check_Oxygen(oxygen);
 	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
  
 	cout << "\nWhat region of Minerva do you want to explore?" << endl;
@@ -230,6 +245,8 @@ void locationSelection(int oxygen) {
 
 void currentLocation(string location, int oxygen) {
 	cout << "\nLOCATION: " + location << endl;
+	Check_Oxygen(oxygen);
+
 
 	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
 
@@ -295,6 +312,8 @@ void paths(string location, int oxygen) {
 
 	do
 	{
+		Check_Oxygen(oxygen);
+
 		cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
 
 		cout << "\nWhich path do you choose to take? Please enter a number 1-4:" << endl;
@@ -385,6 +404,8 @@ void locationDemeter(int oxygen) {
 	cout << "What is your next move?" << endl;
 	cout << "(1) Explore Minerva" << endl;
 	cout << "(2) Repair Ship" << endl;
+	Check_Oxygen(oxygen);
+
 	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
 
 	cin >> choice;
@@ -439,6 +460,8 @@ void options(int playerMode, int oxygen, string optionLocation) {
 	DemeterStatus status;
 	int width = 20;
 	cout << "\nOPTIONS MENU" << endl << endl;
+	Check_Oxygen(oxygen);
+
 
 	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
 	cout << left << setw(width) << "Reactor Core" << setw(width) << "Navigation System" << setw(width) << "Left Thruster" << setw(width) << "Oxidizer" << endl;
