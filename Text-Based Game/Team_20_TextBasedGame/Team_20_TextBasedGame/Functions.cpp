@@ -295,8 +295,6 @@ void paths(string location, int oxygen) {
 
 	do
 	{
-		cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
-
 		cout << "\nWhich path do you choose to take? Please enter a number 1-4:" << endl;
 		cin >> choice;
 
