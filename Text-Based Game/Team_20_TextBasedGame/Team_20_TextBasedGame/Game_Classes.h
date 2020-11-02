@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string>
 #include <random>
+#include <cstdlib>
+#include <cctype>
 
 using namespace std;
 
@@ -256,9 +258,102 @@ public:
 
 		}
 	}
+
+	//0 = small enemy
+	//1 = medium enemy
+	//2 = large enemy
+	void Combat(int enemyType) {
+		const int playerChance = 50;
+		int hitChance;
+		hitChance = rand() % 100 + 1;
+		int enemyHP;
+		Inventory inventory_weapon;
+		string weapon;
+		int knifeDamage = 3;
+		int gunDamage = 5;
+
+		//if/else checking to see the player's current weapon
+		if (inventory_weapon.Find_Item("Knife") == -1) {
+			weapon = "Gun";
+		}
+		else {
+			weapon = "Knife";
+		}
+
+		if (enemyType == 0) {
+			enemyHP = 5;
+			hitChance = rand() % 100 + 1;
+
+			while (enemyHP > 0) {
+				if (hitChance <= playerChance) {				//If hitChance is >0 && <=50, enemy misses,
+					cout << "The enemy left an opening for attack!" << endl;
+					cout << "No damage was recived" << endl;	//if hitChance is >50 inflict damage on player
+
+					if (weapon == "Knife") {
+						cout << "You attack and inflict " << knifeDamage << " damage on your enemy!" << endl;
+						enemyHP -= knifeDamage;
+					}
+					else {
+						cout << "You attack and inflict " << gunDamage << " damage on your enemy!" << endl;
+						enemyHP -= gunDamage;
+					}
+				}
+				else if (hitChance > playerChance) {
+					cout << "You recieved damage!" << endl;
+					Player::damage(2);
+				}
+			}
+
+			cout << "The enemy has been defeated!" << endl;
+		}
+		else if (enemyType == 1) {
+			enemyHP = 10;
+			hitChance = rand() % 80 + 21;					//If hitChance is >20 && <=50, enemy misses,
+			while (enemyHP > 0) {
+				if (hitChance <= playerChance) {				//if hitChance is >50 inflict damage on player
+					cout << "The enemy left an opening for attack!" << endl;
+					cout << "No damage was recived" << endl;
+
+					if (weapon == "Knife") {
+						enemyHP -= knifeDamage;
+					}
+					else {
+						enemyHP -= gunDamage;
+					}
+				}
+				else if (hitChance > playerChance) {
+					cout << "You recieved damage!" << endl;
+					Player::damage(4);
+				}
+			}
+		}
+		else if (enemyType == 2) {
+			enemyHP = 15;
+			hitChance = rand() % 70 + 31;					//If hitChance is >30 && <=50, enemy misses,
+			while (enemyHP > 0) {
+				if (hitChance <= playerChance) {				//if hitChance is >50 inflict damage on player
+					cout << "The enemy left an opening for attack!" << endl;
+					cout << "No damage was recived" << endl;
+
+					if (weapon == "Knife") {
+						enemyHP -= knifeDamage;
+					}
+					else {
+						enemyHP -= gunDamage;
+					}
+				}
+				else if (hitChance > playerChance) {
+					cout << "You recieved damage!" << endl;
+					Player::damage(6);
+				}
+			}
+		}
+	}
 	
 	void determineSpawn(int s, int m, int l, string loc)
 	{
+		Enemy enemy;
+
 		small = s;
 		medium = m;
 		large = l;
@@ -269,6 +364,22 @@ public:
 		mt19937 gen(rd());
 		uniform_int_distribution<> distr(0, 100);
 		number = distr(gen);
+
+		if (number <= large) {
+			cout << "you encounter a large enemy!" << endl;
+			Combat(2);
+		}
+		else if (number > large || number <= medium) {
+			cout << "you encounter a medium enemy!" << endl;
+			Combat(1);
+		}
+		else if (number > medium || number <= small) {
+			cout << "you encounter a small enemy!" << endl;
+			Combat(0);
+		}
+		else if(number > small) {
+			cout << "no enemies are found nearby." << endl;
+		}
 
 		//return number;
 
