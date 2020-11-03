@@ -16,13 +16,13 @@ protected:
 	string causeDeath;
 public:
 	Player() {}
-	void damage(int d)
+	void damage(int d)		//applies damage to player's health
 	{
 		damAmount = d;
 		health = health - d;
 	}
 
-	bool isAlive()
+	bool isAlive()			//checks if player is still alive
 	{
 		if (health > 0) {
 			return true;
@@ -32,7 +32,7 @@ public:
 		}
 	}
 
-	void dead(string cod)
+	void dead(string cod)		//applies if player is dead / 0 HP
 	{
 		causeDeath = cod;
 		
@@ -51,19 +51,19 @@ private:
 	string setting;
 
 public:
-	void setItem(string item) {
+	void setItem(string item) {		//sets material per location
 		neededItem = item;
 	}
 
-	void setSetting(string location) {
+	void setSetting(string location) {		//sets location name
 		setting = location;
 	}
 
-	string getItem() {
+	string getItem() {		//retuns location's material
 		return neededItem;
 	}
 
-	string getSetting() {
+	string getSetting() {		//gets name of location
 		return setting;
 	}
 };
@@ -76,7 +76,7 @@ private:
 	string oxidizer;
 
 public:
-	DemeterStatus() {
+	DemeterStatus() {		//initially sets all ship parts as damaged 
 		reactorCore = "Damaged";
 		navSystem = "Damaged";
 		leftThruster = "Damaged";
@@ -97,6 +97,22 @@ public:
 
 	string getOxidizer() {
 		return oxidizer;
+	}
+
+	void setReactorCore() {
+		reactorCore = "Repaired";
+	}
+
+	void setNavSystem() {
+		navSystem = "Repaired";
+	}
+
+	void setLeftThruster() {
+		leftThruster = "Repaired";
+	}
+
+	void setOxidizer() {
+		oxidizer = "Repaired";
 	}
 };
 
@@ -122,7 +138,7 @@ public:
 		head = nullptr;
 	}
 
-	void Add_to_Inventory(string Tool)
+	void Add_to_Inventory(string Tool)		//add item to inventory
 	{
 		Items *X = new Items(Tool);
 
@@ -140,7 +156,7 @@ public:
 		Selected_Item->next = X;
 	}
 
-	int Find_Item(string Item)
+	int Find_Item(string Item)		//finds item in inventory and returns location of it
 	{
 		Items *Selected_Item = head;
 		int location_of_item = -1;
@@ -160,7 +176,7 @@ public:
 		return location_of_item;
 	}
 
-	void Destroy_Item_position(int position)
+	void Destroy_Item_position(int position)		//removes item from inventory
 	{
 		Items * Selected_Item = head;
 
@@ -171,7 +187,7 @@ public:
 		delete Destroy;
 	}
 
-	void Item_Destroyed(string Tool)
+	void Item_Destroyed(string Tool)		
 	{
 		Items *Selected_Item = head;
 		while (Selected_Item != nullptr)
@@ -191,7 +207,7 @@ public:
 		delete Selected_Item;
 	}
 
-	void Print()
+	void Print()			//prints current inventory
 	{
 		Items* Selected_Item = head;
 		cout << "\t[Current Inventory]" << endl;
@@ -267,7 +283,7 @@ public:
 	void Combat(int enemyType) {
 		const int playerChance = 50;
 		int hitChance;
-		hitChance = rand() % 100 + 1;
+		hitChance = rand() % 100 + 1;		//hit chance between 1-100
 		int enemyHP;
 		Inventory inventory_weapon;
 		string weapon;
@@ -426,19 +442,19 @@ public:
 		uniform_int_distribution<> distr(0, 100);
 		number = distr(gen);
 
-		if (number <= large) {
-			cout << "you encounter a large enemy!" << endl;
-			Combat(2);
-		}
-		else if (number > large && number <= medium) {
-			cout << "you encounter a medium enemy!" << endl;
-			Combat(1);
-		}
-		else if (number > medium && number <= small) {
+		if (number <= small) {
 			cout << "you encounter a small enemy!" << endl;
 			Combat(0);
 		}
-		else if(number > small) {
+		else if (number > small && number <= medium) {
+			cout << "you encounter a medium enemy!" << endl;
+			Combat(1);
+		}
+		else if (number > medium && number <= large) {
+			cout << "you encounter a large enemy!" << endl;
+			Combat(2);
+		}
+		else {
 			cout << "no enemies are found nearby." << endl;
 		}
 	}
@@ -596,7 +612,7 @@ public:
 		cout << "\nUpon entering this path, ";
 
 		//determine hazard or enemy (or both)
-		int randNum = (rand() % 3) + 1;
+		int randNum = (rand() % 3) + 1;			//chooses random number 1-3
 		if (randNum == 1) {
 			Hazards::setHazard(location);
 			Hazards::determineProb(hazardProb);		//hazards
@@ -645,5 +661,4 @@ void currentLocation(string, int);
 void locationDemeter(int);
 void locationIntro(string, int);
 void paths(string, int);
-
 int convertToInt(string);
