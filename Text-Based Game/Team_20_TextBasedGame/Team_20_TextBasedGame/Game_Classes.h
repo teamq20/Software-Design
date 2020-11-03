@@ -16,13 +16,13 @@ protected:
 	string causeDeath;
 public:
 	Player() {}
-	void damage(int d)
+	void damage(int d)		//applies damage to player's health
 	{
 		damAmount = d;
 		health = health - d;
 	}
 
-	bool isAlive()
+	bool isAlive()			//checks if player is still alive
 	{
 		if (health > 0) {
 			return true;
@@ -32,14 +32,15 @@ public:
 		}
 	}
 
-	void dead(string cod)
+	void dead(string cod)		//applies if player is dead / 0 HP
 	{
 		causeDeath = cod;
 		
 		if (isAlive() == false) {
 			cout << "\n\n*GAME OVER* VST-7426, you have been terminated by " << causeDeath << "." << endl;
 			cout << "Play again if you wish to redeem yourself..." << endl;
-			//mainMenu();
+			system("pause");
+			_Exit(10);
 		}
 	}
 };
@@ -50,19 +51,19 @@ private:
 	string setting;
 
 public:
-	void setItem(string item) {
+	void setItem(string item) {		//sets material per location
 		neededItem = item;
 	}
 
-	void setSetting(string location) {
+	void setSetting(string location) {		//sets location name
 		setting = location;
 	}
 
-	string getItem() {
+	string getItem() {		//retuns location's material
 		return neededItem;
 	}
 
-	string getSetting() {
+	string getSetting() {		//gets name of location
 		return setting;
 	}
 };
@@ -75,7 +76,7 @@ private:
 	string oxidizer;
 
 public:
-	DemeterStatus() {
+	DemeterStatus() {		//initially sets all ship parts as damaged 
 		reactorCore = "Damaged";
 		navSystem = "Damaged";
 		leftThruster = "Damaged";
@@ -96,6 +97,22 @@ public:
 
 	string getOxidizer() {
 		return oxidizer;
+	}
+
+	void setReactorCore() {
+		reactorCore = "Repaired";
+	}
+
+	void setNavSystem() {
+		navSystem = "Repaired";
+	}
+
+	void setLeftThruster() {
+		leftThruster = "Repaired";
+	}
+
+	void setOxidizer() {
+		oxidizer = "Repaired";
 	}
 };
 
@@ -121,7 +138,7 @@ public:
 		head = nullptr;
 	}
 
-	void Add_to_Inventory(string Tool)
+	void Add_to_Inventory(string Tool)		//add item to inventory
 	{
 		Items *X = new Items(Tool);
 
@@ -139,7 +156,7 @@ public:
 		Selected_Item->next = X;
 	}
 
-	int Find_Item(string Item)
+	int Find_Item(string Item)		//finds item in inventory and returns location of it
 	{
 		Items *Selected_Item = head;
 		int location_of_item = -1;
@@ -159,7 +176,7 @@ public:
 		return location_of_item;
 	}
 
-	void Destroy_Item_position(int position)
+	void Destroy_Item_position(int position)		//removes item from inventory
 	{
 		Items * Selected_Item = head;
 
@@ -170,7 +187,7 @@ public:
 		delete Destroy;
 	}
 
-	void Item_Destroyed(string Tool)
+	void Item_Destroyed(string Tool)		
 	{
 		Items *Selected_Item = head;
 		while (Selected_Item != nullptr)
@@ -190,7 +207,7 @@ public:
 		delete Selected_Item;
 	}
 
-	void Print()
+	void Print()			//prints current inventory
 	{
 		Items* Selected_Item = head;
 		cout << "\t[Current Inventory]" << endl;
@@ -204,7 +221,7 @@ public:
 	}
 };
 
-class Enemy
+class Enemy : public Player
 {
 private:
 	string Name;
@@ -219,7 +236,8 @@ private:
 	string location;
 
 public:
-	Enemy() {}
+	Enemy() : Player()
+	{}
 	Enemy(string N, int H, int D, int S, int C)
 	{
 		Name = N;
@@ -265,7 +283,7 @@ public:
 	void Combat(int enemyType) {
 		const int playerChance = 50;
 		int hitChance;
-		hitChance = rand() % 100 + 1;
+		hitChance = rand() % 100 + 1;		//hit chance between 1-100
 		int enemyHP;
 		Inventory inventory_weapon;
 		string weapon;
@@ -282,71 +300,130 @@ public:
 
 		if (enemyType == 0) {
 			enemyHP = 5;
-			hitChance = rand() % 100 + 1;
+
+			cout << "\nEnemy HP: " << enemyHP << endl << endl;
 
 			while (enemyHP > 0) {
+				hitChance = rand() % 100 + 1;
 				if (hitChance <= playerChance) {				//If hitChance is >0 && <=50, enemy misses,
 					cout << "The enemy left an opening for attack!" << endl;
-					cout << "No damage was recived" << endl;	//if hitChance is >50 inflict damage on player
+					cout << "No damage was received" << endl;	//if hitChance is >50 inflict damage on player
 
 					if (weapon == "Knife") {
 						cout << "You attack and inflict " << knifeDamage << " damage on your enemy!" << endl;
 						enemyHP -= knifeDamage;
+						cout << "\nEnemy HP: " << enemyHP << endl << endl;
+						system("pause");
 					}
 					else {
 						cout << "You attack and inflict " << gunDamage << " damage on your enemy!" << endl;
 						enemyHP -= gunDamage;
+						cout << "\nEnemy HP: " << enemyHP << endl << endl;
+						system("pause");
 					}
 				}
 				else if (hitChance > playerChance) {
 					cout << "You recieved damage!" << endl;
 					Player::damage(2);
+					system("pause");
+					if (Player::isAlive() == true)
+					{
+						continue;
+					}
+					else
+					{
+						Player::dead("a small enemy");
+						break;
+					}
 				}
 			}
 
-			cout << "The enemy has been defeated!" << endl;
+			cout << "\nThe enemy has been defeated!" << endl;
+			cout << "\n[HEALTH: " << Player::health << "]" << endl;
 		}
 		else if (enemyType == 1) {
 			enemyHP = 10;
-			hitChance = rand() % 80 + 21;					//If hitChance is >20 && <=50, enemy misses,
+			
+			cout << "\nEnemy HP: " << enemyHP << endl << endl;
+
 			while (enemyHP > 0) {
+				hitChance = rand() % 80 + 21;		//If hitChance is >20 && <=50, enemy misses,
 				if (hitChance <= playerChance) {				//if hitChance is >50 inflict damage on player
 					cout << "The enemy left an opening for attack!" << endl;
-					cout << "No damage was recived" << endl;
+					cout << "No damage was received" << endl;
 
 					if (weapon == "Knife") {
+						cout << "You attack and inflict " << knifeDamage << " damage on your enemy!" << endl;
 						enemyHP -= knifeDamage;
+						cout << "\nEnemy HP: " << enemyHP << endl << endl;
+						system("pause");
 					}
 					else {
+						cout << "You attack and inflict " << gunDamage << " damage on your enemy!" << endl;
 						enemyHP -= gunDamage;
+						cout << "\nEnemy HP: " << enemyHP << endl << endl;
+						system("pause");
 					}
 				}
 				else if (hitChance > playerChance) {
 					cout << "You recieved damage!" << endl;
 					Player::damage(4);
+					system("pause");
+					if (Player::isAlive() == true)
+					{
+						continue;
+					}
+					else
+					{
+						Player::dead("a medium enemy");
+						break;
+					}
 				}
 			}
+			cout << "\nThe enemy has been defeated!" << endl;
+			cout << "\n[HEALTH: " << Player::health << "]" << endl;
 		}
 		else if (enemyType == 2) {
 			enemyHP = 15;
-			hitChance = rand() % 70 + 31;					//If hitChance is >30 && <=50, enemy misses,
+			
+			cout << "\nEnemy HP: " << enemyHP << endl << endl;
+			
 			while (enemyHP > 0) {
+				hitChance = rand() % 70 + 31;		//If hitChance is >30 && <=50, enemy misses,
 				if (hitChance <= playerChance) {				//if hitChance is >50 inflict damage on player
 					cout << "The enemy left an opening for attack!" << endl;
 					cout << "No damage was recived" << endl;
 
 					if (weapon == "Knife") {
+						cout << "You attack and inflict " << knifeDamage << " damage on your enemy!" << endl;
 						enemyHP -= knifeDamage;
+						cout << "\nEnemy HP: " << enemyHP << endl << endl;
+						system("pause");
 					}
 					else {
+						cout << "You attack and inflict " << gunDamage << " damage on your enemy!" << endl;;
 						enemyHP -= gunDamage;
+						cout << "\nEnemy HP: " << enemyHP << endl << endl;
+						system("pause");
 					}
 				}
 				else if (hitChance > playerChance) {
 					cout << "You recieved damage!" << endl;
 					Player::damage(6);
+					system("pause");
+					if (Player::isAlive() == true)
+					{
+						continue;
+					}
+					else
+					{
+						Player::dead("a large enemy");
+						break;
+					}
 				}
 			}
+			cout << "\nThe enemy has been defeated!" << endl;
+			cout << "\n[HEALTH: " << Player::health << "]" << endl;
 		}
 	}
 	
@@ -365,41 +442,21 @@ public:
 		uniform_int_distribution<> distr(0, 100);
 		number = distr(gen);
 
-		if (number <= large) {
-			cout << "you encounter a large enemy!" << endl;
-			Combat(2);
-		}
-		else if (number > large || number <= medium) {
-			cout << "you encounter a medium enemy!" << endl;
-			Combat(1);
-		}
-		else if (number > medium || number <= small) {
+		if (number <= small) {
 			cout << "you encounter a small enemy!" << endl;
 			Combat(0);
 		}
-		else if(number > small) {
+		else if (number > small && number <= medium) {
+			cout << "you encounter a medium enemy!" << endl;
+			Combat(1);
+		}
+		else if (number > medium && number <= large) {
+			cout << "you encounter a large enemy!" << endl;
+			Combat(2);
+		}
+		else {
 			cout << "no enemies are found nearby." << endl;
 		}
-
-		//return number;
-
-		//if (number <= small) {
-			//small enemy
-		//}
-		//else if (number > small && <= medium) {
-			//medium enemy
-		//}
-		//else if (number > medium && <= large) {
-			//large enemy
-		//}
-		//else {
-			//no enemy
-			//cout << "\nThe path is empty!" << endl;
-		//}
-
-
-
-
 	}
 };
 
@@ -555,18 +612,18 @@ public:
 		cout << "\nUpon entering this path, ";
 
 		//determine hazard or enemy (or both)
-		int randNum = (rand() % 3) + 1;
+		int randNum = (rand() % 3) + 1;			//chooses random number 1-3
 		if (randNum == 1) {
 			Hazards::setHazard(location);
 			Hazards::determineProb(hazardProb);		//hazards
 		}
 		else if (randNum == 2) {
-			cout << "[Enemy placeholder]" << endl;
 			Enemy::determineSpawn(smallEnemy, medEnemy, lgEnemy, location);
 		}
 		else {
 			Hazards::setHazard(location);
 			Hazards::determineProb(hazardProb);		//hazards
+			cout << "Continuing down the path, ";
 			Enemy::determineSpawn(smallEnemy, medEnemy, lgEnemy, location);
 		}
 		
@@ -604,5 +661,4 @@ void currentLocation(string, int);
 void locationDemeter(int);
 void locationIntro(string, int);
 void paths(string, int);
-
 int convertToInt(string);
