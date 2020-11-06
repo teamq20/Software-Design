@@ -303,6 +303,7 @@ public:
 			enemyHP = 5;
 
 			cout << "\nEnemy HP: " << enemyHP << endl << endl;
+			system("pause");
 
 			while (enemyHP > 0) {
 				hitChance = rand() % 100 + 1;	//If hitChance is >1 && <=50, enemy misses; hitChance is >50 inflict damage on player
@@ -347,6 +348,7 @@ public:
 			enemyHP = 10;
 			
 			cout << "\nEnemy HP: " << enemyHP << endl << endl;
+			system("pause");
 
 			while (enemyHP > 0) {
 				hitChance = rand() % 90 + 10;	//If hitChance is >10 && <=50, enemy misses; hitChance is >50 inflict damage on player
@@ -390,6 +392,7 @@ public:
 			enemyHP = 15;
 			
 			cout << "\nEnemy HP: " << enemyHP << endl << endl;
+			system("pause");
 			
 			while (enemyHP > 0) {
 				hitChance = rand() % 80 + 20;	//If hitChance is >20 && <=50, enemy misses; hitChance is >50 inflict damage on player
@@ -466,10 +469,9 @@ public:
 class Hazards : public Player
 {
 private:
-	int prob;
-	int health;
-	string location;
-	string hazard;
+	int prob;			//probability of hazard
+	string location;	//name of current location
+	string hazard;		//name of specific hazard
 
 public:
 	Hazards() : Player()
@@ -494,7 +496,7 @@ public:
 
 	void determineProb(int p)
 	{
-		prob = p;
+		prob = p;		//probability number of hazard
 
 		int number1;
 		random_device rd1;
@@ -516,6 +518,7 @@ public:
 		cout << "you get hurt by " << hazard << "!" << endl;
 
 		Player::damage(3);
+		cout << "\n[HEALTH: " << Player::health << "]" << endl;
 
 		if (Player::isAlive() == true) {
 			cout << "\nThe damage wasn't too bad, so you continue on exploring." << endl;
@@ -529,10 +532,10 @@ public:
 class Materials
 {
 private:
-	string material;
-	int materialProbability;
-	string location;
-	int oxygen;
+	string material;			//name of material
+	int materialProbability;	//probability of material
+	string location;			//name of current location
+	int oxygen;					//player's current oxygen level
 
 public:
 	void setMaterial(string loc)
@@ -705,7 +708,6 @@ void inputValidation(int, int);
 void options(int, int, string);
 void gameRules();
 void locationSelection(int);
-void currentLocation(string, int);
 void locationDemeter(int);
 void locationIntro(string, int);
 void paths(string, int);

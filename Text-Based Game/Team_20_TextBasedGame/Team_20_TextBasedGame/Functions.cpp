@@ -233,55 +233,6 @@ void locationSelection(int oxygen) {
 	}
 }
 
-void currentLocation(string location, int oxygen) {
-	/* */
-	
-	//cout << "\nLOCATION: " + location << endl;
-
-	//cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
-
-	//bool goToShip;
-
-	//do {
-		//Exploration/Combat code goes here
-	paths(location, oxygen);
-
-		/*string choice;
-		cout << "\nWhat is your next move?" << endl;
-		cout << "(1) Keep exploring " + location << endl;
-		cout << "(2) Go To Ship" << endl;
-		cout << "('I') to reveal your inventory" << endl;
-		cin >> choice;
-
-		if (choice == "I" || choice == "i")
-		{
-			P1_Inventory->Print();
-			currentLocation(location, oxygen);
-		}
-
-		int input = convertToInt(choice);
-		inputValidation(input, 2);
-
-		if (input == 0) {
-			options(1, oxygen, location);
-			//goToShip = false;
-		}
-		else if (input == 1) {
-				//oxygen--;
-			paths(location, oxygen);
-				//goToShip = false;
-		}
-		else if (input == 2) {
-			oxygen--;
-			locationDemeter(oxygen);
-			//goToShip = true;
-		}*/
-	//} while (goToShip == false);
-
-	//locationDemeter(oxygen);
-}
-
-
 void paths(string location, int oxygen) {
 	/* send user down path of choice based on current location */
 	
