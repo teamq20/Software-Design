@@ -11,15 +11,21 @@ using namespace std;
 class Player
 {
 protected:
-	int health = 30;
+	int health;
+	int refillTimes;	//holds the maount of times left that the player has to refill
 	int damAmount;
 	string causeDeath;
 public:
-	Player() {}
+
+	Player() {
+		health = 30;
+		refillTimes = 2;
+	}
+
 	void damage(int d)
 	{
 		damAmount = d;
-		health = health - d;
+		health -= damAmount;
 	}
 
 	bool isAlive()
@@ -42,6 +48,25 @@ public:
 			system("pause");
 			_Exit(10);
 		}
+	}
+
+	void refillHealth() {
+		if (refillTimes == 2) {
+			health = 30;
+
+			cout << endl << "Health has been fully refilled to 30!" << endl << endl;
+			refillTimes--;	//make refillTimes 1
+		}
+		else if (refillTimes == 1 && health < 24) {
+			health = 24;
+
+			cout << endl << "Health has been refilled 80%!" << endl << endl;
+			refillTimes--;	//make refillTimes 0
+		}
+	}
+
+	int getHealth() {
+		return health;
 	}
 };
 
@@ -288,6 +313,8 @@ public:
 			cout << "\nEnemy HP: " << enemyHP << endl << endl;
 
 			while (enemyHP > 0) {
+				cout << "[HEALTH: " << Player::getHealth() << "]" << endl << endl;
+
 				hitChance = rand() % 100 + 1;
 				if (hitChance <= playerChance) {				//If hitChance is >0 && <=50, enemy misses,
 					cout << "The enemy left an opening for attack!" << endl;
@@ -331,6 +358,8 @@ public:
 			cout << "\nEnemy HP: " << enemyHP << endl << endl;
 
 			while (enemyHP > 0) {
+				cout << "[HEALTH: " << Player::getHealth() << "]" << endl << endl;
+
 				hitChance = rand() % 80 + 21;		//If hitChance is >20 && <=50, enemy misses,
 				if (hitChance <= playerChance) {				//if hitChance is >50 inflict damage on player
 					cout << "The enemy left an opening for attack!" << endl;
@@ -373,6 +402,8 @@ public:
 			cout << "\nEnemy HP: " << enemyHP << endl << endl;
 			
 			while (enemyHP > 0) {
+				cout << "[HEALTH: " << Player::getHealth() << "]" << endl << endl;
+
 				hitChance = rand() % 70 + 31;		//If hitChance is >30 && <=50, enemy misses,
 				if (hitChance <= playerChance) {				//if hitChance is >50 inflict damage on player
 					cout << "The enemy left an opening for attack!" << endl;
