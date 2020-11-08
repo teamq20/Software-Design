@@ -24,7 +24,7 @@ void mainMenu() {
 
 	cin >> menuChoice;
 
-	int input = convertToInt(menuChoice);
+	int input = convertToInt(menuChoice);		//input validation
 	inputValidation(input, 2);
 
 	if (input == 1) {
@@ -190,7 +190,7 @@ void locationIntro(string location, int oxygen) {
 			"\nGlobular creatures float towards the tops of the spires, while smaller creatures scuttle on the ground." <<
 			"\nYour systems detect many minerals embedded in this rock forest, including Fluorine." << endl << endl;
 	}
-	currentLocation(location, oxygen);
+	paths(location, oxygen);
 }
 
 void locationSelection(int oxygen) {
@@ -233,55 +233,6 @@ void locationSelection(int oxygen) {
 	}
 }
 
-void currentLocation(string location, int oxygen) {
-	/* */
-	
-	cout << "\nLOCATION: " + location << endl;
-
-	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
-
-	//bool goToShip;
-
-	//do {
-		//Exploration/Combat code goes here
-	paths(location, oxygen);
-
-		/*string choice;
-		cout << "\nWhat is your next move?" << endl;
-		cout << "(1) Keep exploring " + location << endl;
-		cout << "(2) Go To Ship" << endl;
-		cout << "('I') to reveal your inventory" << endl;
-		cin >> choice;
-
-		if (choice == "I" || choice == "i")
-		{
-			P1_Inventory->Print();
-			currentLocation(location, oxygen);
-		}
-
-		int input = convertToInt(choice);
-		inputValidation(input, 2);
-
-		if (input == 0) {
-			options(1, oxygen, location);
-			//goToShip = false;
-		}
-		else if (input == 1) {
-				//oxygen--;
-			paths(location, oxygen);
-				//goToShip = false;
-		}
-		else if (input == 2) {
-			oxygen--;
-			locationDemeter(oxygen);
-			//goToShip = true;
-		}*/
-	//} while (goToShip == false);
-
-	//locationDemeter(oxygen);
-}
-
-
 void paths(string location, int oxygen) {
 	/* send user down path of choice based on current location */
 	
@@ -315,58 +266,58 @@ void paths(string location, int oxygen) {
 		}
 		else if (input == 1) {				//path 1 that differs per location
 			if (location == "Minerva Volcanoes") {
-				pathC.goPath(location, oxygen, material1);
+				oxygen = pathC.goPath(location, oxygen, material1);
 			}
 			else if (location == "Caves") {
-				pathB.goPath(location, oxygen, material2);
+				oxygen = pathB.goPath(location, oxygen, material2);
 			}
 			else if (location == "Liquid Streams") {
-				pathD.goPath(location, oxygen, material3);
+				oxygen = pathD.goPath(location, oxygen, material3);
 			}
 			else if (location == "Clusters of Rocks") {
-				pathA.goPath(location, oxygen, material4);
+				oxygen = pathA.goPath(location, oxygen, material4);
 			}
 		}
 		else if (input == 2) {				//path 2 that differs per location
 			if (location == "Minerva Volcanoes") {
-				pathB.goPath(location, oxygen, material1);
+				oxygen = pathB.goPath(location, oxygen, material1);
 			}
 			else if (location == "Caves") {
-				pathC.goPath(location, oxygen, material2);
+				oxygen = pathC.goPath(location, oxygen, material2);
 			}
 			else if (location == "Liquid Streams") {
-				pathB.goPath(location, oxygen, material3);
+				oxygen = pathB.goPath(location, oxygen, material3);
 			}
 			else if (location == "Clusters of Rocks") {
-				pathC.goPath(location, oxygen, material4);
+				oxygen = pathC.goPath(location, oxygen, material4);
 			}
 		}
 		else if (input == 3) {				//path 3 that differs per location
 			if (location == "Minerva Volcanoes") {
-				pathA.goPath(location, oxygen, material1);
+				oxygen = pathA.goPath(location, oxygen, material1);
 			}
 			else if (location == "Caves") {
-				pathD.goPath(location, oxygen, material2);
+				oxygen = pathD.goPath(location, oxygen, material2);
 			}
 			else if (location == "Liquid Streams") {
-				pathC.goPath(location, oxygen, material3);
+				oxygen = pathC.goPath(location, oxygen, material3);
 			}
 			else if (location == "Clusters of Rocks") {
-				pathB.goPath(location, oxygen, material4);
+				oxygen = pathB.goPath(location, oxygen, material4);
 			}
 		}
 		else if (input == 4) {				//path 4 that differs per location
 			if (location == "Minerva Volcanoes") {
-				pathD.goPath(location, oxygen, material1);
+				oxygen = pathD.goPath(location, oxygen, material1);
 			}
 			else if (location == "Caves") {
-				pathA.goPath(location, oxygen, material2);
+				oxygen = pathA.goPath(location, oxygen, material2);
 			}
 			else if (location == "Liquid Streams") {
-				pathA.goPath(location, oxygen, material3);
+				oxygen = pathA.goPath(location, oxygen, material3);
 			}
 			else if (location == "Clusters of Rocks") {
-				pathD.goPath(location, oxygen, material4);
+				oxygen = pathD.goPath(location, oxygen, material4);
 			}
 		}
 		cout << "\nDo you wish to:" << endl;
@@ -487,7 +438,7 @@ void options(int playerMode, int oxygen, string optionLocation) {
 			locationSelection(oxygen);
 		}
 		else {
-			currentLocation(optionLocation, oxygen);
+			paths(optionLocation, oxygen);
 		}
 	}
 	else if (input == 0) {		//quit
