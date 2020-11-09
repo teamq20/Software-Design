@@ -213,7 +213,7 @@ private :
 	bool Florine = false;
 
 public:
-	void Set_The_Ship(bool Volcano_item, bool Stream_item, bool Cave_item, bool Rock_Cluster_item)
+	Ship_inventory(bool Volcano_item, bool Stream_item, bool Cave_item, bool Rock_Cluster_item):Inventory()
 	{
 		Uranium = Volcano_item;
 		Hydrizine = Stream_item;
@@ -232,7 +232,7 @@ public:
 		}
 
 	}
-	  void Deposit_material() 
+	  virtual void Deposit_material() 
 	{  
 		  cout << "The Ship is scanning you inventory for materials. " << endl << endl;
 		  cout << "SCANNING....." << endl << endl;

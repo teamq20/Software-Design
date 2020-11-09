@@ -397,7 +397,7 @@ void paths(string location, int oxygen) {
 	locationDemeter(oxygen);
 }
 
-Inventory *Ship_Inventory = new Inventory; //The ship's inventory, so the player can input thier materials.
+Ship_inventory *The_Ship = new Ship_inventory(false,false,false,false); //The ship's inventory, so the player can input thier materials.
 void locationDemeter(int oxygen) {
 	string choice;
 	cout << "\nLOCATION: Demeter" << endl << endl;
@@ -421,6 +421,8 @@ void locationDemeter(int oxygen) {
 	}
 	else if (input == 2) {
 		oxygen--;
+		The_Ship->Deposit_material(); //This is where the ship will search the player's inventory (hopefully) for the materials needed, when found they will be deleted and the material will come out as true.
+		The_Ship->Win_condition(); //If all four materials are set to true the player wins and is sent to the main menu.
 		locationDemeter(oxygen);	//keep this for now so game doesn't break until this is created
 		//this is where the personal inventory can empty the material into the ship's inventory
 
