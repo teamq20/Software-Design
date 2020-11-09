@@ -204,6 +204,65 @@ public:
 	}
 };
 
+class Ship_inventory : public Inventory
+{
+private :
+	bool Uranium = false;
+	bool Hydrizine = false;
+	bool Copper = false;
+	bool Florine = false;
+
+public:
+	void Set_The_Ship(bool Volcano_item, bool Stream_item, bool Cave_item, bool Rock_Cluster_item)
+	{
+		Uranium = Volcano_item;
+		Hydrizine = Stream_item;
+		Copper = Cave_item;
+		Florine = Rock_Cluster_item;
+	}
+	bool Find_Material(string material)
+	{
+		int found_material = 0;
+		found_material = Find_Item(material);
+		if (found_material != -1)
+		{
+			cout << "The " + material + " you Collected is now inside the ship" << endl << endl;
+			Destroy_Item_position(found_material);
+			return true;
+		}
+
+	}
+	  void Deposit_material() 
+	{  
+		  cout << "The Ship is scanning you inventory for materials. " << endl << endl;
+		  cout << "SCANNING....." << endl << endl;
+		  if (Uranium != true)
+		  {
+			  Uranium = Find_Material("Uranium");
+		  }
+		  if (Florine != true)
+		  {
+			  Florine = Find_Material("Florine");
+		  }
+		  if (Copper != true)
+		  {
+			  Copper = Find_Material("Copper");
+		  }
+		  if (Hydrizine != true)
+		  {
+			  Hydrizine = Find_Material("Hydrizine");
+		  }
+	}
+	  void Win_condition()
+	  {
+		  if (Uranium == true && Florine == true && Copper == true && Hydrizine == true)
+		  {
+			  cout << "You hop aboard the ship and you escape from the planet!!" << endl << endl << endl;
+			  mainMenu();
+		  }
+	  }
+};
+
 class Enemy
 {
 private:
