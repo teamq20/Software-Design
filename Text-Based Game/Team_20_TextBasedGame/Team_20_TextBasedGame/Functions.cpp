@@ -5,11 +5,59 @@
 #include <iomanip>
 #include <cstdlib>
 #include <cctype>
+#include <Windows.h>
 using namespace std;
 
-string version = "1.1.0";
+string version = "1.2.0";
 
-void mainMenu() {
+Inventory* P1_Inventory;				//Player 1 personal inventory
+Player* P1;								//Player 1 object
+//Player *P2;							//Player 2 object
+Ship_inventory* The_Ship;				//The ship's inventory, so the player can input their materials.
+Minerva north, south, east, west;		//Minerva locations
+DemeterStatus* shipStatus;				//Status of parts of ship (damaged/repaired)
+bool continueGame;						//Changes to true as a way to resume game
+static int oxygen;						//Oxygen level variable
+
+void setGame() {
+	/* Set all values to start of gameplay */
+	
+	//set Minerva locations & materials
+	north.setSetting("Minerva Volcanoes");
+	north.setItem("Uranium");
+	south.setSetting("Liquid Streams");
+	south.setItem("Hydrazine");
+	east.setSetting("Caves");
+	east.setItem("Copper");
+	west.setSetting("Clusters of Rocks");
+	west.setItem("Fluorine");
+
+	//set oxygen level
+	oxygen = 100;
+
+	//set Player 1 personal inventory to empty
+	P1_Inventory = new Inventory;
+
+	//set Player 1 new object
+	P1 = new Player;
+	P1->setPlayer();
+
+	/*set Player 2 new object
+	P2 = new Player;
+	P2->setPlayer();	*/
+
+	//set Ship Inventory to empty/false
+	The_Ship = new Ship_inventory(false, false, false, false);
+
+	//set Ship status all to damaged
+	shipStatus = new DemeterStatus;
+	shipStatus->setDemeterStatus();
+
+	//set game continuer to false
+	bool continueGame = false;
+}
+
+void mainMenu(int oxygen) {
 	/* start of game */
 	
 	string menuChoice;
@@ -18,41 +66,52 @@ void mainMenu() {
 	cout << "\t\t\t\t\t     ESCAPE FROM MINERVA" << endl;
 	cout << "\t\t\t\t\t        version " + version << endl;
 	cout << "\t\t\t\t\t-----------------------------\n" << endl;
-	cout << "\t\t\t\t\t      (1) Single Player" << endl;
-	cout << "\t\t\t\t\t      (2) Multiplayer" << endl;
+	cout << "\t\t\t\t\t      (1) Start New Game" << endl;					//Changed from "Single Player"
+	//cout << "\t\t\t\t\t      (2) Multiplayer" << endl;
+	if(continueGame == true) {
+		cout << "\t\t\t\t\t      (2) Continue Game" << endl;
+	}
 	cout << "\t\t\t\t\t      (0) Quit" << endl;
 
 	cin >> menuChoice;
+	cin.ignore();
 
 	int input = convertToInt(menuChoice);		//input validation
-	inputValidation(input, 2);
+	if (continueGame == true) {
+		inputValidation(input, 2);
+	}
+	else {
+		inputValidation(input, 1);
+	}
 
 	if (input == 1) {
+		setGame();			//set the starting values of game
 		singlePlayer();		//go to single player version
 	}
-	else if (input == 2) {
-		multiPlayer();		//go to multiplayer version
+	else if (input == 2 && continueGame == true) {
+		locationDemeter(oxygen);
 	}
+	/*else if (input == 2) {
+		multiPlayer();		//go to multiplayer version
+	}*/
 	else if (input == 0) {
 		cout << "Exit" << endl;		//end game
+		system("pause");
 		_Exit(10);
 	}
 }
 
-//creating the inventory objects
-Inventory *P1_Inventory = new Inventory;
-Player *P1 = new Player;
-//Player *P2 = new Player;
-
 void Beginning_stage()
 {
 	/* tool selection */
+
 	string Starting_Items[8] = { "Pickaxe","Drill","Bucket","Flask","Knife","Gun","Flashlight","Lantern" };
 
 	int player_choice = 0;
 	cout << "\nWhen selecting the tools needed, the dispensery can only operate to an extent that it can only dispense one item of each category." << endl
-		<< "\nFor exploration, the categories are:\n" << "-Excavation\n" << "-Liquid containment\n" << "-Weaponry\n" << "-Illumination\n" << endl
-		<< "\nIn the field of Excavation, would you prefer:\n" << "(1) Pickaxe\n" << "or\n" << "(2) Drill" << endl << endl;
+		<< "\nFor exploration, the categories are:\n" << "-Excavation\n" << "-Liquid containment\n" << "-Weaponry\n" << "-Illumination\n" << endl;
+	Sleep(1500);
+	cout << "\nIn the field of Excavation, would you prefer:\n" << "(1) Pickaxe\n" << "or\n" << "(2) Drill" << endl << endl;
 
 	cout << "Please select your tool: ";
 
@@ -61,16 +120,17 @@ void Beginning_stage()
 
 	if (player_choice == 1)		//select pickaxe
 	{
-		cout << "\nUpon your selection, the dispensery produced a standard issue, P1K-4X Pickaxe. It has a wooden handle attached to a two-headed, steel pick. It looks pretty sharp." << endl << endl;
+		cout << "\n>> Upon your selection, the dispensery produced a standard issue, P1K-4X Pickaxe. It has a wooden handle attached to a two-headed, steel pick. It looks pretty sharp." << endl << endl;
 		P1_Inventory->Add_to_Inventory("Pickaxe");
 	}
 	else if (player_choice == 2)		//select drill
 	{
-		cout << "\nUpon making your selection, the dispensery produced a standard issue, DR111 handheld Drilling device. When inspected, the grip is rubberized and ergonomic." << endl
+		cout << "\n>> Upon making your selection, the dispensery produced a standard issue, DR111 handheld Drilling device. When inspected, the grip is rubberized and ergonomic." << endl
 			<< "The pointed end is sharpened to a point, and when activated, the sounding of the drill bounces around the entire room." << endl << endl;
 		P1_Inventory->Add_to_Inventory("Drill");
 	}
 
+	Sleep(1500);
 	cout << "\nIn the field of Liquid containment, would you prefer: \n" << "(1) Bucket\n" << "or\n" << "(2) Flask" << endl << endl;
 	cout << "Please select your tool: ";
 	cin >> player_choice;
@@ -78,15 +138,16 @@ void Beginning_stage()
 
 	if (player_choice == 1)		//select bucket
 	{
-		cout << "\nUpon your selection, the dispensery produced a standard issue, BUK37T Exploration Bucket. Upon inspection, it looks like a regular metal bucket." << endl << endl;
+		cout << "\n>> Upon your selection, the dispensery produced a standard issue, BUK37T Exploration Bucket. Upon inspection, it looks like a regular metal bucket." << endl << endl;
 		P1_Inventory->Add_to_Inventory("Bucket");
 	}
 	else if (player_choice == 2)		//select flask
 	{
-		cout << "\nUpon making your selection, the dispensery produced a standard issue, F14SK Exploration Flask. When inspected, it seems to be a small, round container. There is a lining found inside of the flask." << endl << endl;
+		cout << "\n>> Upon making your selection, the dispensery produced a standard issue, F14SK Exploration Flask. When inspected, it seems to be a small, round container. There is a lining found inside of the flask." << endl << endl;
 		P1_Inventory->Add_to_Inventory("Flask");
 	}
 
+	Sleep(1500);
 	cout << "\nIn the field of Weaponry, would you prefer: \n" << "(1) Knife (Deals 3 damage)\n" << "or \n" << "(2) Gun (Deals 5 damage)\n" << endl;
 	cout << "Please select your weapon: ";
 	cin >> player_choice;
@@ -94,15 +155,16 @@ void Beginning_stage()
 
 	if (player_choice == 1)		//select knife
 	{
-		cout << "\nUpon making your selection, the dispensery produced for you an explorer's Combat Knife. The knife is extremely sharp, with a easy to grip handle. " << endl << endl;
+		cout << "\n>> Upon making your selection, the dispensery produced for you an explorer's Combat Knife. The knife is extremely sharp, with a easy to grip handle. " << endl << endl;
 		P1_Inventory->Add_to_Inventory("Knife");
 	}
 	else if (player_choice == 2)		//select gun
 	{
-		cout << "\nUpon making your selection, the dispensery produced for you an explorer's Balistic Handgun. It is a fairly old fashioned firearm; you can assume that it packs a punch." << endl << endl;
+		cout << "\n>> Upon making your selection, the dispensery produced for you an explorer's Balistic Handgun. It is a fairly old fashioned firearm; you can assume that it packs a punch." << endl << endl;
 		P1_Inventory->Add_to_Inventory("Gun");
 	}
-
+	
+	Sleep(1500);
 	cout << "\nFinally, in the field of Illumination, would you prefer: \n" << "(1) Flashlight\n" << "or\n" << "(2) Lantern\n" << endl;
 	cout << "Please select your tool: ";
 	cin >> player_choice;
@@ -110,15 +172,16 @@ void Beginning_stage()
 
 	if (player_choice == 1)		//select flashlight
 	{
-		cout << "\nWhen selecting your tool, the dispensery produced for you a standard issue explorer's Light Stick. The light is exceptionally bright for a standard issue, but it doesn't really illuminate much." << endl << endl;
+		cout << "\n>> When selecting your tool, the dispensery produced for you a standard issue explorer's Light Stick. The light is exceptionally bright for a standard issue, but it doesn't really illuminate much." << endl << endl;
 		P1_Inventory->Add_to_Inventory("Flashlight");
 	}
 	else if (player_choice == 2)		//select lantern
 	{
-		cout << "\nAfter your selection, the dispensery produced for you an explorer's Lantern. Upon activation, the flame in the lantern coats the room in a warm, yet dull light." << endl << endl;
+		cout << "\n>> When selecting your tool, the dispensery produced for you an explorer's Lantern. Upon activation, the flame in the lantern coats the room in a warm, yet dull light." << endl << endl;
 		P1_Inventory->Add_to_Inventory("Lantern");
 	}
 
+	Sleep(1500);
 	cout << "\nAfter your selection of an Illumination tool, the dispensery shuts down. It doesn't seem to be able to be reactivated." << endl << endl;
 	P1_Inventory->Print();			//print current inventory
 }
@@ -134,6 +197,7 @@ void Check_Oxygen(int Oxygen) 	//checks the oxygen level of the player after eve
 		cout << "\n\n*GAME OVER* VST-7426, your Oxygen Levels have been depleted, and you have perished on Minerva "<< endl;
 		cout << "Play again if you wish to redeem yourself..." << endl;
 		system("pause");
+		continueGame = false;
 		mainMenu();
 	}
 }
@@ -142,19 +206,28 @@ void gameIntro(int playerMode) {
 	/* display intros for single player or multiplayer mode */
 	
 	if (playerMode == 1) {		//single player intro
-		cout << "Greetings VST - 7426. You are one of two brave astronauts, the core members of Operation" <<
-			"\nVesta, that have voyaged to examine the distant planet of Minerva, which shows great promise" <<
-			"\nas a potential new home for the inhabitants of Earth.Unfortunately, due to a miscalculation in" <<
-			"\nthe navigation system of the Demeter(your ship), you have crash landed in an inhospitable" <<
-			"\nregion of Minerva, roughly 400 kilometers south of your initial destination.After running a" <<
-			"\nsystems check, you have found that there are four crucial systems on the Demeter that have" <<
-			"\nbeen damaged by the crash.Your crewmate, VST - 7427, has also suffered fatal injuries, leaving" <<
-			"\nyou completely alone.Given the current circumstances of your predicament, you have" <<
-			"\napproximately 3 days to fix these systems before running out of oxygen.Luckily, however, this" <<
-			"\nregion of Minerva contains valuable minerals that may aid your fixing of these parts. Choose" <<
-			"\nyour path wisely, VST - 7426, and good luck" << endl << endl;
+		cout << "Greetings VST - 7426. ";
+		//Sleep(1000);
+		cout << "You are one of two brave astronauts, the core members of Operation\nVesta, that have voyaged to examine the distant planet of Minerva,";
+		//Sleep(1500);
+		cout << " which shows great promise\nas a potential new home for the inhabitants of Earth. ";
+		//Sleep(1500);
+		cout << "Unfortunately, due to a miscalculation in\nthe navigation system of the Demeter (your ship),";
+		//Sleep(1500);
+		cout << " you have crash landed in an inhospitable\nregion of Minerva, roughly 400 kilometers south of your initial destination.";
+		//Sleep(1500);
+		cout << " After running a\nsystems check, you have found that there are four crucial systems on the Demeter that have\nbeen damaged by the crash.";
+		//Sleep(1500);
+		cout << " Your crewmate, VST - 7427, has also suffered fatal injuries, leaving\nyou completely alone.";
+		//Sleep(1500);
+		cout << " Given the current circumstances of your predicament, you have\napproximately 3 days to fix these systems before running out of oxygen.";
+		//Sleep(1500);
+		cout << " Luckily, however, this\nregion of Minerva contains valuable minerals that may aid your fixing of these parts.";
+		//Sleep(1500);
+		cout << "\nChoose your path wisely, VST - 7426, and good luck." << endl << endl;
+		system("pause");
 	}
-	else {			//multiplayer intro
+	/*else {			//multiplayer intro
 		cout << "Greetings VST-7426 and VST-7427. You are the two core members of Operation Vesta that" <<
 			"\nhave voyaged to examine the distant planet of Minerva, which shows great promise as a" <<
 			"\npotential new home for the inhabitants of Earth.Unfortunately, due to a miscalculation in the" <<
@@ -165,11 +238,13 @@ void gameIntro(int playerMode) {
 			"\napproximately 3 days to fix these systems before running out of oxygen.Luckily, however, this" <<
 			"\nregion of Minerva contains valuable minerals that may aid your fixing of these parts. Choose" <<
 			"\nyour path wisely, and good luck." << endl << endl;
-	}
+	}*/
 
-	cout << "While looking through the wreckage of the Demeter, you found out that the exploration dispensery was damaged, but still operational." <<
-		"\n\nFour systems need repair:" <<
+	cout << "\nWhile looking through the wreckage of the Demeter, you found out that the exploration dispensery was damaged, but still operational.";
+	Sleep(1000);
+	cout << "\n\nFour systems need repairing:" <<
 		"\n-Reactor Core\n-Navigation System\n-Left Thruster\n-Oxidizer";
+	Sleep(1500);
 
 	gameRules();
 }
@@ -212,7 +287,7 @@ void locationSelection(int oxygen) {
 	/* user selects which of 4 locations to travel to */
 	
 	string choice;
-	cout << "[HEALTH: " << P1->getHealth() << "]" << endl;
+	cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;		//display health
 	Check_Oxygen(oxygen);
 	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;		//display oxygen level
  
@@ -230,7 +305,7 @@ void locationSelection(int oxygen) {
 	inputValidation(input, 4);
 
 	if (input == 0) {		//options menu
-		options(1, oxygen, "Select");		//current player mode is 1 here until we figure out multiplayer
+		options(1, oxygen, "Select");		//current player mode is 1 here for single player
 	}
 	else if (input == 1) {		//volcanoes choice
 		oxygen = oxygen - 4;
@@ -260,22 +335,34 @@ void paths(string location, int oxygen) {
 	pathC.setPath(2, 50, 10, 25, 40, 50);		//50% chance enemy - 25% small, 15% medium, 10% large
 	pathD.setPath(2, 100, 15, 35, 50, 60);		//60% chance enemy - 35% small, 15% medium, 10% large
 
-	string material1 = "Uranium", material2 = "Copper", material3 = "Hydrazine", material4 = "Fluorine";		//set materials
+	//set material probability per path
+	int matProbA = 0, matProbB = 30, matProbC = 50, matProbD = 100;
+
 	string choice;
 	int newInput = 1;
 
-	cout << "\nLOCATION: " + location << endl;
-	cout << "[HEALTH: " << P1->getHealth() << "]" << endl;
-	Check_Oxygen(oxygen);
-	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
+	//set materials based on location
+	string material;
+	if (location == "Minerva Volcanoes") {
+		material = "Uranium";
+	}
+	else if (location == "Caves") {
+		material = "Copper";
+	}
+	else if (location == "Liquid Streams") {
+		material = "Hydrazine";
+	}
+	else if (location == "Clusters of Rocks") {
+		material = "Fluorine";
+	}
 
-	cout << "\nYou are able to go down one of four paths.";
+	cout << "\nYou are able to go down one of four paths." << endl;
 
 	do
 	{
-		cout << "[HEALTH: " << P1->getHealth() << "]" << endl;
+		cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;			//display health
 		Check_Oxygen(oxygen);
-		cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
+		cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;			//display oxygen level
 
 		cout << "\nWhich path do you choose to take? Please enter a number 1-4:" << endl;
 		cin >> choice;
@@ -289,63 +376,88 @@ void paths(string location, int oxygen) {
 		}
 		else if (input == 1) {				//path 1 that differs per location
 			if (location == "Minerva Volcanoes") {
-				oxygen = pathC.goPath(location, oxygen, material1);
+				oxygen = pathC.goPath(location, oxygen, material);
+				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 			}
 			else if (location == "Caves") {
-				oxygen = pathB.goPath(location, oxygen, material2);
+				oxygen = pathB.goPath(location, oxygen, material);
+				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 			}
 			else if (location == "Liquid Streams") {
-				oxygen = pathD.goPath(location, oxygen, material3);
+				oxygen = pathD.goPath(location, oxygen, material);
+				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 			}
 			else if (location == "Clusters of Rocks") {
-				oxygen = pathA.goPath(location, oxygen, material4);
+				oxygen = pathA.goPath(location, oxygen, material);
+				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 			}
 		}
 		else if (input == 2) {				//path 2 that differs per location
 			if (location == "Minerva Volcanoes") {
-				oxygen = pathB.goPath(location, oxygen, material1);
+				oxygen = pathB.goPath(location, oxygen, material);
+				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 			}
 			else if (location == "Caves") {
-				oxygen = pathC.goPath(location, oxygen, material2);
+				oxygen = pathC.goPath(location, oxygen, material);
+				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 			}
 			else if (location == "Liquid Streams") {
-				oxygen = pathB.goPath(location, oxygen, material3);
+				oxygen = pathB.goPath(location, oxygen, material);
+				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 			}
 			else if (location == "Clusters of Rocks") {
-				oxygen = pathC.goPath(location, oxygen, material4);
+				oxygen = pathC.goPath(location, oxygen, material);
+				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 			}
 		}
 		else if (input == 3) {				//path 3 that differs per location
 			if (location == "Minerva Volcanoes") {
-				oxygen = pathA.goPath(location, oxygen, material1);
+				oxygen = pathA.goPath(location, oxygen, material);
+				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 			}
 			else if (location == "Caves") {
-				oxygen = pathD.goPath(location, oxygen, material2);
+				oxygen = pathD.goPath(location, oxygen, material);
+				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 			}
 			else if (location == "Liquid Streams") {
-				oxygen = pathC.goPath(location, oxygen, material3);
+				oxygen = pathC.goPath(location, oxygen, material);
+				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 			}
 			else if (location == "Clusters of Rocks") {
-				oxygen = pathB.goPath(location, oxygen, material4);
+				oxygen = pathB.goPath(location, oxygen, material);
+				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 			}
 		}
 		else if (input == 4) {				//path 4 that differs per location
 			if (location == "Minerva Volcanoes") {
-				oxygen = pathD.goPath(location, oxygen, material1);
+				oxygen = pathD.goPath(location, oxygen, material);
+				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 			}
 			else if (location == "Caves") {
-				oxygen = pathA.goPath(location, oxygen, material2);
+				oxygen = pathA.goPath(location, oxygen, material);
+				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 			}
 			else if (location == "Liquid Streams") {
-				oxygen = pathA.goPath(location, oxygen, material3);
+				oxygen = pathA.goPath(location, oxygen, material);
+				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 			}
 			else if (location == "Clusters of Rocks") {
-				oxygen = pathD.goPath(location, oxygen, material4);
+				oxygen = pathD.goPath(location, oxygen, material);
+				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 			}
 		}
+		
+		int found_material = 0;
+		found_material = P1_Inventory->Find_Item(material);
+		if (found_material != -1) {			//check if material was collected
+			cout << "\nNow that you have successfully collected the " << material << ", it's time to go back to Demeter!\n" << endl;
+			break;
+		} 
+
 		cout << "\nDo you wish to:" << endl;
 		cout << "(1) Continue exploring other paths in this location" << endl;
 		cout << "(2) Leave the " << location << " and go back to the ship" << endl;
+		P1_Inventory->Print();		//print player inventory
 		cin >> choice;
 
 		newInput = convertToInt(choice);		//input validation
@@ -359,10 +471,52 @@ void paths(string location, int oxygen) {
 	locationDemeter(oxygen);		//return to Demeter
 }
 
-Ship_inventory *The_Ship = new Ship_inventory(false,false,false,false); //The ship's inventory, so the player can input thier materials.
+int materialCollecting(Path& pathObject, string location, int oxygen, int matProb, string material)
+{
+	/* Determines probability of materials, and collects if applicable */
+	
+	pathObject.setMaterial(location);		//sets material per location
+	bool matCollect = false;				//true to collect material, false if not
+	matCollect = pathObject.determineAmount(matProb, oxygen);		//determines if collect materials or not
+
+	if (matCollect == true) {			//add material to inventory if determined true
+		oxygen = pathObject.collectMaterial();
+		P1_Inventory->Add_to_Inventory(material);
+	}
+
+	return oxygen;
+}
+
 void locationDemeter(int oxygen) {
   /* ship location - home base/place to deposit materials */
-	P1->refillHealth();
+
+	string refillHealthChoice;
+
+	cout << "[HEALTH: " << P1->getHealth() << "]" << endl;				//display health
+	Check_Oxygen(oxygen);
+	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;			//display oxygen level
+
+	if (P1->getHealth() < 30) {
+		cout << "\nThe Demeter only has enough health kits to entirely refill your health once, and then partially the second time.\n"
+			<< "Do you wish to refill your health?\n"
+			<< "(1) Yes \t" << "(2) No" << endl;
+		cin >> refillHealthChoice;
+
+		int refillInput = convertToInt(refillHealthChoice);		//input validation
+		inputValidation(refillInput, 2);
+
+		if (refillInput == 0) {		//options
+			options(1, oxygen, "Demeter");
+		}
+		if (refillInput == 1) {			//refill health
+			P1->refillHealth();
+			cout << "[HEALTH: " << P1->getHealth() << "]" << endl;
+		}
+		else if (refillInput == 2) {		//don't refill health
+			cout << "\nYou choose not to make use of the health kits just yet.\n"
+				<< "[HEALTH: " << P1->getHealth() << "]" << endl;
+		}
+	}
 
 	string choice;
 	//Demeter menu
@@ -370,10 +524,6 @@ void locationDemeter(int oxygen) {
 	cout << "What is your next move?" << endl;
 	cout << "(1) Explore Minerva" << endl;
 	cout << "(2) Repair Ship" << endl;
-
-	cout << "[HEALTH: " << player.getHealth() << "]" << endl;
-	Check_Oxygen(oxygen);
-	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
 
 	cin >> choice;
 
@@ -388,25 +538,21 @@ void locationDemeter(int oxygen) {
 	}
 	else if (input == 2) {		//repair ship
 		oxygen--;
-		The_Ship->Deposit_material(); //This is where the ship will search the player's inventory (hopefully) for the materials needed, when found they will be deleted and the material will come out as true.
+		The_Ship->Deposit_material(); //This is where the ship will search the player's inventory for the materials needed, when found they will be deleted and the material will come out as true.
 		The_Ship->Win_condition(); //If all four materials are set to true the player wins and is sent to the main menu.
-		locationDemeter(oxygen);	//keep this for now so game doesn't break until this is created
-		//this is where the personal inventory can empty the material into the ship's inventory
-
+		locationDemeter(oxygen);	//brings the player back to the main menu of Demeter
 	}
 }
 
 void singlePlayer() {
 	cout << "\n-----------------------------" << endl;
-	cout << "    SINGLE PLAYER MODE" << endl;
+	cout << "       SINGLE PLAYER" << endl;
 	cout << "-----------------------------\n" << endl;
 
 	gameIntro(1);
-	static int oxygen = 100;;		  //set oxygen level
-	bool ship = ""; 		      	//set ship inventory to empty
 	
-  cout << "[HEALTH: " << P1->getHealth() << "]" << endl;
-	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
+	cout << "[HEALTH: " << P1->getHealth() << "]" << endl;			//display health
+	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;		//display oxygen
 	system("pause");
 
 	Beginning_stage();
@@ -414,6 +560,7 @@ void singlePlayer() {
 	locationDemeter(oxygen);
 }
 
+/*		//Multiplayer option to be included later
 void multiPlayer() {
 	cout << "\n-----------------------------" << endl;
 	cout << "      MULTIPLAYER MODE" << endl;
@@ -425,25 +572,29 @@ void multiPlayer() {
 
 	Beginning_stage();
 }
+*/
 
 void options(int playerMode, int oxygen, string optionLocation) {
 	/* options menu that is prompted by entering '0' */
 	
 	string menuChoice;
-	DemeterStatus status;
 	int width = 20;
-	cout << "\nOPTIONS MENU" << endl << endl;
+	cout << "\n- - - - - - - - -" << endl;
+	cout << "  OPTIONS MENU" << endl;
+	cout << "- - - - - - - - -\n" << endl;
 
-	
-	cout << "[HEALTH: " << P1->getHealth() << "]" << endl;
+	cout << "[HEALTH: " << P1->getHealth() << "]" << endl;				//display health
 	Check_Oxygen(oxygen);
-	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
+	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;			//display oxygen
+	P1_Inventory->Print();		//print player inventory
 
 	//show Demeter repair status
-	cout << left << setw(width) << "Reactor Core" << setw(width) << "Navigation System" << setw(width) << "Left Thruster" << setw(width) << "Oxidizer" << endl;
-	cout << left << setw(width) << status.getReactorCore() << setw(width) << status.getNavSystem() << setw(width) << status.getLeftThruster() << setw(width) << status.getOxidizer() << endl;
+	cout << left << setw(width) << "Reactor Core" << setw(width) << "Navigation System" << setw(width) 
+		<< "Left Thruster" << setw(width) << "Oxidizer" << endl;
+	cout << left << setw(width) << shipStatus->getReactorCore() << setw(width) << shipStatus->getNavSystem() 
+		<< setw(width) << shipStatus->getLeftThruster() << setw(width) << shipStatus->getOxidizer() << endl;
 
-	cout << endl << "(1) Go to main menu" << endl;
+	cout << "\n(1) Go to main menu" << endl;
 	cout << "(2) Reset Game" << endl;
 	cout << "(3) Close Options Menu" << endl;
 	cout << "(0) Quit" << endl;
@@ -453,15 +604,19 @@ void options(int playerMode, int oxygen, string optionLocation) {
 	inputValidation(input, 3);
 
 	if (input == 1) {		//main menu
-		mainMenu();
+		continueGame = true;
+		cout << "\n\n\n\n\n";
+		mainMenu(oxygen);
 	}
 	else if (input == 2) {		//reset based on game mode
 		if (playerMode == 1) {
+			setGame();
 			singlePlayer();
 		}
-		else if (playerMode == 2) {
+		/*else if (playerMode == 2) {
+			setGame();
 			multiPlayer();
-		}
+		}*/
 	}
 	else if (input == 3) {
 		if (optionLocation == "Demeter") {		//return to Demeter location if there
@@ -482,9 +637,10 @@ void options(int playerMode, int oxygen, string optionLocation) {
 void gameRules() {
 	/* overall rules that display at start of game */
 
-	cout << "\n\nObjective: Repair the ship so you can get off the planet. You will be given two or more options at each stage.\nYour choices impact your survival." << endl;
-	cout << "Collect 4 specific items to repair your ship" << endl;
-	cout << "Input '0' at any time to open the options menu. Here you will be able to see your inventory, repair status, and oxygen level." << endl;
+	cout << "\n\nObjective: Repair the ship so you can get off the planet. You will be given two or more options at each stage.\n"
+		<< "Your choices impact your survival." << endl;
+	cout << "Collect 4 specific items to repair your ship." << endl;
+	cout << "Input '0' at any time to open the options menu. Here you will be able to see your inventory, repair status, and oxygen level.\n" << endl;
 }
 
 int convertToInt(string input) {

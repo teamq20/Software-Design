@@ -16,7 +16,10 @@ protected:
 	int damAmount;
 	string causeDeath;
 public:
-	Player() {
+	Player()
+	{}
+	
+	void setPlayer() {
 		health = 30;
 		refillTimes = 2;
 	}
@@ -45,26 +48,36 @@ public:
 			cout << "\n\n*GAME OVER* VST-7426, you have been terminated by " << causeDeath << "." << endl;
 			cout << "Play again if you wish to redeem yourself..." << endl;
 			system("pause");
+			//mainMenu();
 			_Exit(10);
 		}
 	}
 
-	void refillHealth() {
-		if (refillTimes == 2) {
+	void refillHealth() {		//refills player health
+		if (refillTimes == 2) {			//first refill to max of 30
 			health = 30;
 
-			cout << endl << "Health has been fully refilled to 30!" << endl << endl;
+			cout << "\nYou use the first health kit to heal yourself entirely." << endl;
+			cout << "Health has been fully refilled to 30!" << endl << endl;
 			refillTimes--;	//make refillTimes 1
 		}
-		else if (refillTimes == 1 && health < 24) {
+		else if (refillTimes == 1 && health < 24) {			//second refill to 80% max of 24
 			health = 24;
 
-			cout << endl << "Health has been refilled 80%!" << endl << endl;
+			cout << "\nYou're able to utilize the last remaining health kit to partially heal yourself." << endl;
+			cout << "Health has been refilled 80%!" << endl << endl;
 			refillTimes--;	//make refillTimes 0
+		}
+		else if (refillTimes == 1 && health >= 24) {		//last refill kit, but health is at new max of 24
+			cout << "\nYou cannot make use of the second health kit yet, as your health is already at maximum." << endl;
+		}
+		else if (refillTimes == 0) {		//can't refill anymore
+			cout << "\nYou have already used both health kits found on the Demeter.\n"
+				<< "Your health cannot be restored any more." << endl;
 		}
 	}
 
-	int getHealth() {
+	int getHealth() {		//returns current health amount
 		return health;
 	}
 };
@@ -100,7 +113,10 @@ private:
 	string oxidizer;
 
 public:
-	DemeterStatus() {		//initially sets all ship parts as damaged 
+	DemeterStatus()
+	{}
+
+	void setDemeterStatus() {		//initially sets all ship parts as damaged 
 		reactorCore = "Damaged";
 		navSystem = "Damaged";
 		leftThruster = "Damaged";
@@ -123,20 +139,19 @@ public:
 		return oxidizer;
 	}
 
-	void setReactorCore() {
-		reactorCore = "Repaired";
-	}
-
-	void setNavSystem() {
-		navSystem = "Repaired";
-	}
-
-	void setLeftThruster() {
-		leftThruster = "Repaired";
-	}
-
-	void setOxidizer() {
-		oxidizer = "Repaired";
+	void setStatus(string material) {
+		if (material == "Uranium") {
+			reactorCore = "Repaired";
+		}
+		else if (material == "Copper") {
+			navSystem = "Repaired";
+		}
+		else if (material == "Hydrazine") {
+			leftThruster = "Repaired";
+		}
+		else if (material == "Fluorine") {
+			oxidizer = "Repaired";
+		}
 	}
 };
 
@@ -197,6 +212,7 @@ public:
 				location_of_item++;
 			}
 		}
+		//location_of_item = -1;
 		return location_of_item;
 	}
 
@@ -245,61 +261,73 @@ public:
 	}
 };
 
-class Ship_inventory : public Inventory
+class Ship_inventory : public Inventory, DemeterStatus
 {
 private :
 	bool Uranium = false;
-	bool Hydrizine = false;
+	bool Hydrazine = false;
 	bool Copper = false;
-	bool Florine = false;
+	bool Fluorine = false;
 
 public:
-	Ship_inventory(bool Volcano_item, bool Stream_item, bool Cave_item, bool Rock_Cluster_item):Inventory()
+	Ship_inventory(bool Volcano_item, bool Stream_item, bool Cave_item, bool Rock_Cluster_item):Inventory(), DemeterStatus()
 	{
 		Uranium = Volcano_item;
-		Hydrizine = Stream_item;
+		Hydrazine = Stream_item;
 		Copper = Cave_item;
-		Florine = Rock_Cluster_item;
+		Fluorine = Rock_Cluster_item;
 	}
-	bool Find_Material(string material)
+	
+	bool Find_Material(string material)			//finds material in player inventory
 	{
 		int found_material = 0;
 		found_material = Find_Item(material);
 		if (found_material != -1)
 		{
-			cout << "The " + material + " you Collected is now inside the ship" << endl << endl;
+			cout << "The ship has found " << material << "in your inventory.\n"
+				<< "It will now use it to repair the Demeter.\n" << endl;
 			Destroy_Item_position(found_material);
+			DemeterStatus::setStatus(material);
 			return true;
 		}
-
+		else {
+			cout << material << ": not found" << endl;
+			return false;
+		}
 	}
-	  virtual void Deposit_material() 
+	
+	virtual void Deposit_material() 
 	{  
-		  cout << "The Ship is scanning you inventory for materials. " << endl << endl;
+		  cout << "\nThe Ship is scanning your inventory for materials. " << endl;
 		  cout << "SCANNING....." << endl << endl;
+		  system("pause");
 		  if (Uranium != true)
 		  {
 			  Uranium = Find_Material("Uranium");
 		  }
-		  if (Florine != true)
+		  if (Fluorine != true)
 		  {
-			  Florine = Find_Material("Florine");
+			  Fluorine = Find_Material("Fluorine");
 		  }
 		  if (Copper != true)
 		  {
 			  Copper = Find_Material("Copper");
 		  }
-		  if (Hydrizine != true)
+		  if (Hydrazine != true)
 		  {
-			  Hydrizine = Find_Material("Hydrizine");
+			  Hydrazine = Find_Material("Hydrazine");
 		  }
 	}
-	  void Win_condition()
+	  
+	void Win_condition()
 	  {
-		  if (Uranium == true && Florine == true && Copper == true && Hydrizine == true)
+		  if (Uranium == true && Fluorine == true && Copper == true && Hydrazine == true)
 		  {
-			  cout << "You hop aboard the ship and you escape from the planet!!" << endl << endl << endl;
-			  mainMenu();
+			  cout << "*VICTORY* Congratulations VST-7426, you have successfully acquired and integrated all necessary materials\n"
+				  << "to fix the Demeter. All systems are now nominal. Commencing departure from the surface of Minerva." << endl << endl;
+			  system("pause");
+			  //mainMenu();
+			  _Exit(10);
 		  }
 	  }
 };
@@ -317,10 +345,15 @@ private:
 	int medium;
 	int large;
 	string location;
+	int oxygenLevel;
+	int smallOx = 1;		//oxygen decrease for small enemy encounter
+	int medOx = 2;			//oxygen decrease for medium enemy encounter
+	int lgOx = 3;			//oxygen decrease for large enemy encounter
 
 public:
 	Enemy() : Player()
 	{}
+
 	Enemy(string N, int H, int D, int S, int C)
 	{
 		Name = N;
@@ -363,7 +396,7 @@ public:
 	//0 = small enemy
 	//1 = medium enemy
 	//2 = large enemy
-	void Combat(int enemyType) {
+	int Combat(int enemyType) {
 		const int playerChance = 50;
 		int hitChance;
 		hitChance = rand() % 100 + 1;		//hit chance between 1-100
@@ -384,6 +417,7 @@ public:
 		//small enemy combat
 		if (enemyType == 0) {
 			enemyHP = 5;
+			oxygenLevel = oxygenLevel - smallOx;		//decrease oxygen level
 
 			cout << "\nEnemy HP: " << enemyHP << endl << endl;
 			system("pause");
@@ -426,11 +460,12 @@ public:
 			}
 
 			cout << "\nThe enemy has been defeated!" << endl;
-			cout << "\n[HEALTH: " << Player::health << "]" << endl;
+			cout << "\n[HEALTH: " << Player::getHealth() << "]" << endl;
 		}
 		//medium enemy combat
 		else if (enemyType == 1) {
 			enemyHP = 10;
+			oxygenLevel = oxygenLevel - medOx;		//decrease oxygen level
 			
 			cout << "\nEnemy HP: " << enemyHP << endl << endl;
 			system("pause");
@@ -472,11 +507,12 @@ public:
 				}
 			}
 			cout << "\nThe enemy has been defeated!" << endl;
-			cout << "\n[HEALTH: " << Player::health << "]" << endl;
+			cout << "\n[HEALTH: " << Player::getHealth() << "]" << endl;
 		}
 		//large enemy combat
 		else if (enemyType == 2) {
 			enemyHP = 15;
+			oxygenLevel = oxygenLevel - lgOx;		//decrease oxygen level
 			
 			cout << "\nEnemy HP: " << enemyHP << endl << endl;
 			system("pause");
@@ -518,11 +554,12 @@ public:
 				}
 			}
 			cout << "\nThe enemy has been defeated!" << endl;
-			cout << "\n[HEALTH: " << Player::health << "]" << endl;
+			cout << "\n[HEALTH: " << Player::getHealth() << "]" << endl;
 		}
+		return oxygenLevel;
 	}
 	
-	void determineSpawn(int s, int m, int l, string loc)
+	int determineSpawn(int s, int m, int l, string loc, int oxygen)
 	{
 		Enemy enemy;
 
@@ -530,6 +567,7 @@ public:
 		medium = m;
 		large = l;
 		location = loc;
+		oxygenLevel = oxygen;
 		
 		int number;
 		random_device rd;
@@ -551,7 +589,10 @@ public:
 		}
 		else {
 			cout << "no enemies are found nearby." << endl;
+			system("pause");
 		}
+
+		return oxygenLevel;
 	}
 };
 
@@ -599,6 +640,7 @@ public:
 		else {
 			cout << "you notice there doesn't seem to be any hazards down this way." << endl;
 			cout << "You continue on exploring this path." << endl;
+			system("pause");
 		}
 	}
 
@@ -611,6 +653,7 @@ public:
 
 		if (Player::isAlive() == true) {
 			cout << "\nThe damage wasn't too bad, so you continue on exploring." << endl;
+			system("pause");
 		}
 		else {
 			Player::dead(hazard);
@@ -618,7 +661,7 @@ public:
 	}
 };
 
-class Materials
+class Materials : public Inventory
 {
 private:
 	string material;			//name of material
@@ -627,6 +670,9 @@ private:
 	int oxygen;					//player's current oxygen level
 
 public:
+	Materials() : Inventory()
+	{}
+
 	void setMaterial(string loc)
 	{
 		location = loc;
@@ -645,7 +691,7 @@ public:
 		}
 	}
 
-	int determineAmount(int prob, int oxygenLevel)
+	bool determineAmount(int prob, int oxygenLevel)
 	{
 		materialProbability = prob;
 		oxygen = oxygenLevel;
@@ -657,14 +703,13 @@ public:
 		number2 = distr(gen2);
 
 		if (number2 <= materialProbability) {		//collect material
-			oxygen = collectMaterial();
+			return true;
 		}
 		else {										//no material
 			cout << "\nUnfortunately, there doesn't seem to be any " << material << " down this path." << endl;
 			cout << "Maybe you should try another one...\n" << endl;
+			return false;
 		}
-
-		return oxygen;
 	}
 
 	int collectMaterial()
@@ -672,8 +717,8 @@ public:
 		//set tools to their oxygen amount
 		Inventory inventoryTool, inventoryStreamsTool;
 		string tool, streamsTool;
-		int toolAmnt = 0;
-		int streamsToolAmnt = 0;
+		int toolAmnt;
+		int streamsToolAmnt;
 
 		//check to see the player's current tool
 		if (inventoryTool.Find_Item("Drill") == -1) {
@@ -711,9 +756,7 @@ public:
 			oxygen = oxygen - toolAmnt;
 		}
 
-		//print message of successful collection
-		cout << "\nNow that you have successfully collected the " << material << ", it's time to go back to Demeter!" << endl;
-
+		system("pause");
 		return oxygen;
 	}
 };
@@ -760,23 +803,14 @@ public:
 			Hazards::determineProb(hazardProb);		//hazards
 		}
 		else if (randNum == 2) {
-			Enemy::determineSpawn(smallEnemy, medEnemy, lgEnemy, location);
+			oxygenLevel = Enemy::determineSpawn(smallEnemy, medEnemy, lgEnemy, location, oxygenLevel);
 		}
 		else {
 			Hazards::setHazard(location);
 			Hazards::determineProb(hazardProb);		//hazards
 			cout << "Continuing down the path, ";
-			Enemy::determineSpawn(smallEnemy, medEnemy, lgEnemy, location);
+			oxygenLevel = Enemy::determineSpawn(smallEnemy, medEnemy, lgEnemy, location, oxygenLevel);
 		}
-		
-		// if player survived (put this in enemy with bool isAlive from Player)
-		//cout << "\nThat was a close one! You continue down the path in hopes of finding the " << material << "." << endl;
-
-		//material collection
-		Materials::setMaterial(location);
-		oxygenLevel = Materials::determineAmount(matProb, oxygenLevel);
-
-
 
 		return oxygenLevel;
 	}
@@ -787,12 +821,11 @@ public:
 
 
 
-
-void mainMenu();
+void setGame();
+void mainMenu(int oxygen = 100);
 void singlePlayer();
-void multiPlayer();
-void singlePlayer();
-void multiPlayer();
+//void multiPlayer();
+int materialCollecting(Path&, string, int, int, string);
 void inputValidation(int, int);
 void options(int, int, string);
 void gameRules();
