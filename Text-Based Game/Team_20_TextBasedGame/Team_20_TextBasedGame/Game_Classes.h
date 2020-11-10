@@ -11,15 +11,20 @@ using namespace std;
 class Player
 {
 protected:
-	int health = 30;
+	int health;
+	int refillTimes;	//holds the amount of times left that the player has to refill
 	int damAmount;
 	string causeDeath;
 public:
-	Player() {}
-	void damage(int d)
+	Player() {
+		health = 30;
+		refillTimes = 2;
+	}
+
+	void damage(int d)		//applies damage to player's health
 	{
 		damAmount = d;
-		health = health - d;
+		health -= damAmount;
 	}
 
 	bool isAlive()
@@ -41,6 +46,25 @@ public:
 			cout << "Play again if you wish to redeem yourself..." << endl;
 			//mainMenu();
 		}
+	}
+
+	void refillHealth() {
+		if (refillTimes == 2) {
+			health = 30;
+
+			cout << endl << "Health has been fully refilled to 30!" << endl << endl;
+			refillTimes--;	//make refillTimes 1
+		}
+		else if (refillTimes == 1 && health < 24) {
+			health = 24;
+
+			cout << endl << "Health has been refilled 80%!" << endl << endl;
+			refillTimes--;	//make refillTimes 0
+		}
+	}
+
+	int getHealth() {
+		return health;
 	}
 };
 
@@ -344,7 +368,10 @@ public:
 			hitChance = rand() % 100 + 1;
 
 			while (enemyHP > 0) {
-				if (hitChance <= playerChance) {				//If hitChance is >0 && <=50, enemy misses,
+				cout << "[HEALTH: " << Player::getHealth() << "]" << endl << endl;
+
+				hitChance = rand() % 100 + 1;   //If hitChance is >1 && <=50, enemy misses; hitChance is >50 inflict damage on player
+				if (hitChance <= playerChance) {
 					cout << "The enemy left an opening for attack!" << endl;
 					cout << "No damage was recived" << endl;	//if hitChance is >50 inflict damage on player
 
@@ -369,7 +396,10 @@ public:
 			enemyHP = 10;
 			hitChance = rand() % 80 + 21;					//If hitChance is >20 && <=50, enemy misses,
 			while (enemyHP > 0) {
-				if (hitChance <= playerChance) {				//if hitChance is >50 inflict damage on player
+				cout << "[HEALTH: " << Player::getHealth() << "]" << endl << endl;
+
+				hitChance = rand() % 90 + 10;	//If hitChance is >10 && <=50, enemy misses; hitChance is >50 inflict damage on player
+				if (hitChance <= playerChance) {
 					cout << "The enemy left an opening for attack!" << endl;
 					cout << "No damage was recived" << endl;
 
@@ -390,7 +420,10 @@ public:
 			enemyHP = 15;
 			hitChance = rand() % 70 + 31;					//If hitChance is >30 && <=50, enemy misses,
 			while (enemyHP > 0) {
-				if (hitChance <= playerChance) {				//if hitChance is >50 inflict damage on player
+				cout << "[HEALTH: " << Player::getHealth() << "]" << endl << endl;
+
+				hitChance = rand() % 80 + 20;	//If hitChance is >20 && <=50, enemy misses; hitChance is >50 inflict damage on player
+				if (hitChance <= playerChance) {
 					cout << "The enemy left an opening for attack!" << endl;
 					cout << "No damage was recived" << endl;
 
@@ -439,26 +472,6 @@ public:
 		else if(number > small) {
 			cout << "no enemies are found nearby." << endl;
 		}
-
-		//return number;
-
-		//if (number <= small) {
-			//small enemy
-		//}
-		//else if (number > small && <= medium) {
-			//medium enemy
-		//}
-		//else if (number > medium && <= large) {
-			//large enemy
-		//}
-		//else {
-			//no enemy
-			//cout << "\nThe path is empty!" << endl;
-		//}
-
-
-
-
 	}
 };
 

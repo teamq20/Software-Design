@@ -86,7 +86,7 @@ void Beginning_stage()
 		P1_Inventory->Add_to_Inventory("Flask");
 	}
 
-	cout << "\nIn the field of Weaponry, would you prefer: \n" << "(1) Knife \n" << "or \n" << "(2) Gun \n" << endl;
+	cout << "\nIn the field of Weaponry, would you prefer: \n" << "(1) Knife (Deals 3 damage)\n" << "or \n" << "(2) Gun (Deals 5 damage)\n" << endl;
 	cout << "Please select your weapon: ";
 	cin >> player_choice;
 	inputValidation(player_choice, 2);
@@ -181,7 +181,7 @@ void locationIntro(string location, int oxygen) {
 	}
 	else if (location == "Caves") {
 		cout << "\nYou don't have to walk long before you see the looming entrance of an expansive cave system," <<
-			"\ncarved out of a sheer rock face. The darkness is all-consuming; you won’t be able to navigate" <<
+			"\ncarved out of a sheer rock face. The darkness is all-consuming; you wonÂ’t be able to navigate" <<
 			"\nwithout an illumination device. Standing at the entrance, you can hear distant echoes of creatures" <<
 			"\nmoving throughout the vast cave. Your systems detect high quantities of Copper." << endl << endl;
 	}
@@ -206,8 +206,10 @@ void locationIntro(string location, int oxygen) {
 
 void locationSelection(int oxygen) {
 	string choice;
+	Player player;
+	cout << "[HEALTH: " << player.getHealth() << "]" << endl;
 	Check_Oxygen(oxygen);
-	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
+	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;		//display oxygen level
  
 	cout << "\nWhat region of Minerva do you want to explore?" << endl;
 	cout << "(1) North: Minerva Volcanoes" << endl;
@@ -308,12 +310,19 @@ void paths(string location, int oxygen) {
 	string choice;
 	int newInput = 1;
 
+	cout << "\nLOCATION: " + location << endl;
+  	Player player;
+	cout << "[HEALTH: " << player.getHealth() << "]" << endl;
+	Check_Oxygen(oxygen);
+	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
+
 	cout << "\nYou are able to go down one of four paths.";
 
 	do
 	{
+		Player player;
+		cout << "[HEALTH: " << player.getHealth() << "]" << endl;
 		Check_Oxygen(oxygen);
-
 		cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
 
 		cout << "\nWhich path do you choose to take? Please enter a number 1-4:" << endl;
@@ -399,13 +408,18 @@ void paths(string location, int oxygen) {
 
 Ship_inventory *The_Ship = new Ship_inventory(false,false,false,false); //The ship's inventory, so the player can input thier materials.
 void locationDemeter(int oxygen) {
+  /* ship location - home base/place to deposit materials */
+	Player player;
+	player.refillHealth();
+
 	string choice;
 	cout << "\nLOCATION: Demeter" << endl << endl;
 	cout << "What is your next move?" << endl;
 	cout << "(1) Explore Minerva" << endl;
 	cout << "(2) Repair Ship" << endl;
-	Check_Oxygen(oxygen);
 
+	cout << "[HEALTH: " << player.getHealth() << "]" << endl;
+	Check_Oxygen(oxygen);
 	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
 
 	cin >> choice;
@@ -435,8 +449,11 @@ void singlePlayer() {
 	cout << "-----------------------------\n" << endl;
 
 	gameIntro(1);
-	static int oxygen = 100;
-	bool ship = "";
+	static int oxygen = 100;;		  //set oxygen level
+	Player player;
+	bool ship = ""; 		      	//set ship inventory to empty
+	
+  cout << "[HEALTH: " << player.getHealth() << "]" << endl;
 	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
 	system("pause");
 
@@ -462,10 +479,12 @@ void options(int playerMode, int oxygen, string optionLocation) {
 	DemeterStatus status;
 	int width = 20;
 	cout << "\nOPTIONS MENU" << endl << endl;
+
+	Player player;
+	cout << "[HEALTH: " << player.getHealth() << "]" << endl;
 	Check_Oxygen(oxygen);
-
-
 	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
+
 	cout << left << setw(width) << "Reactor Core" << setw(width) << "Navigation System" << setw(width) << "Left Thruster" << setw(width) << "Oxidizer" << endl;
 	cout << left << setw(width) << status.getReactorCore() << setw(width) << status.getNavSystem() << setw(width) << status.getLeftThruster() << setw(width) << status.getOxidizer() << endl;
 
@@ -544,8 +563,3 @@ void inputValidation(int input, int max) {
 		input = convertToInt(menuChoice);
 	}
 }
-
-
-
-
-
