@@ -57,7 +57,6 @@ void setGame() {
 	bool continueGame = false;
 }
 
-
 void mainMenu(int oxygen) {
 	/* start of game */
 	
