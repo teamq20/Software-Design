@@ -42,7 +42,7 @@ void mainMenu() {
 //creating the inventory objects
 Inventory *P1_Inventory = new Inventory;
 Player *P1 = new Player;
-Player *P2 = new Player;
+//Player *P2 = new Player;
 
 void Beginning_stage()
 {
@@ -212,8 +212,7 @@ void locationSelection(int oxygen) {
 	/* user selects which of 4 locations to travel to */
 	
 	string choice;
-	Player player;
-	cout << "[HEALTH: " << player.getHealth() << "]" << endl;
+	cout << "[HEALTH: " << P1->getHealth() << "]" << endl;
 	Check_Oxygen(oxygen);
 	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;		//display oxygen level
  
@@ -266,8 +265,7 @@ void paths(string location, int oxygen) {
 	int newInput = 1;
 
 	cout << "\nLOCATION: " + location << endl;
-  	Player player;
-	cout << "[HEALTH: " << player.getHealth() << "]" << endl;
+	cout << "[HEALTH: " << P1->getHealth() << "]" << endl;
 	Check_Oxygen(oxygen);
 	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
 
@@ -275,8 +273,7 @@ void paths(string location, int oxygen) {
 
 	do
 	{
-		Player player;
-		cout << "[HEALTH: " << player.getHealth() << "]" << endl;
+		cout << "[HEALTH: " << P1->getHealth() << "]" << endl;
 		Check_Oxygen(oxygen);
 		cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
 
@@ -365,8 +362,7 @@ void paths(string location, int oxygen) {
 Ship_inventory *The_Ship = new Ship_inventory(false,false,false,false); //The ship's inventory, so the player can input thier materials.
 void locationDemeter(int oxygen) {
   /* ship location - home base/place to deposit materials */
-	Player player;
-	player.refillHealth();
+	P1->refillHealth();
 
 	string choice;
 	//Demeter menu
@@ -407,10 +403,9 @@ void singlePlayer() {
 
 	gameIntro(1);
 	static int oxygen = 100;;		  //set oxygen level
-	Player player;
 	bool ship = ""; 		      	//set ship inventory to empty
 	
-  cout << "[HEALTH: " << player.getHealth() << "]" << endl;
+  cout << "[HEALTH: " << P1->getHealth() << "]" << endl;
 	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
 	system("pause");
 
@@ -439,8 +434,8 @@ void options(int playerMode, int oxygen, string optionLocation) {
 	int width = 20;
 	cout << "\nOPTIONS MENU" << endl << endl;
 
-	Player player;
-	cout << "[HEALTH: " << player.getHealth() << "]" << endl;
+	
+	cout << "[HEALTH: " << P1->getHealth() << "]" << endl;
 	Check_Oxygen(oxygen);
 	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
 
