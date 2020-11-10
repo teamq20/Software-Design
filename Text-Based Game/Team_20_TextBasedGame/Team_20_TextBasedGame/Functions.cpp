@@ -120,10 +120,10 @@ void Beginning_stage()
 	}
 
 	cout << "\nAfter your selection of an Illumination tool, the dispensery shuts down. It doesn't seem to be able to be reactivated." << endl << endl;
-	P1_Inventory->Print();
+	P1_Inventory->Print();			//print current inventory
 }
 
-void Check_Oxygen(int Oxygen) //will check the oxygen lavel of the player after every scenery change, and input they provide.
+void Check_Oxygen(int Oxygen) 	//checks the oxygen level of the player after every scenery change, and input they provide.
 {
 	if (Oxygen <= 20)
 	{
