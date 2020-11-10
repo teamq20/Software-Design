@@ -16,7 +16,10 @@ protected:
 	int damAmount;
 	string causeDeath;
 public:
-	Player() {
+	Player()
+	{}
+	
+	void setPlayer() {
 		health = 30;
 		refillTimes = 2;
 	}
@@ -110,7 +113,10 @@ private:
 	string oxidizer;
 
 public:
-	DemeterStatus() {		//initially sets all ship parts as damaged 
+	DemeterStatus()
+	{}
+
+	void setDemeterStatus() {		//initially sets all ship parts as damaged 
 		reactorCore = "Damaged";
 		navSystem = "Damaged";
 		leftThruster = "Damaged";
@@ -133,20 +139,19 @@ public:
 		return oxidizer;
 	}
 
-	void setReactorCore() {
-		reactorCore = "Repaired";
-	}
-
-	void setNavSystem() {
-		navSystem = "Repaired";
-	}
-
-	void setLeftThruster() {
-		leftThruster = "Repaired";
-	}
-
-	void setOxidizer() {
-		oxidizer = "Repaired";
+	void setStatus(string material) {
+		if (material == "Uranium") {
+			reactorCore = "Repaired";
+		}
+		else if (material == "Copper") {
+			navSystem = "Repaired";
+		}
+		else if (material == "Hydrazine") {
+			leftThruster = "Repaired";
+		}
+		else if (material == "Fluorine") {
+			oxidizer = "Repaired";
+		}
 	}
 };
 
@@ -207,6 +212,7 @@ public:
 				location_of_item++;
 			}
 		}
+		//location_of_item = -1;
 		return location_of_item;
 	}
 
@@ -255,7 +261,7 @@ public:
 	}
 };
 
-class Ship_inventory : public Inventory
+class Ship_inventory : public Inventory, DemeterStatus
 {
 private :
 	bool Uranium = false;
@@ -264,7 +270,7 @@ private :
 	bool Fluorine = false;
 
 public:
-	Ship_inventory(bool Volcano_item, bool Stream_item, bool Cave_item, bool Rock_Cluster_item):Inventory()
+	Ship_inventory(bool Volcano_item, bool Stream_item, bool Cave_item, bool Rock_Cluster_item):Inventory(), DemeterStatus()
 	{
 		Uranium = Volcano_item;
 		Hydrazine = Stream_item;
@@ -281,6 +287,7 @@ public:
 			cout << "The ship has found " << material << "in your inventory.\n"
 				<< "It will now use it to repair the Demeter.\n" << endl;
 			Destroy_Item_position(found_material);
+			DemeterStatus::setStatus(material);
 			return true;
 		}
 		else {
@@ -582,6 +589,7 @@ public:
 		}
 		else {
 			cout << "no enemies are found nearby." << endl;
+			system("pause");
 		}
 
 		return oxygenLevel;
@@ -632,6 +640,7 @@ public:
 		else {
 			cout << "you notice there doesn't seem to be any hazards down this way." << endl;
 			cout << "You continue on exploring this path." << endl;
+			system("pause");
 		}
 	}
 
@@ -644,6 +653,7 @@ public:
 
 		if (Player::isAlive() == true) {
 			cout << "\nThe damage wasn't too bad, so you continue on exploring." << endl;
+			system("pause");
 		}
 		else {
 			Player::dead(hazard);
@@ -693,7 +703,6 @@ public:
 		number2 = distr(gen2);
 
 		if (number2 <= materialProbability) {		//collect material
-			//oxygen = collectMaterial();
 			return true;
 		}
 		else {										//no material
@@ -701,8 +710,6 @@ public:
 			cout << "Maybe you should try another one...\n" << endl;
 			return false;
 		}
-
-		//return oxygen;
 	}
 
 	int collectMaterial()
@@ -710,8 +717,8 @@ public:
 		//set tools to their oxygen amount
 		Inventory inventoryTool, inventoryStreamsTool;
 		string tool, streamsTool;
-		int toolAmnt = 0;
-		int streamsToolAmnt = 0;
+		int toolAmnt;
+		int streamsToolAmnt;
 
 		//check to see the player's current tool
 		if (inventoryTool.Find_Item("Drill") == -1) {
@@ -748,12 +755,8 @@ public:
 			cout << "You have found the " << material << "! You mine for it using your " << tool << "!" << endl;
 			oxygen = oxygen - toolAmnt;
 		}
-		
-		//Inventory::Add_to_Inventory(material);		//add material to inventory
-		
-		//print message of successful collection
-		cout << "\nNow that you have successfully collected the " << material << ", it's time to go back to Demeter!" << endl;
 
+		system("pause");
 		return oxygen;
 	}
 };
@@ -808,10 +811,6 @@ public:
 			cout << "Continuing down the path, ";
 			oxygenLevel = Enemy::determineSpawn(smallEnemy, medEnemy, lgEnemy, location, oxygenLevel);
 		}
-		
-		//material collection
-		Materials::setMaterial(location);
-		//oxygenLevel = Materials::determineAmount(matProb, oxygenLevel);
 
 		return oxygenLevel;
 	}
@@ -826,6 +825,7 @@ void setGame();
 void mainMenu(int oxygen = 100);
 void singlePlayer();
 //void multiPlayer();
+int materialCollecting(Path&, string, int, int, string);
 void inputValidation(int, int);
 void options(int, int, string);
 void gameRules();

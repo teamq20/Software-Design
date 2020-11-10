@@ -40,15 +40,18 @@ void setGame() {
 
 	//set Player 1 new object
 	P1 = new Player;
+	P1->setPlayer();
 
-	//set Player 2 new object
-	//Player *P2 = new Player;
+	/*set Player 2 new object
+	P2 = new Player;
+	P2->setPlayer();	*/
 
 	//set Ship Inventory to empty/false
 	The_Ship = new Ship_inventory(false, false, false, false);
 
 	//set Ship status all to damaged
 	shipStatus = new DemeterStatus;
+	shipStatus->setDemeterStatus();
 
 	//set game continuer to false
 	bool continueGame = false;
@@ -94,6 +97,7 @@ void mainMenu(int oxygen) {
 	}*/
 	else if (input == 0) {
 		cout << "Exit" << endl;		//end game
+		system("pause");
 		_Exit(10);
 	}
 }
@@ -194,6 +198,7 @@ void Check_Oxygen(int Oxygen) 	//checks the oxygen level of the player after eve
 		cout << "\n\n*GAME OVER* VST-7426, your Oxygen Levels have been depleted, and you have perished on Minerva "<< endl;
 		cout << "Play again if you wish to redeem yourself..." << endl;
 		system("pause");
+		continueGame = false;
 		mainMenu();
 	}
 }
@@ -283,8 +288,7 @@ void locationSelection(int oxygen) {
 	/* user selects which of 4 locations to travel to */
 	
 	string choice;
-	//Player player;
-	cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;
+	cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;		//display health
 	Check_Oxygen(oxygen);
 	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;		//display oxygen level
  
@@ -337,14 +341,6 @@ void paths(string location, int oxygen) {
 
 	string choice;
 	int newInput = 1;
-	bool matCollect = false;		//true to collect material, false if not
-
-	/*cout << "\nLOCATION: " + location << endl;
-  	//Player player;
-	cout << "[HEALTH: " << P1->getHealth() << "]" << endl;
-	Check_Oxygen(oxygen);
-	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
-	*/
 
 	//set materials based on location
 	string material;
@@ -365,10 +361,9 @@ void paths(string location, int oxygen) {
 
 	do
 	{
-		//Player player;
-		cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;
+		cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;			//display health
 		Check_Oxygen(oxygen);
-		cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
+		cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;			//display oxygen level
 
 		cout << "\nWhich path do you choose to take? Please enter a number 1-4:" << endl;
 		cin >> choice;
@@ -383,85 +378,83 @@ void paths(string location, int oxygen) {
 		else if (input == 1) {				//path 1 that differs per location
 			if (location == "Minerva Volcanoes") {
 				oxygen = pathC.goPath(location, oxygen, material);
-				matCollect = pathC.determineAmount(matProbC, oxygen);
+				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 			}
 			else if (location == "Caves") {
 				oxygen = pathB.goPath(location, oxygen, material);
-				matCollect = pathB.determineAmount(matProbB, oxygen);
+				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 			}
 			else if (location == "Liquid Streams") {
 				oxygen = pathD.goPath(location, oxygen, material);
-				matCollect = pathD.determineAmount(matProbD, oxygen);
+				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 			}
 			else if (location == "Clusters of Rocks") {
 				oxygen = pathA.goPath(location, oxygen, material);
-				matCollect = pathA.determineAmount(matProbA, oxygen);
+				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 			}
 		}
 		else if (input == 2) {				//path 2 that differs per location
 			if (location == "Minerva Volcanoes") {
 				oxygen = pathB.goPath(location, oxygen, material);
-				matCollect = pathB.determineAmount(matProbB, oxygen);
+				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 			}
 			else if (location == "Caves") {
 				oxygen = pathC.goPath(location, oxygen, material);
-				matCollect = pathC.determineAmount(matProbC, oxygen);
+				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 			}
 			else if (location == "Liquid Streams") {
 				oxygen = pathB.goPath(location, oxygen, material);
-				matCollect = pathB.determineAmount(matProbB, oxygen);
+				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 			}
 			else if (location == "Clusters of Rocks") {
 				oxygen = pathC.goPath(location, oxygen, material);
-				matCollect = pathC.determineAmount(matProbC, oxygen);
+				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 			}
 		}
 		else if (input == 3) {				//path 3 that differs per location
 			if (location == "Minerva Volcanoes") {
 				oxygen = pathA.goPath(location, oxygen, material);
-				matCollect = pathA.determineAmount(matProbA, oxygen);
+				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 			}
 			else if (location == "Caves") {
 				oxygen = pathD.goPath(location, oxygen, material);
-				matCollect = pathD.determineAmount(matProbD, oxygen);
+				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 			}
 			else if (location == "Liquid Streams") {
 				oxygen = pathC.goPath(location, oxygen, material);
-				matCollect = pathC.determineAmount(matProbC, oxygen);
+				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 			}
 			else if (location == "Clusters of Rocks") {
 				oxygen = pathB.goPath(location, oxygen, material);
-				matCollect = pathB.determineAmount(matProbB, oxygen);
+				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 			}
 		}
 		else if (input == 4) {				//path 4 that differs per location
 			if (location == "Minerva Volcanoes") {
 				oxygen = pathD.goPath(location, oxygen, material);
-				matCollect = pathD.determineAmount(matProbD, oxygen);
+				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 			}
 			else if (location == "Caves") {
 				oxygen = pathA.goPath(location, oxygen, material);
-				matCollect = pathA.determineAmount(matProbA, oxygen);
+				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 			}
 			else if (location == "Liquid Streams") {
 				oxygen = pathA.goPath(location, oxygen, material);
-				matCollect = pathA.determineAmount(matProbA, oxygen);
+				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 			}
 			else if (location == "Clusters of Rocks") {
 				oxygen = pathD.goPath(location, oxygen, material);
-				matCollect = pathD.determineAmount(matProbD, oxygen);
+				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 			}
 		}
-
-		if (matCollect == true) {			//add material to inventory if determined true
-			oxygen = pathA.collectMaterial();
-			P1_Inventory->Add_to_Inventory(material);
-		}
-
-		if (P1_Inventory->Find_Item(material) != -1) {
-			cout << "Now that you've collected the " << material << ", it's time to go back to Demeter!\n" << endl;
+		
+		int found_material = 0;
+		found_material = P1_Inventory->Find_Item(material);
+		if (found_material != -1) {			//check if material was collected
+			cout << "\nNow that you have successfully collected the " << material << ", it's time to go back to Demeter!\n" << endl;
 			break;
 		} 
+
 		cout << "\nDo you wish to:" << endl;
 		cout << "(1) Continue exploring other paths in this location" << endl;
 		cout << "(2) Leave the " << location << " and go back to the ship" << endl;
@@ -479,15 +472,30 @@ void paths(string location, int oxygen) {
 	locationDemeter(oxygen);		//return to Demeter
 }
 
+int materialCollecting(Path& pathObject, string location, int oxygen, int matProb, string material)
+{
+	/* Determines probability of materials, and collects if applicable */
+	
+	pathObject.setMaterial(location);		//sets material per location
+	bool matCollect = false;				//true to collect material, false if not
+	matCollect = pathObject.determineAmount(matProb, oxygen);		//determines if collect materials or not
+
+	if (matCollect == true) {			//add material to inventory if determined true
+		oxygen = pathObject.collectMaterial();
+		P1_Inventory->Add_to_Inventory(material);
+	}
+
+	return oxygen;
+}
+
 void locationDemeter(int oxygen) {
   /* ship location - home base/place to deposit materials */
 
-	//Player player;
 	string refillHealthChoice;
 
-	cout << "[HEALTH: " << P1->getHealth() << "]" << endl;
+	cout << "[HEALTH: " << P1->getHealth() << "]" << endl;				//display health
 	Check_Oxygen(oxygen);
-	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
+	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;			//display oxygen level
 
 	if (P1->getHealth() < 30) {
 		cout << "\nThe Demeter only has enough health kits to entirely refill your health once, and then partially the second time.\n"
@@ -533,7 +541,7 @@ void locationDemeter(int oxygen) {
 		oxygen--;
 		The_Ship->Deposit_material(); //This is where the ship will search the player's inventory for the materials needed, when found they will be deleted and the material will come out as true.
 		The_Ship->Win_condition(); //If all four materials are set to true the player wins and is sent to the main menu.
-		locationDemeter(oxygen);	//keep this for now so game doesn't break until this is created
+		locationDemeter(oxygen);	//brings the player back to the main menu of Demeter
 	}
 }
 
@@ -543,11 +551,9 @@ void singlePlayer() {
 	cout << "-----------------------------\n" << endl;
 
 	gameIntro(1);
-	//static int oxygen = 100;;		  //set oxygen level
-	//Player player;
 	
-	cout << "[HEALTH: " << P1->getHealth() << "]" << endl;
-	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
+	cout << "[HEALTH: " << P1->getHealth() << "]" << endl;			//display health
+	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;		//display oxygen
 	system("pause");
 
 	Beginning_stage();
@@ -573,16 +579,14 @@ void options(int playerMode, int oxygen, string optionLocation) {
 	/* options menu that is prompted by entering '0' */
 	
 	string menuChoice;
-	//DemeterStatus status;
 	int width = 20;
 	cout << "\n- - - - - - - - -" << endl;
 	cout << "  OPTIONS MENU" << endl;
 	cout << "- - - - - - - - -\n" << endl;
 
-	//Player player;
-	cout << "[HEALTH: " << P1->getHealth() << "]" << endl;
+	cout << "[HEALTH: " << P1->getHealth() << "]" << endl;				//display health
 	Check_Oxygen(oxygen);
-	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
+	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;			//display oxygen
 	P1_Inventory->Print();		//print player inventory
 
 	//show Demeter repair status
