@@ -120,7 +120,22 @@ void Beginning_stage()
 	}
 
 	cout << "\nAfter your selection of an Illumination tool, the dispensery shuts down. It doesn't seem to be able to be reactivated." << endl << endl;
-	P1_Inventory->Print();		//print current inventory
+	P1_Inventory->Print();			//print current inventory
+}
+
+void Check_Oxygen(int Oxygen) 	//checks the oxygen level of the player after every scenery change, and input they provide.
+{
+	if (Oxygen <= 20)
+	{
+		cout << "CAUTION!!! CAUTION!!! CAUTION!!!" << endl << "OXYGEN LEVEL CRITICAL !!!" << endl << endl;
+	}
+	if (Oxygen <= 0) 
+	{
+		cout << "\n\n*GAME OVER* VST-7426, your Oxygen Levels have been depleted, and you have perished on Minerva "<< endl;
+		cout << "Play again if you wish to redeem yourself..." << endl;
+		system("pause");
+		mainMenu();
+	}
 }
 
 void gameIntro(int playerMode) {
@@ -199,7 +214,8 @@ void locationSelection(int oxygen) {
 	string choice;
 	Player player;
 	cout << "[HEALTH: " << player.getHealth() << "]" << endl;
-	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;   //display oxygen level
+	Check_Oxygen(oxygen);
+	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;		//display oxygen level
  
 	cout << "\nWhat region of Minerva do you want to explore?" << endl;
 	cout << "(1) North: Minerva Volcanoes" << endl;
@@ -250,8 +266,9 @@ void paths(string location, int oxygen) {
 	int newInput = 1;
 
 	cout << "\nLOCATION: " + location << endl;
-  Player player;
+  	Player player;
 	cout << "[HEALTH: " << player.getHealth() << "]" << endl;
+	Check_Oxygen(oxygen);
 	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
 
 	cout << "\nYou are able to go down one of four paths.";
@@ -260,6 +277,9 @@ void paths(string location, int oxygen) {
 	{
 		Player player;
 		cout << "[HEALTH: " << player.getHealth() << "]" << endl;
+		Check_Oxygen(oxygen);
+		cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
+
 		cout << "\nWhich path do you choose to take? Please enter a number 1-4:" << endl;
 		cin >> choice;
 
@@ -342,8 +362,7 @@ void paths(string location, int oxygen) {
 	locationDemeter(oxygen);		//return to Demeter
 }
 
-Inventory *Ship_Inventory = new Inventory;		//The ship's inventory, so the player can input their materials.
-
+Ship_inventory *The_Ship = new Ship_inventory(false,false,false,false); //The ship's inventory, so the player can input thier materials.
 void locationDemeter(int oxygen) {
   /* ship location - home base/place to deposit materials */
 	Player player;
@@ -355,7 +374,9 @@ void locationDemeter(int oxygen) {
 	cout << "What is your next move?" << endl;
 	cout << "(1) Explore Minerva" << endl;
 	cout << "(2) Repair Ship" << endl;
+
 	cout << "[HEALTH: " << player.getHealth() << "]" << endl;
+	Check_Oxygen(oxygen);
 	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
 
 	cin >> choice;
@@ -371,6 +392,8 @@ void locationDemeter(int oxygen) {
 	}
 	else if (input == 2) {		//repair ship
 		oxygen--;
+		The_Ship->Deposit_material(); //This is where the ship will search the player's inventory (hopefully) for the materials needed, when found they will be deleted and the material will come out as true.
+		The_Ship->Win_condition(); //If all four materials are set to true the player wins and is sent to the main menu.
 		locationDemeter(oxygen);	//keep this for now so game doesn't break until this is created
 		//this is where the personal inventory can empty the material into the ship's inventory
 
@@ -415,8 +438,10 @@ void options(int playerMode, int oxygen, string optionLocation) {
 	DemeterStatus status;
 	int width = 20;
 	cout << "\nOPTIONS MENU" << endl << endl;
+
 	Player player;
 	cout << "[HEALTH: " << player.getHealth() << "]" << endl;
+	Check_Oxygen(oxygen);
 	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;
 
 	//show Demeter repair status
