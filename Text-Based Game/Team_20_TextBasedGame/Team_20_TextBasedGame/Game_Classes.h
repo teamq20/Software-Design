@@ -140,15 +140,19 @@ public:
 	void setStatus(string material) {
 		if (material == "Uranium") {
 			reactorCore = "Repaired";
+			cout << "\n\nREACTOR CORE : REPAIRED\n\n";
 		}
 		else if (material == "Copper") {
 			navSystem = "Repaired";
+			cout << "\n\nNAVIGATION SYSTEM : REPAIRED\n\n";
 		}
 		else if (material == "Hydrazine") {
 			leftThruster = "Repaired";
+			cout << "\n\nLEFT THRUSTER : REPAIRED\n\n";
 		}
 		else if (material == "Fluorine") {
 			oxidizer = "Repaired";
+			cout << "\n\nOXIDIZER : REPAIRED\n\n";
 		}
 	}
 };
@@ -193,40 +197,42 @@ public:
 		Selected_Item->next = X;
 	}
 
-	int Find_Item(string Item)		//finds item in inventory and returns location of it
+	bool Find_Item(string Item)		//finds item in inventory and returns location of it
 	{
 		Items *Selected_Item = head;
-		int location_of_item = -1;
 
 		while (Selected_Item != nullptr)
 		{
-			int compare = Selected_Item->data.compare(Item);
-
-			if (compare == 0)
+			if (Selected_Item->data == Item)
 			{
-				return location_of_item;
+				return true;
 			}
-			else
-			{
-				Selected_Item = Selected_Item->next;
-				location_of_item++;
-			}
+			Selected_Item = Selected_Item->next;
 		}
-		//location_of_item = -1;
-		return location_of_item;
+		return false;
 	}
 
-	void Destroy_Item_position(int position)		//removes item from inventory
+	void Destroy_Item(string item)		//removes item from inventory
 	{
 		Items * Selected_Item = head;
+		Items * current = head->next;				// the first valid node
 
-		for (int count = 1; count < position - 1; count++)
-			Selected_Item = Selected_Item->next;
-		Items * Destroy = Selected_Item->next;
-		Selected_Item->next = Destroy->next;
-		delete Destroy;
+		while (current != NULL) {
+			if (current->data == item) {
+				break;
+			}
+			else {
+				Selected_Item = current;
+				current = current->next;			// go to next value
+			}
+		}
+		if (current != NULL) {						// if we reached end of list or the list is empty
+			Selected_Item->next = current->next;	// unlink the node you remove
+			delete current;							// delete the node
+		}
 	}
 
+	/*
 	void Item_Destroyed(string Tool)		
 	{
 		Items *Selected_Item = head;
@@ -238,6 +244,7 @@ public:
 			Selected_Item = Selected_Item->next;
 		}
 	}
+	*/
 
 	void Destroy_First_Item()
 	{
@@ -278,44 +285,44 @@ public:
 		Fluorine = Rock_Cluster_item;
 	}
 	
-	bool Find_Material(string material)			//finds material in player inventory
+	bool Find_Material(Inventory& pInventory, string material)			//finds material in player inventory
 	{
-		int found_material = 0;
-		found_material = Find_Item(material);
-		if (found_material != -1)
+		bool found_material = false;
+		found_material = pInventory.Find_Item(material);
+		if (found_material == true)
 		{
-			cout << "The ship has found " << material << "in your inventory.\n"
+			cout << "\nThe ship has found " << material << " in your inventory.\n"
 				<< "It will now use it to repair the Demeter.\n" << endl;
-			Destroy_Item_position(found_material);
+			pInventory.Destroy_Item(material);
 			DemeterStatus::setStatus(material);
 			return true;
 		}
 		else {
-			cout << material << ": not found" << endl;
+			cout << endl << material << ":   \tnot found" << endl;
 			return false;
 		}
 	}
 	
-	virtual void Deposit_material() 
+	virtual void Deposit_material(Inventory &pInventory) 
 	{  
 		  cout << "\nThe Ship is scanning your inventory for materials. " << endl;
 		  cout << "SCANNING....." << endl << endl;
 		  system("pause");
 		  if (Uranium != true)
 		  {
-			  Uranium = Find_Material("Uranium");
+			  Uranium = Find_Material(pInventory, "Uranium");
 		  }
 		  if (Fluorine != true)
 		  {
-			  Fluorine = Find_Material("Fluorine");
+			  Fluorine = Find_Material(pInventory, "Fluorine");
 		  }
 		  if (Copper != true)
 		  {
-			  Copper = Find_Material("Copper");
+			  Copper = Find_Material(pInventory, "Copper");
 		  }
 		  if (Hydrazine != true)
 		  {
-			  Hydrazine = Find_Material("Hydrazine");
+			  Hydrazine = Find_Material(pInventory, "Hydrazine");
 		  }
 	}
 	  
@@ -396,18 +403,17 @@ public:
 	//0 = small enemy
 	//1 = medium enemy
 	//2 = large enemy
-	int Combat(int enemyType) {
+	int Combat(Inventory& playerInventory, int enemyType) {
 		const int playerChance = 50;
 		int hitChance;
 		hitChance = rand() % 100 + 1;		//hit chance between 1-100
 		int enemyHP;
-		Inventory inventory_weapon;
 		string weapon;
 		int knifeDamage = 3;
 		int gunDamage = 5;
 
 		//if/else checking to see the player's current weapon
-		if (inventory_weapon.Find_Item("Knife") == -1) {
+		if (playerInventory.Find_Item("Knife") == false) {
 			weapon = "Gun";
 		}
 		else {
@@ -559,7 +565,7 @@ public:
 		return oxygenLevel;
 	}
 	
-	int determineSpawn(int s, int m, int l, string loc, int oxygen)
+	int determineSpawn(Inventory& playerInventory, int s, int m, int l, string loc, int oxygen)
 	{
 		Enemy enemy;
 
@@ -577,15 +583,15 @@ public:
 
 		if (number <= small) {
 			cout << "you encounter a small enemy!" << endl;
-			Combat(0);
+			Combat(playerInventory, 0);
 		}
 		else if (number > small && number <= medium) {
 			cout << "you encounter a medium enemy!" << endl;
-			Combat(1);
+			Combat(playerInventory, 1);
 		}
 		else if (number > medium && number <= large) {
 			cout << "you encounter a large enemy!" << endl;
-			Combat(2);
+			Combat(playerInventory, 2);
 		}
 		else {
 			cout << "no enemies are found nearby." << endl;
@@ -649,7 +655,7 @@ public:
 		cout << "you get hurt by " << hazard << "!" << endl;
 
 		Player::damage(3);
-		cout << "\n[HEALTH: " << Player::health << "]" << endl;
+		cout << "\n[HEALTH: " << Player::getHealth() << "]" << endl;
 
 		if (Player::isAlive() == true) {
 			cout << "\nThe damage wasn't too bad, so you continue on exploring." << endl;
@@ -712,16 +718,15 @@ public:
 		}
 	}
 
-	int collectMaterial()
+	int collectMaterial(Inventory &playerInventory)
 	{
 		//set tools to their oxygen amount
-		Inventory inventoryTool, inventoryStreamsTool;
 		string tool, streamsTool;
 		int toolAmnt;
 		int streamsToolAmnt;
 
 		//check to see the player's current tool
-		if (inventoryTool.Find_Item("Drill") == -1) {
+		if (playerInventory.Find_Item("Drill") == false) {
 			tool = "Pickaxe";
 			toolAmnt = 4;
 		}
@@ -731,7 +736,7 @@ public:
 		}
 
 		//check to see the player's current water tool
-		if (inventoryStreamsTool.Find_Item("Flask") == -1) {
+		if (playerInventory.Find_Item("Flask") == false) {
 			streamsTool = "Bucket";
 			streamsToolAmnt = 2;
 		}
@@ -787,7 +792,7 @@ public:
 		lgEnemy = lg;
 	}
 
-	int goPath(string l, int ox, string mat)
+	int goPath(Inventory& playerInventory, string l, int ox, string mat)
 	{
 		location = l;
 		oxygenLevel = ox;
@@ -803,13 +808,13 @@ public:
 			Hazards::determineProb(hazardProb);		//hazards
 		}
 		else if (randNum == 2) {
-			oxygenLevel = Enemy::determineSpawn(smallEnemy, medEnemy, lgEnemy, location, oxygenLevel);
+			oxygenLevel = Enemy::determineSpawn(playerInventory, smallEnemy, medEnemy, lgEnemy, location, oxygenLevel);
 		}
 		else {
 			Hazards::setHazard(location);
 			Hazards::determineProb(hazardProb);		//hazards
 			cout << "Continuing down the path, ";
-			oxygenLevel = Enemy::determineSpawn(smallEnemy, medEnemy, lgEnemy, location, oxygenLevel);
+			oxygenLevel = Enemy::determineSpawn(playerInventory, smallEnemy, medEnemy, lgEnemy, location, oxygenLevel);
 		}
 
 		return oxygenLevel;
@@ -826,7 +831,7 @@ void mainMenu(int oxygen = 100);
 void singlePlayer();
 //void multiPlayer();
 int materialCollecting(Path&, string, int, int, string);
-void inputValidation(int, int);
+int inputValidation(int, int);
 void options(int, int, string);
 void gameRules();
 void locationSelection(int);
