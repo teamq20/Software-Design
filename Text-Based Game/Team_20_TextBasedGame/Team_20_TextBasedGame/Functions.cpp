@@ -40,11 +40,9 @@ void setGame() {
 
 	//set Player 1 new object
 	P1 = new Player;
-	P1->setPlayer();
 
 	/*set Player 2 new object
-	P2 = new Player;
-	P2->setPlayer();	*/
+	P2 = new Player;	*/
 
 	//set Ship Inventory to empty/false
 	The_Ship = new Ship_inventory(false, false, false, false);
