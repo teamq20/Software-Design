@@ -40,7 +40,7 @@ void setGame() {
 	P1_Inventory = new Inventory;
 
 	//set Player 1 new object
-	P1 = new Player;
+	P1 = new Player();
 
 	/*set Player 2 new object
 	P2 = new Player;	*/
@@ -326,7 +326,8 @@ void locationSelection(int oxygen) {
 
 void paths(string location, int oxygen) {
 	/* send user down path of choice based on current location */
-	
+
+	int Health_State;
 	Path pathA, pathB, pathC, pathD;
 	//set path objects - (moves, material prob, hazard prob, small enemy prob, med enemy prob, lg enemy prob)
 	pathA.setPath(3, 0, 7, 40, 60, 70);			//70% chance enemy - 40% small, 20% medium, 10% large
@@ -467,7 +468,9 @@ void paths(string location, int oxygen) {
 		}
 	} while (newInput == 1);		//run until user chooses to leave location
 
-	locationDemeter(oxygen);		//return to Demeter
+	Health_State = P1->getHealth();
+
+	locationDemeter(oxygen, Health_State);		//return to Demeter
 }
 
 int materialCollecting(Path& pathObject, string location, int oxygen, int matProb, string material)
@@ -487,12 +490,13 @@ int materialCollecting(Path& pathObject, string location, int oxygen, int matPro
 	return oxygen;
 }
 
-void locationDemeter(int oxygen) {
+void locationDemeter(int oxygen, int Health) 
+{
   /* ship location - home base/place to deposit materials */
 
 	string refillHealthChoice;
 
-	cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;				//display health
+	cout << "\n[HEALTH: " << Health << "]" << endl;				//display health
 	Check_Oxygen(oxygen);
 	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;			//display oxygen level
 

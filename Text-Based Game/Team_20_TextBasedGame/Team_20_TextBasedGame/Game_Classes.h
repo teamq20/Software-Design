@@ -10,7 +10,7 @@ using namespace std;
 
 class Player
 {
-protected:
+private:
 	int health;
 	int refillTimes;	//holds the amount of times left that the player has to refill
 	int damAmount;
@@ -25,7 +25,7 @@ public:
 	void damage(int d)		//applies damage to player's health
 	{
 		damAmount = d;
-		health -= damAmount;
+		health = health - damAmount;
 	}
 
 	bool isAlive()			//checks if player is still alive
@@ -75,7 +75,8 @@ public:
 		}
 	}
 
-	int getHealth() {		//returns current health amount
+	int getHealth() //returns current health amount
+	{		
 		return health;
 	}
 };
