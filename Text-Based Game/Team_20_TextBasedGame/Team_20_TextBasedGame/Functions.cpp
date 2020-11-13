@@ -307,25 +307,54 @@ void locationSelection(int oxygen) {
 	cin >> choice;
 	int input = convertToInt(choice);		//input validation
 	input = inputValidation(input, 0, 4);
+	bool haveMaterial = false;
 
 	if (input == 0) {		//options menu
 		options(1, oxygen, "Select");		//current player mode is 1 here for single player
 	}
 	else if (input == 1) {		//volcanoes choice
-		oxygen = oxygen - 4;
-		locationIntro("Minerva Volcanoes", oxygen);
+		haveMaterial = P1_Inventory->Find_Item("Uranium");			//check if material is in player inventory / part is repaired
+		if (haveMaterial == true || shipStatus->getReactorCore() == "Repaired") {
+			cout << "\nYou have already collected this location's material. There is no reason to go back here." << endl;
+			locationSelection(oxygen);
+		}
+		else {
+			oxygen = oxygen - 4;
+			locationIntro("Minerva Volcanoes", oxygen);
+		}
 	}
 	else if (input == 2) {		//caves choice
-		oxygen = oxygen - 3;
-		locationIntro("Caves", oxygen);
+		haveMaterial = P1_Inventory->Find_Item("Copper");			//check if material is in player inventory / part is repaired
+		if (haveMaterial == true || shipStatus->getNavSystem() == "Repaired") {
+			cout << "\nYou have already collected this location's material. There is no reason to go back here." << endl;
+			locationSelection(oxygen);
+		}
+		else {
+			oxygen = oxygen - 3;
+			locationIntro("Caves", oxygen);
+		}
 	}
 	else if (input == 3) {		//streams choice
-		oxygen = oxygen - 6;
-		locationIntro("Liquid Streams", oxygen);
+		haveMaterial = P1_Inventory->Find_Item("Hydrazine");		//check if material is in player inventory / part is repaired
+		if (haveMaterial == true || shipStatus->getLeftThruster() == "Repaired") {
+			cout << "\nYou have already collected this location's material. There is no reason to go back here." << endl;
+			locationSelection(oxygen);
+		}
+		else {
+			oxygen = oxygen - 6;
+			locationIntro("Liquid Streams", oxygen);
+		}
 	}
 	else if (input == 4) {		//rocks choice
-		oxygen = oxygen - 5;
-		locationIntro("Clusters of Rocks", oxygen);
+		haveMaterial = P1_Inventory->Find_Item("Fluorine");			//check if material is in player inventory / part is repaired
+		if (haveMaterial == true || shipStatus->getOxidizer() == "Repaired") {
+			cout << "\nYou have already collected this location's material. There is no reason to go back here." << endl;
+			locationSelection(oxygen);
+		}
+		else {
+			oxygen = oxygen - 5;
+			locationIntro("Clusters of Rocks", oxygen);
+		}
 	}
 }
 
@@ -381,170 +410,170 @@ void paths(string location, int oxygen) {
 		}
 		else if (input == 1) {				//path 1 that differs per location
 			if (location == "Minerva Volcanoes") {
-				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material);
-				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
-				isDead = pathC.died();
+				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material);		//go to path for enemies and hazards
+				isDead = pathC.died();				//check if player is dead or alive
 
 				if (isDead == true) {
 					system("pause");
 					mainMenu();
 				}
+				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);			//go to possible material collection
 			}
 			else if (location == "Caves") {
 				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material);
-				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 				isDead = pathB.died();
 
 				if (isDead == true) {
 					system("pause");
 					mainMenu();
 				}
+				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 			}
 			else if (location == "Liquid Streams") {
 				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material);
-				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 				isDead = pathD.died();
 
 				if (isDead == true) {
 					system("pause");
 					mainMenu();
 				}
+				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 			}
 			else if (location == "Clusters of Rocks") {
 				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material);
-				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 				isDead = pathA.died();
 
 				if (isDead == true) {
 					system("pause");
 					mainMenu();
 				}
+				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 			}
 		}
 		else if (input == 2) {				//path 2 that differs per location
 			if (location == "Minerva Volcanoes") {
 				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material);
-				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 				isDead = pathB.died();
 
 				if (isDead == true) {
 					system("pause");
 					mainMenu();
 				}
+				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 			}
 			else if (location == "Caves") {
 				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material);
-				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 				isDead = pathC.died();
 
 				if (isDead == true) {
 					system("pause");
 					mainMenu();
 				}
+				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 			}
 			else if (location == "Liquid Streams") {
 				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material);
-				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 				isDead = pathB.died();
 
 				if (isDead == true) {
 					system("pause");
 					mainMenu();
 				}
+				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 			}
 			else if (location == "Clusters of Rocks") {
 				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material);
-				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 				isDead = pathC.died();
 
 				if (isDead == true) {
 					system("pause");
 					mainMenu();
 				}
+				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 			}
 		}
 		else if (input == 3) {				//path 3 that differs per location
 			if (location == "Minerva Volcanoes") {
 				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material);
-				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 				isDead = pathA.died();
 
 				if (isDead == true) {
 					system("pause");
 					mainMenu();
 				}
+				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 			}
 			else if (location == "Caves") {
 				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material);
-				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 				isDead = pathD.died();
 
 				if (isDead == true) {
 					system("pause");
 					mainMenu();
 				}
+				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 			}
 			else if (location == "Liquid Streams") {
 				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material);
-				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 				isDead = pathC.died();
 
 				if (isDead == true) {
 					system("pause");
 					mainMenu();
 				}
+				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 			}
 			else if (location == "Clusters of Rocks") {
 				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material);
-				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 				isDead = pathB.died();
 
 				if (isDead == true) {
 					system("pause");
 					mainMenu();
 				}
+				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 			}
 		}
 		else if (input == 4) {				//path 4 that differs per location
 			if (location == "Minerva Volcanoes") {
 				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material);
-				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 				isDead = pathD.died();
 
 				if (isDead == true) {
 					system("pause");
 					mainMenu();
 				}
+				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 			}
 			else if (location == "Caves") {
 				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material);
-				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 				isDead = pathA.died();
 
 				if (isDead == true) {
 					system("pause");
 					mainMenu();
 				}
+				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 			}
 			else if (location == "Liquid Streams") {
 				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material);
-				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 				isDead = pathA.died();
 
 				if (isDead == true) {
 					system("pause");
 					mainMenu();
 				}
+				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 			}
 			else if (location == "Clusters of Rocks") {
 				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material);
-				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 				isDead = pathD.died();
 
 				if (isDead == true) {
 					system("pause");
 					mainMenu();
 				}
+				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 			}
 		}
 		
@@ -640,7 +669,7 @@ void locationDemeter(int oxygen) {
 	}
 	else if (input == 2) {		//repair ship
 		oxygen--;
-		The_Ship->Deposit_material(*P1_Inventory); //This is where the ship will search the player's inventory for the materials needed, when found they will be deleted and the material will come out as true.
+		The_Ship->Deposit_material(*P1_Inventory, *shipStatus); //This is where the ship will search the player's inventory for the materials needed, when found they will be deleted and the material will come out as true.
 		bool won = The_Ship->Win_condition(); //If all four materials are set to true the player wins and is sent to the main menu.
 
 		if (won == true) {

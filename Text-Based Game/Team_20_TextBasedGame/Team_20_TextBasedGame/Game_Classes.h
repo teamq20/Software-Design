@@ -47,7 +47,7 @@ public:
 			cout << "Play again if you wish to redeem yourself..." << endl;
 			system("pause");
 			//mainMenu();
-			_Exit(10);
+			//_Exit(10);
 		}
 	}
 
@@ -285,44 +285,45 @@ public:
 		Fluorine = Rock_Cluster_item;
 	}
 	
-	bool Find_Material(Inventory& pInventory, string material)			//finds material in player inventory
+	bool Find_Material(Inventory& pInventory, DemeterStatus& dStatus, string material)			//finds material in player inventory
 	{
 		bool found_material = false;
 		found_material = pInventory.Find_Item(material);
 		if (found_material == true)
 		{
-			cout << "\nThe ship has found " << material << " in your inventory.\n"
-				<< "It will now use it to repair the Demeter.\n" << endl;
+			cout << endl << material << " :   \tFOUND\n"
+				<< "\nNOW REPAIRING THE DEMETER.....\n" << endl;
 			pInventory.Destroy_Item(material);
-			DemeterStatus::setStatus(material);
+			system("pause");
+			dStatus.setStatus(material);
 			return true;
 		}
 		else {
-			cout << endl << material << ":   \tnot found" << endl;
+			cout << endl << material << " :   \tNOT FOUND" << endl;
 			return false;
 		}
 	}
 	
-	virtual void Deposit_material(Inventory &pInventory) 
+	virtual void Deposit_material(Inventory &pInventory, DemeterStatus &dStatus)
 	{  
 		  cout << "\nThe Ship is scanning your inventory for materials. " << endl;
 		  cout << "SCANNING....." << endl << endl;
 		  system("pause");
 		  if (Uranium != true)
 		  {
-			  Uranium = Find_Material(pInventory, "Uranium");
+			  Uranium = Find_Material(pInventory, dStatus, "Uranium");
 		  }
 		  if (Fluorine != true)
 		  {
-			  Fluorine = Find_Material(pInventory, "Fluorine");
+			  Fluorine = Find_Material(pInventory, dStatus, "Fluorine");
 		  }
 		  if (Copper != true)
 		  {
-			  Copper = Find_Material(pInventory, "Copper");
+			  Copper = Find_Material(pInventory, dStatus, "Copper");
 		  }
 		  if (Hydrazine != true)
 		  {
-			  Hydrazine = Find_Material(pInventory, "Hydrazine");
+			  Hydrazine = Find_Material(pInventory, dStatus, "Hydrazine");
 		  }
 	}
 	  
@@ -434,7 +435,7 @@ public:
 				cout << "[HEALTH: " << Player::getHealth() << "]" << endl << endl;
 
 				hitChance = rand() % 100 + 1;   //If hitChance is >1 && <=50, enemy misses; hitChance is >50 inflict damage on player
-				if (hitChance <= playerChance) {
+				if (hitChance <= playerChance) {				//player hits enemy
 					cout << "The enemy left an opening for attack!" << endl;
 					cout << "No damage was received" << endl;
 
@@ -451,7 +452,7 @@ public:
 						system("pause");
 					}
 				}
-				else if (hitChance > playerChance) {
+				else if (hitChance > playerChance) {				//enemy hits player
 					cout << "You received damage!" << endl;
 					Player::damage(2);
 					system("pause");
@@ -482,7 +483,7 @@ public:
 				cout << "[HEALTH: " << Player::getHealth() << "]" << endl << endl;
 
 				hitChance = rand() % 90 + 10;	//If hitChance is >10 && <=50, enemy misses; hitChance is >50 inflict damage on player
-				if (hitChance <= playerChance) {
+				if (hitChance <= playerChance) {					//player hits enemy
 					cout << "The enemy left an opening for attack!" << endl;
 					cout << "No damage was received" << endl;
 
@@ -499,7 +500,7 @@ public:
 						system("pause");
 					}
 				}
-				else if (hitChance > playerChance) {
+				else if (hitChance > playerChance) {				//enemy hits player
 					cout << "You received damage!" << endl;
 					Player::damage(4);
 					system("pause");
@@ -529,7 +530,7 @@ public:
 				cout << "[HEALTH: " << Player::getHealth() << "]" << endl << endl;
 
 				hitChance = rand() % 80 + 20;	//If hitChance is >20 && <=50, enemy misses; hitChance is >50 inflict damage on player
-				if (hitChance <= playerChance) {
+				if (hitChance <= playerChance) {				//player hits enemy
 					cout << "The enemy left an opening for attack!" << endl;
 					cout << "No damage was received" << endl;
 
@@ -546,7 +547,7 @@ public:
 						system("pause");
 					}
 				}
-				else if (hitChance > playerChance) {
+				else if (hitChance > playerChance) {				//enemy hits player
 					cout << "You received damage!" << endl;
 					Player::damage(6);
 					system("pause");
@@ -668,8 +669,8 @@ public:
 
 		if (Player::isAlive() == true) {
 			cout << "\nThe damage wasn't too bad, so you continue on exploring." << endl;
-			return false;
 			system("pause");
+			return false;
 		}
 		else {
 			Player::dead(hazard);
@@ -823,9 +824,6 @@ public:
 
 			if (isDead == true) {
 				died();
-			}
-			else {
-				return 0;
 			}
 		}
 		else if (randNum == 2) {
