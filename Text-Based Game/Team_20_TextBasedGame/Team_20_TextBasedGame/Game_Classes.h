@@ -326,15 +326,17 @@ public:
 		  }
 	}
 	  
-	void Win_condition()
+	bool Win_condition()
 	  {
 		  if (Uranium == true && Fluorine == true && Copper == true && Hydrazine == true)
 		  {
-			  cout << "*VICTORY* Congratulations VST-7426, you have successfully acquired and integrated all necessary materials\n"
+			  /*cout << "*VICTORY* Congratulations VST-7426, you have successfully acquired and integrated all necessary materials\n"
 				  << "to fix the Demeter. All systems are now nominal. Commencing departure from the surface of Minerva." << endl << endl;
 			  system("pause");
 			  //mainMenu();
-			  _Exit(10);
+			  _Exit(10);*/
+
+			  return true;
 		  }
 	  }
 };
@@ -630,7 +632,7 @@ public:
 		}
 	}
 
-	void determineProb(int p)
+	bool determineProb(int p)
 	{
 		prob = p;		//probability number of hazard
 
@@ -641,7 +643,14 @@ public:
 		number1 = distr(gen1);
 
 		if (number1 <= prob) {
-			deployHazard();
+			bool died = deployHazard();
+
+			if (died == true) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 		else {
 			cout << "you notice there doesn't seem to be any hazards down this way." << endl;
@@ -650,7 +659,7 @@ public:
 		}
 	}
 
-	void deployHazard()
+	bool deployHazard()
 	{
 		cout << "you get hurt by " << hazard << "!" << endl;
 
@@ -659,10 +668,12 @@ public:
 
 		if (Player::isAlive() == true) {
 			cout << "\nThe damage wasn't too bad, so you continue on exploring." << endl;
+			return false;
 			system("pause");
 		}
 		else {
 			Player::dead(hazard);
+			return true;
 		}
 	}
 };
@@ -782,6 +793,9 @@ private:
 public:
 	Path() : Hazards(), Enemy(), Materials()
 	{}
+
+	bool isDead;
+
 	void setPath(int o, int m, int h, int sm, int med, int lg)
 	{
 		oxygen = o;
@@ -805,7 +819,14 @@ public:
 		int randNum = (rand() % 3) + 1;			//chooses random number 1-3
 		if (randNum == 1) {
 			Hazards::setHazard(location);
-			Hazards::determineProb(hazardProb);		//hazards
+			isDead = Hazards::determineProb(hazardProb);		//hazards
+
+			if (isDead == true) {
+				died();
+			}
+			else {
+				return 0;
+			}
 		}
 		else if (randNum == 2) {
 			oxygenLevel = Enemy::determineSpawn(playerInventory, smallEnemy, medEnemy, lgEnemy, location, oxygenLevel);
@@ -818,6 +839,15 @@ public:
 		}
 
 		return oxygenLevel;
+	}
+
+	bool died() {
+		if (isDead == true) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 };
 
