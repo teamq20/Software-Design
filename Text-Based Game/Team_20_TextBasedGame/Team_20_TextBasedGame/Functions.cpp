@@ -76,10 +76,10 @@ void mainMenu(int oxygen) {
 
 	int input = convertToInt(menuChoice);		//input validation
 	if (continueGame == true) {
-		input = inputValidation(input, 2);
+		input = inputValidation(input, 0, 2);
 	}
 	else {
-		input = inputValidation(input, 1);
+		input = inputValidation(input, 0, 1);
 	}
 
 	if (input == 1) {
@@ -114,7 +114,7 @@ void Beginning_stage()
 	cout << "Please select your tool: ";
 
 	cin >> player_choice;
-	player_choice = inputValidation(player_choice, 2);
+	player_choice = inputValidation(player_choice, 1, 2);
 
 	if (player_choice == 1)		//select pickaxe
 	{
@@ -132,7 +132,7 @@ void Beginning_stage()
 	cout << "\nIn the field of Liquid containment, would you prefer: \n" << "(1) Bucket\n" << "or\n" << "(2) Flask" << endl << endl;
 	cout << "Please select your tool: ";
 	cin >> player_choice;
-	player_choice = inputValidation(player_choice, 2);
+	player_choice = inputValidation(player_choice, 1, 2);
 
 	if (player_choice == 1)		//select bucket
 	{
@@ -149,7 +149,7 @@ void Beginning_stage()
 	cout << "\nIn the field of Weaponry, would you prefer: \n" << "(1) Knife (Deals 3 damage)\n" << "or \n" << "(2) Gun (Deals 5 damage)\n" << endl;
 	cout << "Please select your weapon: ";
 	cin >> player_choice;
-	player_choice = inputValidation(player_choice, 2);
+	player_choice = inputValidation(player_choice, 1, 2);
 
 	if (player_choice == 1)		//select knife
 	{
@@ -166,7 +166,7 @@ void Beginning_stage()
 	cout << "\nFinally, in the field of Illumination, would you prefer: \n" << "(1) Flashlight\n" << "or\n" << "(2) Lantern\n" << endl;
 	cout << "Please select your tool: ";
 	cin >> player_choice;
-	player_choice = inputValidation(player_choice, 2);
+	player_choice = inputValidation(player_choice, 1, 2);
 
 	if (player_choice == 1)		//select flashlight
 	{
@@ -300,7 +300,7 @@ void locationSelection(int oxygen) {
 
 	cin >> choice;
 	int input = convertToInt(choice);		//input validation
-	input = inputValidation(input, 4);
+	input = inputValidation(input, 0, 4);
 
 	if (input == 0) {		//options menu
 		options(1, oxygen, "Select");		//current player mode is 1 here for single player
@@ -366,7 +366,7 @@ void paths(string location, int oxygen) {
 		cin >> choice;
 
 		int input = convertToInt(choice);		//input validation
-		input = inputValidation(input, 4);
+		input = inputValidation(input, 0, 4);
 		
 		
 		if (input == 0) {		//options
@@ -459,7 +459,7 @@ void paths(string location, int oxygen) {
 		cin >> choice;
 
 		newInput = convertToInt(choice);		//input validation
-		newInput = inputValidation(newInput, 2);
+		newInput = inputValidation(newInput, 0, 2);
 
 		if (newInput == 0) {		//options choice
 			options(1, oxygen, location);
@@ -502,7 +502,7 @@ void locationDemeter(int oxygen) {
 		cin >> refillHealthChoice;
 
 		int refillInput = convertToInt(refillHealthChoice);		//input validation
-		refillInput = inputValidation(refillInput, 2);
+		refillInput = inputValidation(refillInput, 0, 2);
 
 		if (refillInput == 0) {		//options
 			options(1, oxygen, "Demeter");
@@ -527,7 +527,7 @@ void locationDemeter(int oxygen) {
 	cin >> choice;
 
 	int input = convertToInt(choice);		//input validation
-	input = inputValidation(input, 2);
+	input = inputValidation(input, 0, 2);
 
 	if (input == 0) {		//options
 		options(1, oxygen, "Demeter");
@@ -600,7 +600,7 @@ void options(int playerMode, int oxygen, string optionLocation) {
 	cin >> menuChoice;
 
 	int input = convertToInt(menuChoice);		//input validation
-	input = inputValidation(input, 3);
+	input = inputValidation(input, 0, 3);
 
 	if (input == 1) {		//main menu
 		continueGame = true;
@@ -665,14 +665,14 @@ int convertToInt(string input) {
 	return choice;
 }
 
-int inputValidation(int input, int max) {
+int inputValidation(int input, int min, int max) {
 	/* checks if input is within valid range */
 
-	while (input < 0 || input > max) {
+	while (input < min || input > max) {
 		string menuChoice;
 
 		cout << "This is an invalid input" << endl;
-		cout << "Please enter a number between 0 and " << max << endl;
+		cout << "Please enter a number between " << min << " and " << max << endl;
 
 		cin >> menuChoice;
 		input = convertToInt(menuChoice);

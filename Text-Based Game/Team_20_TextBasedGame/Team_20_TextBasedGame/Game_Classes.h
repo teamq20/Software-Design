@@ -831,7 +831,7 @@ void mainMenu(int oxygen = 100);
 void singlePlayer();
 //void multiPlayer();
 int materialCollecting(Path&, string, int, int, string);
-int inputValidation(int, int);
+int inputValidation(int, int, int);
 void options(int, int, string);
 void gameRules();
 void locationSelection(int);
