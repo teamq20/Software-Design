@@ -200,7 +200,9 @@ public:
 
 		while (Selected_Item != nullptr)
 		{
-			if (Selected_Item->data == Item)
+			int compare = Selected_Item->data.compare(Item);
+
+			if (compare == 0)
 			{
 				return location_of_item;
 			}
