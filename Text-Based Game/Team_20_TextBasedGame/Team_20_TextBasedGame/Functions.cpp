@@ -205,23 +205,23 @@ void gameIntro(int playerMode) {
 	
 	if (playerMode == 1) {		//single player intro
 		cout << "Greetings VST - 7426. ";
-		//Sleep(1000);
+		Sleep(1000);
 		cout << "You are one of two brave astronauts, the core members of Operation\nVesta, that have voyaged to examine the distant planet of Minerva,";
-		//Sleep(1500);
+		Sleep(1000);
 		cout << " which shows great promise\nas a potential new home for the inhabitants of Earth. ";
-		//Sleep(1500);
+		Sleep(1000);
 		cout << "Unfortunately, due to a miscalculation in\nthe navigation system of the Demeter (your ship),";
-		//Sleep(1500);
+		Sleep(1000);
 		cout << " you have crash landed in an inhospitable\nregion of Minerva, roughly 400 kilometers south of your initial destination.";
-		//Sleep(1500);
+		Sleep(1000);
 		cout << " After running a\nsystems check, you have found that there are four crucial systems on the Demeter that have\nbeen damaged by the crash.";
-		//Sleep(1500);
+		Sleep(1000);
 		cout << " Your crewmate, VST - 7427, has also suffered fatal injuries, leaving\nyou completely alone.";
-		//Sleep(1500);
+		Sleep(1000);
 		cout << " Given the current circumstances of your predicament, you have\napproximately 3 days to fix these systems before running out of oxygen.";
-		//Sleep(1500);
+		Sleep(1000);
 		cout << " Luckily, however, this\nregion of Minerva contains valuable minerals that may aid your fixing of these parts.";
-		//Sleep(1500);
+		Sleep(1000);
 		cout << "\nChoose your path wisely, VST - 7426, and good luck." << endl << endl;
 		system("pause");
 	}
