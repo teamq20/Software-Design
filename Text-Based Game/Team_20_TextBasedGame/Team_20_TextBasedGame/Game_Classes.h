@@ -17,9 +17,7 @@ protected:
 	string causeDeath;
 public:
 	Player()
-	{}
-	
-	void setPlayer() {
+	{
 		health = 30;
 		refillTimes = 2;
 	}
