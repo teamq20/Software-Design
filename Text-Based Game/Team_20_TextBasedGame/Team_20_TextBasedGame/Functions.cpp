@@ -76,10 +76,10 @@ void mainMenu(int oxygen) {
 
 	int input = convertToInt(menuChoice);		//input validation
 	if (continueGame == true) {
-		inputValidation(input, 2);
+		input = inputValidation(input, 0, 2);
 	}
 	else {
-		inputValidation(input, 1);
+		input = inputValidation(input, 0, 1);
 	}
 
 	if (input == 1) {
@@ -114,7 +114,7 @@ void Beginning_stage()
 	cout << "Please select your tool: ";
 
 	cin >> player_choice;
-	inputValidation(player_choice, 2);
+	player_choice = inputValidation(player_choice, 1, 2);
 
 	if (player_choice == 1)		//select pickaxe
 	{
@@ -132,7 +132,7 @@ void Beginning_stage()
 	cout << "\nIn the field of Liquid containment, would you prefer: \n" << "(1) Bucket\n" << "or\n" << "(2) Flask" << endl << endl;
 	cout << "Please select your tool: ";
 	cin >> player_choice;
-	inputValidation(player_choice, 2);
+	player_choice = inputValidation(player_choice, 1, 2);
 
 	if (player_choice == 1)		//select bucket
 	{
@@ -149,7 +149,7 @@ void Beginning_stage()
 	cout << "\nIn the field of Weaponry, would you prefer: \n" << "(1) Knife (Deals 3 damage)\n" << "or \n" << "(2) Gun (Deals 5 damage)\n" << endl;
 	cout << "Please select your weapon: ";
 	cin >> player_choice;
-	inputValidation(player_choice, 2);
+	player_choice = inputValidation(player_choice, 1, 2);
 
 	if (player_choice == 1)		//select knife
 	{
@@ -166,7 +166,7 @@ void Beginning_stage()
 	cout << "\nFinally, in the field of Illumination, would you prefer: \n" << "(1) Flashlight\n" << "or\n" << "(2) Lantern\n" << endl;
 	cout << "Please select your tool: ";
 	cin >> player_choice;
-	inputValidation(player_choice, 2);
+	player_choice = inputValidation(player_choice, 1, 2);
 
 	if (player_choice == 1)		//select flashlight
 	{
@@ -205,23 +205,23 @@ void gameIntro(int playerMode) {
 	
 	if (playerMode == 1) {		//single player intro
 		cout << "Greetings VST - 7426. ";
-		//Sleep(1000);
+		Sleep(1000);
 		cout << "You are one of two brave astronauts, the core members of Operation\nVesta, that have voyaged to examine the distant planet of Minerva,";
-		//Sleep(1500);
+		Sleep(1000);
 		cout << " which shows great promise\nas a potential new home for the inhabitants of Earth. ";
-		//Sleep(1500);
+		Sleep(1000);
 		cout << "Unfortunately, due to a miscalculation in\nthe navigation system of the Demeter (your ship),";
-		//Sleep(1500);
+		Sleep(1000);
 		cout << " you have crash landed in an inhospitable\nregion of Minerva, roughly 400 kilometers south of your initial destination.";
-		//Sleep(1500);
+		Sleep(1000);
 		cout << " After running a\nsystems check, you have found that there are four crucial systems on the Demeter that have\nbeen damaged by the crash.";
-		//Sleep(1500);
+		Sleep(1000);
 		cout << " Your crewmate, VST - 7427, has also suffered fatal injuries, leaving\nyou completely alone.";
-		//Sleep(1500);
+		Sleep(1000);
 		cout << " Given the current circumstances of your predicament, you have\napproximately 3 days to fix these systems before running out of oxygen.";
-		//Sleep(1500);
+		Sleep(1000);
 		cout << " Luckily, however, this\nregion of Minerva contains valuable minerals that may aid your fixing of these parts.";
-		//Sleep(1500);
+		Sleep(1000);
 		cout << "\nChoose your path wisely, VST - 7426, and good luck." << endl << endl;
 		system("pause");
 	}
@@ -300,7 +300,7 @@ void locationSelection(int oxygen) {
 
 	cin >> choice;
 	int input = convertToInt(choice);		//input validation
-	inputValidation(input, 4);
+	input = inputValidation(input, 0, 4);
 
 	if (input == 0) {		//options menu
 		options(1, oxygen, "Select");		//current player mode is 1 here for single player
@@ -366,7 +366,7 @@ void paths(string location, int oxygen) {
 		cin >> choice;
 
 		int input = convertToInt(choice);		//input validation
-		inputValidation(input, 4);
+		input = inputValidation(input, 0, 4);
 		
 		
 		if (input == 0) {		//options
@@ -374,92 +374,92 @@ void paths(string location, int oxygen) {
 		}
 		else if (input == 1) {				//path 1 that differs per location
 			if (location == "Minerva Volcanoes") {
-				oxygen = pathC.goPath(location, oxygen, material);
+				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 			}
 			else if (location == "Caves") {
-				oxygen = pathB.goPath(location, oxygen, material);
+				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 			}
 			else if (location == "Liquid Streams") {
-				oxygen = pathD.goPath(location, oxygen, material);
+				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 			}
 			else if (location == "Clusters of Rocks") {
-				oxygen = pathA.goPath(location, oxygen, material);
+				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 			}
 		}
 		else if (input == 2) {				//path 2 that differs per location
 			if (location == "Minerva Volcanoes") {
-				oxygen = pathB.goPath(location, oxygen, material);
+				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 			}
 			else if (location == "Caves") {
-				oxygen = pathC.goPath(location, oxygen, material);
+				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 			}
 			else if (location == "Liquid Streams") {
-				oxygen = pathB.goPath(location, oxygen, material);
+				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 			}
 			else if (location == "Clusters of Rocks") {
-				oxygen = pathC.goPath(location, oxygen, material);
+				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 			}
 		}
 		else if (input == 3) {				//path 3 that differs per location
 			if (location == "Minerva Volcanoes") {
-				oxygen = pathA.goPath(location, oxygen, material);
+				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 			}
 			else if (location == "Caves") {
-				oxygen = pathD.goPath(location, oxygen, material);
+				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 			}
 			else if (location == "Liquid Streams") {
-				oxygen = pathC.goPath(location, oxygen, material);
+				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 			}
 			else if (location == "Clusters of Rocks") {
-				oxygen = pathB.goPath(location, oxygen, material);
+				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 			}
 		}
 		else if (input == 4) {				//path 4 that differs per location
 			if (location == "Minerva Volcanoes") {
-				oxygen = pathD.goPath(location, oxygen, material);
+				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 			}
 			else if (location == "Caves") {
-				oxygen = pathA.goPath(location, oxygen, material);
+				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 			}
 			else if (location == "Liquid Streams") {
-				oxygen = pathA.goPath(location, oxygen, material);
+				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 			}
 			else if (location == "Clusters of Rocks") {
-				oxygen = pathD.goPath(location, oxygen, material);
+				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 			}
 		}
 		
-		int found_material = 0;
+		bool found_material = false;
 		found_material = P1_Inventory->Find_Item(material);
-		if (found_material != -1) {			//check if material was collected
+		if (found_material == true) {			//check if material was collected
 			cout << "\nNow that you have successfully collected the " << material << ", it's time to go back to Demeter!\n" << endl;
 			break;
 		} 
 
 		cout << "\nDo you wish to:" << endl;
 		cout << "(1) Continue exploring other paths in this location" << endl;
-		cout << "(2) Leave the " << location << " and go back to the ship" << endl;
+		cout << "(2) Leave the " << location << " and go back to the ship\n" << endl;
 		P1_Inventory->Print();		//print player inventory
 		cin >> choice;
 
 		newInput = convertToInt(choice);		//input validation
-		inputValidation(newInput, 2);
+		newInput = inputValidation(newInput, 0, 2);
 
 		if (newInput == 0) {		//options choice
 			options(1, oxygen, location);
@@ -473,12 +473,13 @@ int materialCollecting(Path& pathObject, string location, int oxygen, int matPro
 {
 	/* Determines probability of materials, and collects if applicable */
 	
+	Inventory* P1_InventoryPtr = P1_Inventory;
 	pathObject.setMaterial(location);		//sets material per location
 	bool matCollect = false;				//true to collect material, false if not
 	matCollect = pathObject.determineAmount(matProb, oxygen);		//determines if collect materials or not
 
 	if (matCollect == true) {			//add material to inventory if determined true
-		oxygen = pathObject.collectMaterial();
+		oxygen = pathObject.collectMaterial(*P1_InventoryPtr);
 		P1_Inventory->Add_to_Inventory(material);
 	}
 
@@ -490,7 +491,7 @@ void locationDemeter(int oxygen) {
 
 	string refillHealthChoice;
 
-	cout << "[HEALTH: " << P1->getHealth() << "]" << endl;				//display health
+	cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;				//display health
 	Check_Oxygen(oxygen);
 	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;			//display oxygen level
 
@@ -501,7 +502,7 @@ void locationDemeter(int oxygen) {
 		cin >> refillHealthChoice;
 
 		int refillInput = convertToInt(refillHealthChoice);		//input validation
-		inputValidation(refillInput, 2);
+		refillInput = inputValidation(refillInput, 0, 2);
 
 		if (refillInput == 0) {		//options
 			options(1, oxygen, "Demeter");
@@ -526,7 +527,7 @@ void locationDemeter(int oxygen) {
 	cin >> choice;
 
 	int input = convertToInt(choice);		//input validation
-	inputValidation(input, 2);
+	input = inputValidation(input, 0, 2);
 
 	if (input == 0) {		//options
 		options(1, oxygen, "Demeter");
@@ -536,7 +537,7 @@ void locationDemeter(int oxygen) {
 	}
 	else if (input == 2) {		//repair ship
 		oxygen--;
-		The_Ship->Deposit_material(); //This is where the ship will search the player's inventory for the materials needed, when found they will be deleted and the material will come out as true.
+		The_Ship->Deposit_material(*P1_Inventory); //This is where the ship will search the player's inventory for the materials needed, when found they will be deleted and the material will come out as true.
 		The_Ship->Win_condition(); //If all four materials are set to true the player wins and is sent to the main menu.
 		locationDemeter(oxygen);	//brings the player back to the main menu of Demeter
 	}
@@ -599,7 +600,7 @@ void options(int playerMode, int oxygen, string optionLocation) {
 	cin >> menuChoice;
 
 	int input = convertToInt(menuChoice);		//input validation
-	inputValidation(input, 3);
+	input = inputValidation(input, 0, 3);
 
 	if (input == 1) {		//main menu
 		continueGame = true;
@@ -664,16 +665,17 @@ int convertToInt(string input) {
 	return choice;
 }
 
-void inputValidation(int input, int max) {
+int inputValidation(int input, int min, int max) {
 	/* checks if input is within valid range */
 
-	while (input < 0 || input > max) {
+	while (input < min || input > max) {
 		string menuChoice;
 
 		cout << "This is an invalid input" << endl;
-		cout << "Please enter a number between 0 and " << max << endl;
+		cout << "Please enter a number between " << min << " and " << max << endl;
 
 		cin >> menuChoice;
 		input = convertToInt(menuChoice);
 	}
+	return input;
 }
