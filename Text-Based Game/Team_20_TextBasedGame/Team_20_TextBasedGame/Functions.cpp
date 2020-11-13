@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <cctype>
 #include <Windows.h>
+
 using namespace std;
 
 string version = "1.2.0";
