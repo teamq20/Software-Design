@@ -106,7 +106,8 @@ void Beginning_stage()
 
 	string Starting_Items[8] = { "Pickaxe","Drill","Bucket","Flask","Knife","Gun","Flashlight","Lantern" };
 
-	int player_choice = 0;
+	int player_choice;	//player input when converted to int
+	string choice;		//player input
 	cout << "\nWhen selecting the tools needed, the dispensery can only operate to an extent that it can only dispense one item of each category." << endl
 		<< "\nFor exploration, the categories are:\n" << "-Excavation\n" << "-Liquid containment\n" << "-Weaponry\n" << "-Illumination\n" << endl;
 	Sleep(1500);
@@ -114,7 +115,8 @@ void Beginning_stage()
 
 	cout << "Please select your tool: ";
 
-	cin >> player_choice;
+	cin >> choice;
+	player_choice = convertToInt(choice);
 	player_choice = inputValidation(player_choice, 1, 2);
 
 	if (player_choice == 1)		//select pickaxe
@@ -132,7 +134,8 @@ void Beginning_stage()
 	Sleep(1500);
 	cout << "\nIn the field of Liquid containment, would you prefer: \n" << "(1) Bucket\n" << "or\n" << "(2) Flask" << endl << endl;
 	cout << "Please select your tool: ";
-	cin >> player_choice;
+	cin >> choice;
+	player_choice = convertToInt(choice);
 	player_choice = inputValidation(player_choice, 1, 2);
 
 	if (player_choice == 1)		//select bucket
@@ -149,7 +152,8 @@ void Beginning_stage()
 	Sleep(1500);
 	cout << "\nIn the field of Weaponry, would you prefer: \n" << "(1) Knife (Deals 3 damage)\n" << "or \n" << "(2) Gun (Deals 5 damage)\n" << endl;
 	cout << "Please select your weapon: ";
-	cin >> player_choice;
+	cin >> choice;
+	player_choice = convertToInt(choice);
 	player_choice = inputValidation(player_choice, 1, 2);
 
 	if (player_choice == 1)		//select knife
@@ -166,7 +170,8 @@ void Beginning_stage()
 	Sleep(1500);
 	cout << "\nFinally, in the field of Illumination, would you prefer: \n" << "(1) Flashlight\n" << "or\n" << "(2) Lantern\n" << endl;
 	cout << "Please select your tool: ";
-	cin >> player_choice;
+	cin >> choice;
+	player_choice = convertToInt(choice);
 	player_choice = inputValidation(player_choice, 1, 2);
 
 	if (player_choice == 1)		//select flashlight
@@ -651,7 +656,7 @@ int convertToInt(string input) {
 	while (stringCounter != 0) {
 		stringCounter = 0;
 		for (int i = 0; i < input.length(); i++) {
-			if (isalpha(input[i])) {
+			if (!isdigit(input[i])) {
 				stringCounter++;
 			}
 		}
