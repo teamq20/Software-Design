@@ -94,8 +94,8 @@ void mainMenu(int oxygen) {
 		multiPlayer();		//go to multiplayer version
 	}*/
 	else if (input == 0) {
-		cout << "Exit" << endl;		//end game
-		system("pause");
+		//cout << "Exit" << endl;		//end game
+		//system("pause");
 		_Exit(10);
 	}
 }
@@ -344,6 +344,7 @@ void paths(string location, int oxygen) {
 
 	string choice;
 	int newInput = 1;
+	bool isDead;
 
 	//set materials based on location
 	string material;
@@ -382,72 +383,168 @@ void paths(string location, int oxygen) {
 			if (location == "Minerva Volcanoes") {
 				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
+				isDead = pathC.died();
+
+				if (isDead == true) {
+					system("pause");
+					mainMenu();
+				}
 			}
 			else if (location == "Caves") {
 				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
+				isDead = pathB.died();
+
+				if (isDead == true) {
+					system("pause");
+					mainMenu();
+				}
 			}
 			else if (location == "Liquid Streams") {
 				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
+				isDead = pathD.died();
+
+				if (isDead == true) {
+					system("pause");
+					mainMenu();
+				}
 			}
 			else if (location == "Clusters of Rocks") {
 				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
+				isDead = pathA.died();
+
+				if (isDead == true) {
+					system("pause");
+					mainMenu();
+				}
 			}
 		}
 		else if (input == 2) {				//path 2 that differs per location
 			if (location == "Minerva Volcanoes") {
 				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
+				isDead = pathB.died();
+
+				if (isDead == true) {
+					system("pause");
+					mainMenu();
+				}
 			}
 			else if (location == "Caves") {
 				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
+				isDead = pathC.died();
+
+				if (isDead == true) {
+					system("pause");
+					mainMenu();
+				}
 			}
 			else if (location == "Liquid Streams") {
 				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
+				isDead = pathB.died();
+
+				if (isDead == true) {
+					system("pause");
+					mainMenu();
+				}
 			}
 			else if (location == "Clusters of Rocks") {
 				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
+				isDead = pathC.died();
+
+				if (isDead == true) {
+					system("pause");
+					mainMenu();
+				}
 			}
 		}
 		else if (input == 3) {				//path 3 that differs per location
 			if (location == "Minerva Volcanoes") {
 				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
+				isDead = pathA.died();
+
+				if (isDead == true) {
+					system("pause");
+					mainMenu();
+				}
 			}
 			else if (location == "Caves") {
 				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
+				isDead = pathD.died();
+
+				if (isDead == true) {
+					system("pause");
+					mainMenu();
+				}
 			}
 			else if (location == "Liquid Streams") {
 				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
+				isDead = pathC.died();
+
+				if (isDead == true) {
+					system("pause");
+					mainMenu();
+				}
 			}
 			else if (location == "Clusters of Rocks") {
 				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
+				isDead = pathB.died();
+
+				if (isDead == true) {
+					system("pause");
+					mainMenu();
+				}
 			}
 		}
 		else if (input == 4) {				//path 4 that differs per location
 			if (location == "Minerva Volcanoes") {
 				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
+				isDead = pathD.died();
+
+				if (isDead == true) {
+					system("pause");
+					mainMenu();
+				}
 			}
 			else if (location == "Caves") {
 				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
+				isDead = pathA.died();
+
+				if (isDead == true) {
+					system("pause");
+					mainMenu();
+				}
 			}
 			else if (location == "Liquid Streams") {
 				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
+				isDead = pathA.died();
+
+				if (isDead == true) {
+					system("pause");
+					mainMenu();
+				}
 			}
 			else if (location == "Clusters of Rocks") {
 				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material);
 				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
+				isDead = pathD.died();
+
+				if (isDead == true) {
+					system("pause");
+					mainMenu();
+				}
 			}
 		}
 		
@@ -544,7 +641,14 @@ void locationDemeter(int oxygen) {
 	else if (input == 2) {		//repair ship
 		oxygen--;
 		The_Ship->Deposit_material(*P1_Inventory); //This is where the ship will search the player's inventory for the materials needed, when found they will be deleted and the material will come out as true.
-		The_Ship->Win_condition(); //If all four materials are set to true the player wins and is sent to the main menu.
+		bool won = The_Ship->Win_condition(); //If all four materials are set to true the player wins and is sent to the main menu.
+
+		if (won == true) {
+			cout << "*VICTORY* Congratulations VST-7426, you have successfully acquired and integrated all necessary materials\n"
+				<< "to fix the Demeter. All systems are now nominal. Commencing departure from the surface of Minerva." << endl << endl;
+			system("pause");
+			mainMenu();
+		}
 		locationDemeter(oxygen);	//brings the player back to the main menu of Demeter
 	}
 }
