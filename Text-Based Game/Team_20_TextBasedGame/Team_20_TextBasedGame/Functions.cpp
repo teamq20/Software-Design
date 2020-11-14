@@ -9,7 +9,7 @@
 
 using namespace std;
 
-string version = "1.2.0";
+string version = "1.2.1";
 
 Inventory* P1_Inventory;				//Player 1 personal inventory
 Player* P1;								//Player 1 object
@@ -365,17 +365,17 @@ void paths(string location, int oxygen)
 	int Health_State = 0;
 	Path pathA, pathB, pathC, pathD;
 	//set path objects - (moves, material prob, hazard prob, small enemy prob, med enemy prob, lg enemy prob)
-	pathA.setPath(3, 0, 7, 40, 60, 70);			//70% chance enemy - 40% small, 20% medium, 10% large
-	pathB.setPath(1, 30, 12, 20, 35, 40);		//40% chance enemy - 20% small, 15% medium, 5% large
-	pathC.setPath(2, 50, 10, 25, 40, 50);		//50% chance enemy - 25% small, 15% medium, 10% large
-	pathD.setPath(2, 100, 15, 35, 50, 60);		//60% chance enemy - 35% small, 15% medium, 10% large
+	pathA.setPath(3, 0, 14, 40, 60, 70);			//70% chance enemy - 40% small, 20% medium, 10% large
+	pathB.setPath(1, 30, 24, 20, 35, 40);		//40% chance enemy - 20% small, 15% medium, 5% large
+	pathC.setPath(2, 50, 20, 25, 40, 50);		//50% chance enemy - 25% small, 15% medium, 10% large
+	pathD.setPath(2, 100, 30, 35, 50, 60);		//60% chance enemy - 35% small, 15% medium, 10% large
 
 	//set material probability per path
 	int matProbA = 0, matProbB = 30, matProbC = 50, matProbD = 100;
 
 	string choice;
 	int newInput = 1;
-	bool isDead;
+	bool isAlive;
 
 	//set materials based on location
 	string material;
@@ -413,40 +413,44 @@ void paths(string location, int oxygen)
 		else if (input == 1) {				//path 1 that differs per location
 			if (location == "Minerva Volcanoes") {
 				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material, *P1);		//go to path for enemies and hazards
-				isDead = pathC.died();				//check if player is dead or alive
+				isAlive = pathC.died();				//check if player is dead or alive
 
-				if (isDead == true) {
+				if (isAlive == false) {
 					system("pause");
+					continueGame = false;
 					mainMenu();
 				}
 				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);			//go to possible material collection
 			}
 			else if (location == "Caves") {
 				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material, *P1);
-				isDead = pathB.died();
+				isAlive = pathB.died();
 
-				if (isDead == true) {
+				if (isAlive == false) {
 					system("pause");
+					continueGame = false;
 					mainMenu();
 				}
 				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 			}
 			else if (location == "Liquid Streams") {
 				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material, *P1);
-				isDead = pathD.died();
+				isAlive = pathD.died();
 
-				if (isDead == true) {
+				if (isAlive == false) {
 					system("pause");
+					continueGame = false;
 					mainMenu();
 				}
 				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 			}
 			else if (location == "Clusters of Rocks") {
 				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material, *P1);
-				isDead = pathA.died();
+				isAlive = pathA.died();
 
-				if (isDead == true) {
+				if (isAlive == false) {
 					system("pause");
+					continueGame = false;
 					mainMenu();
 				}
 				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
@@ -455,40 +459,44 @@ void paths(string location, int oxygen)
 		else if (input == 2) {				//path 2 that differs per location
 			if (location == "Minerva Volcanoes") {
 				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material, *P1);
-				isDead = pathB.died();
+				isAlive = pathB.died();
 
-				if (isDead == true) {
+				if (isAlive == false) {
 					system("pause");
+					continueGame = false;
 					mainMenu();
 				}
 				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 			}
 			else if (location == "Caves") {
 				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material, *P1);
-				isDead = pathC.died();
+				isAlive = pathC.died();
 
-				if (isDead == true) {
+				if (isAlive == false) {
 					system("pause");
+					continueGame = false;
 					mainMenu();
 				}
 				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 			}
 			else if (location == "Liquid Streams") {
 				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material, *P1);
-				isDead = pathB.died();
+				isAlive = pathB.died();
 
-				if (isDead == true) {
+				if (isAlive == false) {
 					system("pause");
+					continueGame = false;
 					mainMenu();
 				}
 				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 			}
 			else if (location == "Clusters of Rocks") {
 				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material, *P1);
-				isDead = pathC.died();
+				isAlive = pathC.died();
 
-				if (isDead == true) {
+				if (isAlive == false) {
 					system("pause");
+					continueGame = false;
 					mainMenu();
 				}
 				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
@@ -497,40 +505,44 @@ void paths(string location, int oxygen)
 		else if (input == 3) {				//path 3 that differs per location
 			if (location == "Minerva Volcanoes") {
 				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material, *P1);
-				isDead = pathA.died();
+				isAlive = pathA.died();
 
-				if (isDead == true) {
+				if (isAlive == false) {
 					system("pause");
+					continueGame = false;
 					mainMenu();
 				}
 				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 			}
 			else if (location == "Caves") {
 				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material, *P1);
-				isDead = pathD.died();
+				isAlive = pathD.died();
 
-				if (isDead == true) {
+				if (isAlive == false) {
 					system("pause");
+					continueGame = false;
 					mainMenu();
 				}
 				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 			}
 			else if (location == "Liquid Streams") {
 				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material, *P1);
-				isDead = pathC.died();
+				isAlive = pathC.died();
 
-				if (isDead == true) {
+				if (isAlive == false) {
 					system("pause");
+					continueGame = false;
 					mainMenu();
 				}
 				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 			}
 			else if (location == "Clusters of Rocks") {
 				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material, *P1);
-				isDead = pathB.died();
+				isAlive = pathB.died();
 
-				if (isDead == true) {
+				if (isAlive == false) {
 					system("pause");
+					continueGame = false;
 					mainMenu();
 				}
 				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
@@ -539,40 +551,44 @@ void paths(string location, int oxygen)
 		else if (input == 4) {				//path 4 that differs per location
 			if (location == "Minerva Volcanoes") {
 				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material, *P1);
-				isDead = pathD.died();
+				isAlive = pathD.died();
 
-				if (isDead == true) {
+				if (isAlive == false) {
 					system("pause");
+					continueGame = false;
 					mainMenu();
 				}
 				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 			}
 			else if (location == "Caves") {
 				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material, *P1);
-				isDead = pathA.died();
+				isAlive = pathA.died();
 
-				if (isDead == true) {
+				if (isAlive == false) {
 					system("pause");
+					continueGame = false;
 					mainMenu();
 				}
 				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 			}
 			else if (location == "Liquid Streams") {
 				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material, *P1);
-				isDead = pathA.died();
+				isAlive = pathA.died();
 
-				if (isDead == true) {
+				if (isAlive == false) {
 					system("pause");
+					continueGame = false;
 					mainMenu();
 				}
 				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 			}
 			else if (location == "Clusters of Rocks") {
 				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material, *P1);
-				isDead = pathD.died();
+				isAlive = pathD.died();
 
-				if (isDead == true) {
+				if (isAlive == false) {
 					system("pause");
+					continueGame = false;
 					mainMenu();
 				}
 				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);

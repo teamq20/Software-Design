@@ -443,7 +443,7 @@ public:
 				hitChance = rand() % 100 + 1;   //If hitChance is >1 && <=50, enemy misses; hitChance is >50 inflict damage on player
 				if (hitChance <= playerChance) {				//player hits enemy
 					cout << "The enemy left an opening for attack!" << endl;
-					cout << "No damage was received" << endl;
+					cout << "No damage was received." << endl;
 
 					if (weapon == "Knife") {
 						cout << "You attack and inflict " << knifeDamage << " damage on your enemy!" << endl;
@@ -461,6 +461,7 @@ public:
 				else if (hitChance > playerChance) {				//enemy hits player
 					cout << "You received damage!" << endl;
 					The_Player.damage(2);
+					cout << "[HEALTH: " << The_Player.getHealth() << "]" << endl << endl;
 					system("pause");
 					if (The_Player.isAlive() == true)
 					{
@@ -473,9 +474,11 @@ public:
 					}
 				}
 			}
-
-			cout << "\nThe enemy has been defeated!" << endl;
-			cout << "\n[HEALTH: " << The_Player.getHealth() << "]" << endl;
+			if (The_Player.isAlive() == true)
+			{
+				cout << "\nThe enemy has been defeated!" << endl;
+				cout << "\n[HEALTH: " << The_Player.getHealth() << "]\n" << endl;
+			}
 		}
 		//medium enemy combat
 		else if (enemyType == 1) {
@@ -491,7 +494,7 @@ public:
 				hitChance = rand() % 90 + 10;	//If hitChance is >10 && <=50, enemy misses; hitChance is >50 inflict damage on player
 				if (hitChance <= playerChance) {					//player hits enemy
 					cout << "The enemy left an opening for attack!" << endl;
-					cout << "No damage was received" << endl;
+					cout << "No damage was received." << endl;
 
 					if (weapon == "Knife") {
 						cout << "You attack and inflict " << knifeDamage << " damage on your enemy!" << endl;
@@ -509,6 +512,7 @@ public:
 				else if (hitChance > playerChance) {				//enemy hits player
 					cout << "You received damage!" << endl;
 					The_Player.damage(4);
+					cout << "[HEALTH: " << The_Player.getHealth() << "]" << endl << endl;
 					system("pause");
 					if (The_Player.isAlive() == true)
 					{
@@ -521,8 +525,11 @@ public:
 					}
 				}
 			}
-			cout << "\nThe enemy has been defeated!" << endl;
-			cout << "\n[HEALTH: " << The_Player.getHealth() << "]" << endl;
+			if (The_Player.isAlive() == true)
+			{
+				cout << "\nThe enemy has been defeated!" << endl;
+				cout << "\n[HEALTH: " << The_Player.getHealth() << "]\n" << endl;
+			}
 		}
 		//large enemy combat
 		else if (enemyType == 2) {
@@ -535,10 +542,10 @@ public:
 			while (enemyHP > 0) {
 				cout << "[HEALTH: " << The_Player.getHealth() << "]" << endl << endl;
 
-				hitChance = rand() % 80 + 20;	//If hitChance is >20 && <=50, enemy misses; hitChance is >50 inflict damage on player
+				hitChance = rand() % 85 + 15;	//If hitChance is >15 && <=50, enemy misses; hitChance is >50 inflict damage on player
 				if (hitChance <= playerChance) {				//player hits enemy
 					cout << "The enemy left an opening for attack!" << endl;
-					cout << "No damage was received" << endl;
+					cout << "No damage was received." << endl;
 
 					if (weapon == "Knife") {
 						cout << "You attack and inflict " << knifeDamage << " damage on your enemy!" << endl;
@@ -556,6 +563,7 @@ public:
 				else if (hitChance > playerChance) {				//enemy hits player
 					cout << "You received damage!" << endl;
 					The_Player.damage(6);
+					cout << "[HEALTH: " << The_Player.getHealth() << "]" << endl << endl;
 					system("pause");
 					if (The_Player.isAlive() == true)
 					{
@@ -568,8 +576,11 @@ public:
 					}
 				}
 			}
-			cout << "\nThe enemy has been defeated!" << endl;
-			cout << "\n[HEALTH: " << The_Player.getHealth() << "]" << endl;
+			if (The_Player.isAlive() == true)
+			{
+				cout << "\nThe enemy has been defeated!" << endl;
+				cout << "\n[HEALTH: " << The_Player.getHealth() << "]\n" << endl;
+			}
 		}
 		return oxygenLevel;
 		
@@ -639,7 +650,7 @@ public:
 		}
 	}
 
-	bool determineProb(int p)
+	bool determineProb(int p, Player& The_Player)
 	{
 		prob = p;		//probability number of hazard
 
@@ -650,7 +661,7 @@ public:
 		number1 = distr(gen1);
 
 		if (number1 <= prob) {
-			bool died = deployHazard();
+			bool died = deployHazard(The_Player);
 
 			if (died == true) {
 				return true;
@@ -663,23 +674,24 @@ public:
 			cout << "you notice there doesn't seem to be any hazards down this way." << endl;
 			cout << "You continue on exploring this path." << endl;
 			system("pause");
+			return false;
 		}
 	}
 
-	bool deployHazard()
+	bool deployHazard(Player& The_Player)
 	{
 		cout << "you get hurt by " << hazard << "!" << endl;
 
-		Player::damage(3);
-		cout << "\n[HEALTH: " << Player::getHealth() << "]" << endl;
+		The_Player.damage(3);
+		cout << "\n[HEALTH: " << The_Player.getHealth() << "]" << endl;
 
-		if (Player::isAlive() == true) {
+		if (The_Player.isAlive() == true) {
 			cout << "\nThe damage wasn't too bad, so you continue on exploring." << endl;
 			system("pause");
 			return false;
 		}
 		else {
-			Player::dead(hazard);
+			The_Player.dead(hazard);
 			return true;
 		}
 	}
@@ -769,8 +781,8 @@ public:
 			oxygen = oxygen - streamsToolAmnt;
 			int contaminationChance = rand() % 100 + 1;
 			if (streamsTool == "Bucket" && contaminationChance <= 30) {
-				cout << "Oh no! Using your " << streamsTool << " resulted in contamination of the liquid!" << endl;
-				cout << "You are forced to recollect it, using up more of your oxygen." << endl;
+				cout << "\nOh no! Using your " << streamsTool << " resulted in contamination of the liquid!" << endl;
+				cout << "You are forced to recollect it, using up more of your oxygen.\n" << endl;
 				oxygen = oxygen - streamsToolAmnt;
 			}
 		}
@@ -802,6 +814,7 @@ public:
 	{}
 
 	bool isDead;
+	bool alive = true;
 
 	void setPath(int o, int m, int h, int sm, int med, int lg)
 	{
@@ -826,32 +839,37 @@ public:
 		int randNum = (rand() % 3) + 1;			//chooses random number 1-3
 		if (randNum == 1) {
 			Hazards::setHazard(location);
-			isDead = Hazards::determineProb(hazardProb);		//hazards
-
-			if (isDead == true) {
-				died();
+			isDead = Hazards::determineProb(hazardProb, The_Player);		//hazards
+			if (isDead == true) {		//check if dead, then set variable
+				alive = false;
 			}
 		}
 		else if (randNum == 2) {
 			oxygenLevel = Enemy::determineSpawn(playerInventory, smallEnemy, medEnemy, lgEnemy, location, oxygenLevel, The_Player);
+			if (The_Player.isAlive() == false) {
+				alive = false;
+			}
 		}
 		else {
 			Hazards::setHazard(location);
-			Hazards::determineProb(hazardProb);		//hazards
-			cout << "Continuing down the path, ";
-			oxygenLevel = Enemy::determineSpawn(playerInventory, smallEnemy, medEnemy, lgEnemy, location, oxygenLevel, The_Player);
+			isDead = Hazards::determineProb(hazardProb, The_Player);		//hazards
+			if (isDead == true) {		//check if dead, then set variable
+				alive = false;
+			}
+			else {
+				cout << "Continuing down the path, ";
+				oxygenLevel = Enemy::determineSpawn(playerInventory, smallEnemy, medEnemy, lgEnemy, location, oxygenLevel, The_Player);
+				if (The_Player.isAlive() == false) {
+					alive = false;
+				}
+			}
 		}
-
 		return oxygenLevel;
 	}
 
-	bool died() {
-		if (isDead == true) {
-			return true;
-		}
-		else {
-			return false;
-		}
+	bool died() 
+	{
+		return alive;
 	}
 };
 
