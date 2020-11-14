@@ -74,8 +74,12 @@ public:
 				<< "Your health cannot be restored any more." << endl;
 		}
 	}
+	void Set_Health(int Current_Health)
+	{
+		health = Current_Health;
+	}
 
-	int getHealth() //returns current health amount
+	 int getHealth() //returns current health amount
 	{		
 		return health;
 	}
@@ -404,7 +408,8 @@ public:
 	//0 = small enemy
 	//1 = medium enemy
 	//2 = large enemy
-	int Combat(Inventory& playerInventory, int enemyType) {
+	int Combat(Inventory& playerInventory, int enemyType, Player& The_Player) 
+	{
 		const int playerChance = 50;
 		int hitChance;
 		hitChance = rand() % 100 + 1;		//hit chance between 1-100
@@ -430,7 +435,7 @@ public:
 			system("pause");
 
 			while (enemyHP > 0) {
-				cout << "[HEALTH: " << Player::getHealth() << "]" << endl << endl;
+				cout << "[HEALTH: " << The_Player.getHealth() << "]" << endl << endl;
 
 				hitChance = rand() % 100 + 1;   //If hitChance is >1 && <=50, enemy misses; hitChance is >50 inflict damage on player
 				if (hitChance <= playerChance) {
@@ -452,22 +457,22 @@ public:
 				}
 				else if (hitChance > playerChance) {
 					cout << "You received damage!" << endl;
-					Player::damage(2);
+					The_Player.damage(2);
 					system("pause");
-					if (Player::isAlive() == true)
+					if (The_Player.isAlive() == true)
 					{
 						continue;
 					}
 					else
 					{
-						Player::dead("a small enemy");
+						The_Player.dead("a small enemy");
 						break;
 					}
 				}
 			}
 
 			cout << "\nThe enemy has been defeated!" << endl;
-			cout << "\n[HEALTH: " << Player::getHealth() << "]" << endl;
+			cout << "\n[HEALTH: " << The_Player.getHealth() << "]" << endl;
 		}
 		//medium enemy combat
 		else if (enemyType == 1) {
@@ -478,7 +483,7 @@ public:
 			system("pause");
 
 			while (enemyHP > 0) {
-				cout << "[HEALTH: " << Player::getHealth() << "]" << endl << endl;
+				cout << "[HEALTH: " << The_Player.getHealth() << "]" << endl << endl;
 
 				hitChance = rand() % 90 + 10;	//If hitChance is >10 && <=50, enemy misses; hitChance is >50 inflict damage on player
 				if (hitChance <= playerChance) {
@@ -500,21 +505,21 @@ public:
 				}
 				else if (hitChance > playerChance) {
 					cout << "You received damage!" << endl;
-					Player::damage(4);
+					The_Player.damage(4);
 					system("pause");
-					if (Player::isAlive() == true)
+					if (The_Player.isAlive() == true)
 					{
 						continue;
 					}
 					else
 					{
-						Player::dead("a medium enemy");
+						The_Player.dead("a medium enemy");
 						break;
 					}
 				}
 			}
 			cout << "\nThe enemy has been defeated!" << endl;
-			cout << "\n[HEALTH: " << Player::getHealth() << "]" << endl;
+			cout << "\n[HEALTH: " << The_Player.getHealth() << "]" << endl;
 		}
 		//large enemy combat
 		else if (enemyType == 2) {
@@ -525,7 +530,7 @@ public:
 			system("pause");
 			
 			while (enemyHP > 0) {
-				cout << "[HEALTH: " << Player::getHealth() << "]" << endl << endl;
+				cout << "[HEALTH: " << The_Player.getHealth() << "]" << endl << endl;
 
 				hitChance = rand() % 80 + 20;	//If hitChance is >20 && <=50, enemy misses; hitChance is >50 inflict damage on player
 				if (hitChance <= playerChance) {
@@ -547,29 +552,29 @@ public:
 				}
 				else if (hitChance > playerChance) {
 					cout << "You received damage!" << endl;
-					Player::damage(6);
+					The_Player.damage(6);
 					system("pause");
-					if (Player::isAlive() == true)
+					if (The_Player.isAlive() == true)
 					{
 						continue;
 					}
 					else
 					{
-						Player::dead("a large enemy");
+						The_Player.dead("a large enemy");
 						break;
 					}
 				}
 			}
 			cout << "\nThe enemy has been defeated!" << endl;
-			cout << "\n[HEALTH: " << Player::getHealth() << "]" << endl;
+			cout << "\n[HEALTH: " << The_Player.getHealth() << "]" << endl;
 		}
 		return oxygenLevel;
+		
 	}
 	
-	int determineSpawn(Inventory& playerInventory, int s, int m, int l, string loc, int oxygen)
+	int determineSpawn(Inventory& playerInventory, int s, int m, int l, string loc, int oxygen, Player& The_Player)
 	{
 		Enemy enemy;
-
 		small = s;
 		medium = m;
 		large = l;
@@ -584,15 +589,15 @@ public:
 
 		if (number <= small) {
 			cout << "you encounter a small enemy!" << endl;
-			Combat(playerInventory, 0);
+			Combat(playerInventory, 0, The_Player);
 		}
 		else if (number > small && number <= medium) {
 			cout << "you encounter a medium enemy!" << endl;
-			Combat(playerInventory, 1);
+			Combat(playerInventory, 1, The_Player);
 		}
 		else if (number > medium && number <= large) {
 			cout << "you encounter a large enemy!" << endl;
-			Combat(playerInventory, 2);
+			Combat(playerInventory, 2, The_Player);
 		}
 		else {
 			cout << "no enemies are found nearby." << endl;
@@ -767,7 +772,7 @@ public:
 	}
 };
 
-class Path : public Enemy, public Hazards, public Materials
+class Path : public Enemy, public Hazards, public Materials, public Player
 {
 private:
 	int oxygen;			//amount of oxgen depleted per path
@@ -793,7 +798,7 @@ public:
 		lgEnemy = lg;
 	}
 
-	int goPath(Inventory& playerInventory, string l, int ox, string mat)
+	int goPath(Inventory& playerInventory, string l, int ox, string mat, Player& The_Player)
 	{
 		location = l;
 		oxygenLevel = ox;
@@ -809,13 +814,13 @@ public:
 			Hazards::determineProb(hazardProb);		//hazards
 		}
 		else if (randNum == 2) {
-			oxygenLevel = Enemy::determineSpawn(playerInventory, smallEnemy, medEnemy, lgEnemy, location, oxygenLevel);
+			oxygenLevel = Enemy::determineSpawn(playerInventory, smallEnemy, medEnemy, lgEnemy, location, oxygenLevel, The_Player);
 		}
 		else {
 			Hazards::setHazard(location);
 			Hazards::determineProb(hazardProb);		//hazards
 			cout << "Continuing down the path, ";
-			oxygenLevel = Enemy::determineSpawn(playerInventory, smallEnemy, medEnemy, lgEnemy, location, oxygenLevel);
+			oxygenLevel = Enemy::determineSpawn(playerInventory, smallEnemy, medEnemy, lgEnemy, location, oxygenLevel, The_Player);
 		}
 
 		return oxygenLevel;

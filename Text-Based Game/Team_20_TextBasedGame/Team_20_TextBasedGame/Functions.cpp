@@ -324,10 +324,11 @@ void locationSelection(int oxygen) {
 	}
 }
 
-void paths(string location, int oxygen) {
+void paths(string location, int oxygen) 
+{
 	/* send user down path of choice based on current location */
 
-	int Health_State;
+	int Health_State = 0;
 	Path pathA, pathB, pathC, pathD;
 	//set path objects - (moves, material prob, hazard prob, small enemy prob, med enemy prob, lg enemy prob)
 	pathA.setPath(3, 0, 7, 40, 60, 70);			//70% chance enemy - 40% small, 20% medium, 10% large
@@ -376,73 +377,73 @@ void paths(string location, int oxygen) {
 		}
 		else if (input == 1) {				//path 1 that differs per location
 			if (location == "Minerva Volcanoes") {
-				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material);
+				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material, *P1);
 				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 			}
 			else if (location == "Caves") {
-				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material);
+				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material, *P1);
 				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 			}
 			else if (location == "Liquid Streams") {
-				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material);
+				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material, *P1);
 				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 			}
 			else if (location == "Clusters of Rocks") {
-				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material);
+				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material, *P1);
 				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 			}
 		}
 		else if (input == 2) {				//path 2 that differs per location
 			if (location == "Minerva Volcanoes") {
-				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material);
+				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material, *P1);
 				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 			}
 			else if (location == "Caves") {
-				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material);
+				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material, *P1);
 				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 			}
 			else if (location == "Liquid Streams") {
-				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material);
+				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material, *P1);
 				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 			}
 			else if (location == "Clusters of Rocks") {
-				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material);
+				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material, *P1);
 				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 			}
 		}
 		else if (input == 3) {				//path 3 that differs per location
 			if (location == "Minerva Volcanoes") {
-				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material);
+				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material, *P1);
 				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 			}
 			else if (location == "Caves") {
-				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material);
+				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material, *P1);
 				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 			}
 			else if (location == "Liquid Streams") {
-				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material);
+				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material, *P1);
 				oxygen = materialCollecting(pathC, location, oxygen, matProbC, material);
 			}
 			else if (location == "Clusters of Rocks") {
-				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material);
+				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material, *P1);
 				oxygen = materialCollecting(pathB, location, oxygen, matProbB, material);
 			}
 		}
 		else if (input == 4) {				//path 4 that differs per location
 			if (location == "Minerva Volcanoes") {
-				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material);
+				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material, *P1);
 				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 			}
 			else if (location == "Caves") {
-				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material);
+				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material, *P1);
 				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 			}
 			else if (location == "Liquid Streams") {
-				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material);
+				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material, *P1);
 				oxygen = materialCollecting(pathA, location, oxygen, matProbA, material);
 			}
 			else if (location == "Clusters of Rocks") {
-				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material);
+				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material, *P1);
 				oxygen = materialCollecting(pathD, location, oxygen, matProbD, material);
 			}
 		}
@@ -468,9 +469,7 @@ void paths(string location, int oxygen) {
 		}
 	} while (newInput == 1);		//run until user chooses to leave location
 
-	Health_State = P1->getHealth();
-
-	locationDemeter(oxygen, Health_State);		//return to Demeter
+	locationDemeter(oxygen);		//return to Demeter
 }
 
 int materialCollecting(Path& pathObject, string location, int oxygen, int matProb, string material)
@@ -490,13 +489,13 @@ int materialCollecting(Path& pathObject, string location, int oxygen, int matPro
 	return oxygen;
 }
 
-void locationDemeter(int oxygen, int Health) 
+void locationDemeter(int oxygen) 
 {
   /* ship location - home base/place to deposit materials */
 
 	string refillHealthChoice;
 
-	cout << "\n[HEALTH: " << Health << "]" << endl;				//display health
+	cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;				//display health
 	Check_Oxygen(oxygen);
 	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;			//display oxygen level
 

@@ -1,4 +1,6 @@
 ﻿  Functions.cpp
-c:\users\eliji\documents\github\software-design\text-based game\team_20_textbasedgame\team_20_textbasedgame\functions.cpp(473): error C2660: 'locationDemeter': function does not take 2 arguments
-  c:\users\eliji\documents\github\software-design\text-based game\team_20_textbasedgame\team_20_textbasedgame\game_classes.h(839): note: see declaration of 'locationDemeter'
-c:\users\eliji\documents\github\software-design\text-based game\team_20_textbasedgame\team_20_textbasedgame\functions.cpp(657): warning C4018: '<': signed/unsigned mismatch
+c:\users\eliji\documents\github\software-design\text-based game\team_20_textbasedgame\team_20_textbasedgame\game_classes.h(776): warning C4584: 'Path': base-class 'Player' is already a base-class of 'Enemy'
+  c:\users\eliji\documents\github\software-design\text-based game\team_20_textbasedgame\team_20_textbasedgame\game_classes.h(11): note: see declaration of 'Player'
+  c:\users\eliji\documents\github\software-design\text-based game\team_20_textbasedgame\team_20_textbasedgame\game_classes.h(347): note: see declaration of 'Enemy'
+c:\users\eliji\documents\github\software-design\text-based game\team_20_textbasedgame\team_20_textbasedgame\functions.cpp(656): warning C4018: '<': signed/unsigned mismatch
+  Team_20_TextBasedGame.vcxproj -> C:\Users\eliji\Documents\GitHub\Software-Design\Text-Based Game\Team_20_TextBasedGame\Debug\Team_20_TextBasedGame.exe
