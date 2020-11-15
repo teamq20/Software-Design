@@ -64,10 +64,10 @@ public:
 			refillTimes--;	//make refillTimes 0
 		}
 		else if (refillTimes == 1 && health >= 24) {		//last refill kit, but health is at new max of 24
-			cout << "\nYou cannot make use of the second health kit yet, as your health is already at maximum." << endl;
+			cout << "\nYou cannot make use of the second health kit yet, as your health is already at or above 80%." << endl;
 		}
 		else if (refillTimes == 0) {		//can't refill anymore
-			cout << "\nYou have already used both health kits found on the Demeter.\n"
+			cout << "\nYou have already used both health kits found in the Demeter.\n"
 				<< "Your health cannot be restored any more." << endl;
 		}
 	}
