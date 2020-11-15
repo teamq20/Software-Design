@@ -6,6 +6,9 @@
 #include <cstdlib>
 #include <cctype>
 #include <Windows.h>
+#include <limits>
+#include <ios>
+#undef max
 
 using namespace std;
 
@@ -73,7 +76,6 @@ void mainMenu(int oxygen) {
 	cout << "\t\t\t\t\t      (0) Quit" << endl;
 
 	cin >> menuChoice;
-	cin.ignore();
 
 	int input = convertToInt(menuChoice);		//input validation
 	if (continueGame == true) {
@@ -94,8 +96,8 @@ void mainMenu(int oxygen) {
 		multiPlayer();		//go to multiplayer version
 	}*/
 	else if (input == 0) {
-		//cout << "Exit" << endl;		//end game
-		//system("pause");
+		cout << "\nGood Bye!\n" << endl;		//end game
+		system("pause");
 		_Exit(10);
 	}
 }
@@ -106,15 +108,17 @@ void Beginning_stage()
 
 	string Starting_Items[8] = { "Pickaxe","Drill","Bucket","Flask","Knife","Gun","Flashlight","Lantern" };
 
-	int player_choice;	//player input when converted to int
-	string choice;		//player input
+	int player_choice = 0;	//player input when converted to int
+	string choice = "";		//player input
+
 	cout << "\nWhen selecting the tools needed, the dispensery can only operate to an extent that it can only dispense one item of each category." << endl
 		<< "\nFor exploration, the categories are:\n" << "-Excavation\n" << "-Liquid containment\n" << "-Weaponry\n" << "-Illumination\n" << endl;
 	Sleep(1500);
-	cout << "\nIn the field of Excavation, would you prefer:\n" << "(1) Pickaxe\n" << "or\n" << "(2) Drill" << endl << endl;
 
+	cout << "\nIn the field of Excavation, would you prefer:\n" << "(1) Pickaxe\n" << "or\n" << "(2) Drill" << endl << endl;
 	cout << "Please select your tool: ";
 
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');			//ignore everything user typed in before
 	cin >> choice;
 	player_choice = convertToInt(choice);
 	player_choice = inputValidation(player_choice, 1, 2);
@@ -134,6 +138,8 @@ void Beginning_stage()
 	Sleep(1500);
 	cout << "\nIn the field of Liquid containment, would you prefer: \n" << "(1) Bucket\n" << "or\n" << "(2) Flask" << endl << endl;
 	cout << "Please select your tool: ";
+
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	cin >> choice;
 	player_choice = convertToInt(choice);
 	player_choice = inputValidation(player_choice, 1, 2);
@@ -152,6 +158,8 @@ void Beginning_stage()
 	Sleep(1500);
 	cout << "\nIn the field of Weaponry, would you prefer: \n" << "(1) Knife (Deals 3 damage)\n" << "or \n" << "(2) Gun (Deals 5 damage)\n" << endl;
 	cout << "Please select your weapon: ";
+
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	cin >> choice;
 	player_choice = convertToInt(choice);
 	player_choice = inputValidation(player_choice, 1, 2);
@@ -170,6 +178,8 @@ void Beginning_stage()
 	Sleep(1500);
 	cout << "\nFinally, in the field of Illumination, would you prefer: \n" << "(1) Flashlight\n" << "or\n" << "(2) Lantern\n" << endl;
 	cout << "Please select your tool: ";
+
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	cin >> choice;
 	player_choice = convertToInt(choice);
 	player_choice = inputValidation(player_choice, 1, 2);
@@ -256,18 +266,21 @@ void gameIntro(int playerMode) {
 void locationIntro(string location, int oxygen) {
 	/* display intros for the 4 different locations */
 	
+	cout << "\n. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .\n";
+	cout << "\nLOCATION: " << location << endl;
+
 	if (location == "Minerva Volcanoes") {
 		cout << "\nAs you walk over fields of rock, the clouds dissolve into a black overcast overhead." <<
 			"\nAhead, you see the formidable peak, lava flowing down its slopes and smoke pluming from its" <<
 			"\nsummit. The heat becomes more intense as you approach. Eventually, you reach the mouth of the" <<
 			"\ncave system that leads inside the volcanic mass. The environment is hostile, but luckily," <<
-			"\nyour systems detect high quantities of Uranium." << endl << endl;
+			"\nyour systems detect high quantities of Uranium." << endl;
 	}
 	else if (location == "Caves") {
 		cout << "\nYou don't have to walk long before you see the looming entrance of an expansive cave system," <<
 			"\ncarved out of a sheer rock face. The darkness is all-consuming; you wont be able to navigate" <<
 			"\nwithout an illumination device. Standing at the entrance, you can hear distant echoes of creatures" <<
-			"\nmoving throughout the vast cave. Your systems detect high quantities of Copper." << endl << endl;
+			"\nmoving throughout the vast cave. Your systems detect high quantities of Copper." << endl;
 	}
 	else if (location == "Liquid Streams") {
 		cout << "\nAfter trekking over rolling expanses of rock, you finally come upon a system of streams." <<
@@ -275,14 +288,14 @@ void locationIntro(string location, int oxygen) {
 			"\nrecall sitting by the stream behind your childhood home. Your memories of Earth are soon overtaken," <<
 			"\nhowever, as these streams are not water. Life forms weave their way amongst the flowing liquid," <<
 			"\nwhich your systems detect is a mixture of various compounds, including Hydrazine. You may utilize" <<
-			"\nthe Demeter's liquid filtration system to extract the Hydrazine once the liquid is collected." << endl << endl;
+			"\nthe Demeter's liquid filtration system to extract the Hydrazine once the liquid is collected." << endl;
 	}
 	else if (location == "Clusters of Rocks") {
 		cout << "\nTraveling over endless rock, you spot, in the distance, more rock. Except these rocks are large" <<
 			"\nand staggered, creating a forest of spires, a biome unlike that which you've ever seen before." <<
 			"\nThe closer you get, the more you realize how tremendously large this environment of pure rock is." <<
 			"\nGlobular creatures float towards the tops of the spires, while smaller creatures scuttle on the ground." <<
-			"\nYour systems detect many minerals embedded in this rock forest, including Fluorine." << endl << endl;
+			"\nYour systems detect many minerals embedded in this rock forest, including Fluorine." << endl;
 	}
 	paths(location, oxygen);
 }
@@ -300,13 +313,15 @@ void locationSelection(int oxygen) {
 	cout << "(2) East: Caves" << endl;
 	cout << "(3) South: Liquid Streams" << endl;
 	cout << "(4) West: Clusters of Rocks" << endl;
+	cout << "(5) Return to Demeter" << endl;
 	cout << "(0) Options menu" << endl << endl;
 	
 	P1_Inventory->Print();		//print player inventory
 
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	cin >> choice;
 	int input = convertToInt(choice);		//input validation
-	input = inputValidation(input, 0, 4);
+	input = inputValidation(input, 0, 5);
 	bool haveMaterial = false;
 
 	if (input == 0) {		//options menu
@@ -356,19 +371,21 @@ void locationSelection(int oxygen) {
 			locationIntro("Clusters of Rocks", oxygen);
 		}
 	}
+	else if (input == 5) {			//return to Demeter
+		locationDemeter(oxygen);
+	}
 }
 
 void paths(string location, int oxygen) 
 {
 	/* send user down path of choice based on current location */
 
-	int Health_State = 0;
 	Path pathA, pathB, pathC, pathD;
 	//set path objects - (moves, material prob, hazard prob, small enemy prob, med enemy prob, lg enemy prob)
-	pathA.setPath(3, 0, 14, 40, 60, 70);			//70% chance enemy - 40% small, 20% medium, 10% large
-	pathB.setPath(1, 30, 24, 20, 35, 40);		//40% chance enemy - 20% small, 15% medium, 5% large
-	pathC.setPath(2, 50, 20, 25, 40, 50);		//50% chance enemy - 25% small, 15% medium, 10% large
-	pathD.setPath(2, 100, 30, 35, 50, 60);		//60% chance enemy - 35% small, 15% medium, 10% large
+	pathA.setPath(3, 0, 20, 40, 60, 70);			//70% chance enemy - 40% small, 20% medium, 10% large
+	pathB.setPath(1, 30, 35, 20, 35, 40);		//40% chance enemy - 20% small, 15% medium, 5% large
+	pathC.setPath(2, 50, 30, 25, 40, 50);		//50% chance enemy - 25% small, 15% medium, 10% large
+	pathD.setPath(2, 100, 40, 45, 70, 80);		//80% chance enemy - 45% small, 25% medium, 10% large
 
 	//set material probability per path
 	int matProbA = 0, matProbB = 30, matProbC = 50, matProbD = 100;
@@ -401,8 +418,9 @@ void paths(string location, int oxygen)
 		cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;			//display oxygen level
 
 		cout << "\nWhich path do you choose to take? Please enter a number 1-4:" << endl;
+		
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		cin >> choice;
-
 		int input = convertToInt(choice);		//input validation
 		input = inputValidation(input, 0, 4);
 		
@@ -606,8 +624,9 @@ void paths(string location, int oxygen)
 		cout << "(1) Continue exploring other paths in this location" << endl;
 		cout << "(2) Leave the " << location << " and go back to the ship\n" << endl;
 		P1_Inventory->Print();		//print player inventory
+		
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		cin >> choice;
-
 		newInput = convertToInt(choice);		//input validation
 		newInput = inputValidation(newInput, 0, 2);
 
@@ -642,6 +661,7 @@ void locationDemeter(int oxygen)
 
 	string refillHealthChoice;
 
+	cout << "\n. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .\n";
 	cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;				//display health
 	Check_Oxygen(oxygen);
 	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;			//display oxygen level
@@ -650,6 +670,7 @@ void locationDemeter(int oxygen)
 		cout << "\nThe Demeter only has enough health kits to entirely refill your health once, and then partially the second time.\n"
 			<< "Do you wish to refill your health?\n"
 			<< "(1) Yes \t" << "(2) No" << endl;
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		cin >> refillHealthChoice;
 
 		int refillInput = convertToInt(refillHealthChoice);		//input validation
@@ -675,6 +696,7 @@ void locationDemeter(int oxygen)
 	cout << "(1) Explore Minerva" << endl;
 	cout << "(2) Repair Ship" << endl;
 
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	cin >> choice;
 
 	int input = convertToInt(choice);		//input validation
@@ -694,6 +716,7 @@ void locationDemeter(int oxygen)
 		if (won == true) {
 			cout << "*VICTORY* Congratulations VST-7426, you have successfully acquired and integrated all necessary materials\n"
 				<< "to fix the Demeter. All systems are now nominal. Commencing departure from the surface of Minerva." << endl << endl;
+			continueGame = false;
 			system("pause");
 			mainMenu();
 		}
@@ -755,6 +778,7 @@ void options(int playerMode, int oxygen, string optionLocation) {
 	cout << "(2) Reset Game" << endl;
 	cout << "(3) Close Options Menu" << endl;
 	cout << "(0) Quit" << endl;
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	cin >> menuChoice;
 
 	int input = convertToInt(menuChoice);		//input validation
@@ -783,7 +807,7 @@ void options(int playerMode, int oxygen, string optionLocation) {
 			locationSelection(oxygen);
 		}
 		else {
-			paths(optionLocation, oxygen);
+			paths(optionLocation, oxygen);		//return to path selection if there
 		}
 	}
 	else if (input == 0) {		//quit
@@ -807,6 +831,7 @@ int convertToInt(string input) {
 
 	while (stringCounter != 0) {
 		stringCounter = 0;
+		
 		for (int i = 0; i < input.length(); i++) {
 			if (!isdigit(input[i])) {
 				stringCounter++;
@@ -815,6 +840,7 @@ int convertToInt(string input) {
 
 		if (stringCounter != 0) {
 			cout << "This is not an valid input. Enter a numeric input." << endl;
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			cin >> input;
 		}
 	}
@@ -832,6 +858,7 @@ int inputValidation(int input, int min, int max) {
 		cout << "This is an invalid input" << endl;
 		cout << "Please enter a number between " << min << " and " << max << endl;
 
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		cin >> menuChoice;
 		input = convertToInt(menuChoice);
 	}

@@ -45,9 +45,6 @@ public:
 		if (isAlive() == false) {
 			cout << "\n\n*GAME OVER* VST-7426, you have been terminated by " << causeDeath << "." << endl;
 			cout << "Play again if you wish to redeem yourself..." << endl;
-			system("pause");
-			//mainMenu();
-			//_Exit(10);
 		}
 	}
 
