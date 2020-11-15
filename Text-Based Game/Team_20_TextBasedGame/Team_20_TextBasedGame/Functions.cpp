@@ -266,18 +266,21 @@ void gameIntro(int playerMode) {
 void locationIntro(string location, int oxygen) {
 	/* display intros for the 4 different locations */
 	
+	cout << "\n. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .\n";
+	cout << "\nLOCATION: " << location << endl;
+
 	if (location == "Minerva Volcanoes") {
 		cout << "\nAs you walk over fields of rock, the clouds dissolve into a black overcast overhead." <<
 			"\nAhead, you see the formidable peak, lava flowing down its slopes and smoke pluming from its" <<
 			"\nsummit. The heat becomes more intense as you approach. Eventually, you reach the mouth of the" <<
 			"\ncave system that leads inside the volcanic mass. The environment is hostile, but luckily," <<
-			"\nyour systems detect high quantities of Uranium." << endl << endl;
+			"\nyour systems detect high quantities of Uranium." << endl;
 	}
 	else if (location == "Caves") {
 		cout << "\nYou don't have to walk long before you see the looming entrance of an expansive cave system," <<
 			"\ncarved out of a sheer rock face. The darkness is all-consuming; you wont be able to navigate" <<
 			"\nwithout an illumination device. Standing at the entrance, you can hear distant echoes of creatures" <<
-			"\nmoving throughout the vast cave. Your systems detect high quantities of Copper." << endl << endl;
+			"\nmoving throughout the vast cave. Your systems detect high quantities of Copper." << endl;
 	}
 	else if (location == "Liquid Streams") {
 		cout << "\nAfter trekking over rolling expanses of rock, you finally come upon a system of streams." <<
@@ -285,14 +288,14 @@ void locationIntro(string location, int oxygen) {
 			"\nrecall sitting by the stream behind your childhood home. Your memories of Earth are soon overtaken," <<
 			"\nhowever, as these streams are not water. Life forms weave their way amongst the flowing liquid," <<
 			"\nwhich your systems detect is a mixture of various compounds, including Hydrazine. You may utilize" <<
-			"\nthe Demeter's liquid filtration system to extract the Hydrazine once the liquid is collected." << endl << endl;
+			"\nthe Demeter's liquid filtration system to extract the Hydrazine once the liquid is collected." << endl;
 	}
 	else if (location == "Clusters of Rocks") {
 		cout << "\nTraveling over endless rock, you spot, in the distance, more rock. Except these rocks are large" <<
 			"\nand staggered, creating a forest of spires, a biome unlike that which you've ever seen before." <<
 			"\nThe closer you get, the more you realize how tremendously large this environment of pure rock is." <<
 			"\nGlobular creatures float towards the tops of the spires, while smaller creatures scuttle on the ground." <<
-			"\nYour systems detect many minerals embedded in this rock forest, including Fluorine." << endl << endl;
+			"\nYour systems detect many minerals embedded in this rock forest, including Fluorine." << endl;
 	}
 	paths(location, oxygen);
 }
@@ -310,6 +313,7 @@ void locationSelection(int oxygen) {
 	cout << "(2) East: Caves" << endl;
 	cout << "(3) South: Liquid Streams" << endl;
 	cout << "(4) West: Clusters of Rocks" << endl;
+	cout << "(5) Return to Demeter" << endl;
 	cout << "(0) Options menu" << endl << endl;
 	
 	P1_Inventory->Print();		//print player inventory
@@ -317,7 +321,7 @@ void locationSelection(int oxygen) {
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	cin >> choice;
 	int input = convertToInt(choice);		//input validation
-	input = inputValidation(input, 0, 4);
+	input = inputValidation(input, 0, 5);
 	bool haveMaterial = false;
 
 	if (input == 0) {		//options menu
@@ -367,6 +371,9 @@ void locationSelection(int oxygen) {
 			locationIntro("Clusters of Rocks", oxygen);
 		}
 	}
+	else if (input == 5) {			//return to Demeter
+		locationDemeter(oxygen);
+	}
 }
 
 void paths(string location, int oxygen) 
@@ -375,10 +382,10 @@ void paths(string location, int oxygen)
 
 	Path pathA, pathB, pathC, pathD;
 	//set path objects - (moves, material prob, hazard prob, small enemy prob, med enemy prob, lg enemy prob)
-	pathA.setPath(3, 0, 14, 40, 60, 70);			//70% chance enemy - 40% small, 20% medium, 10% large
-	pathB.setPath(1, 30, 24, 20, 35, 40);		//40% chance enemy - 20% small, 15% medium, 5% large
-	pathC.setPath(2, 50, 20, 25, 40, 50);		//50% chance enemy - 25% small, 15% medium, 10% large
-	pathD.setPath(2, 100, 30, 35, 50, 60);		//60% chance enemy - 35% small, 15% medium, 10% large
+	pathA.setPath(3, 0, 20, 40, 60, 70);			//70% chance enemy - 40% small, 20% medium, 10% large
+	pathB.setPath(1, 30, 35, 20, 35, 40);		//40% chance enemy - 20% small, 15% medium, 5% large
+	pathC.setPath(2, 50, 30, 25, 40, 50);		//50% chance enemy - 25% small, 15% medium, 10% large
+	pathD.setPath(2, 100, 40, 45, 70, 80);		//80% chance enemy - 45% small, 25% medium, 10% large
 
 	//set material probability per path
 	int matProbA = 0, matProbB = 30, matProbC = 50, matProbD = 100;
@@ -402,8 +409,7 @@ void paths(string location, int oxygen)
 		material = "Fluorine";
 	}
 
-	cout << "\nLOCATION: " << location << endl;
-	cout << "You are able to go down one of four paths." << endl;
+	cout << "\nYou are able to go down one of four paths." << endl;
 
 	do
 	{
@@ -655,6 +661,7 @@ void locationDemeter(int oxygen)
 
 	string refillHealthChoice;
 
+	cout << "\n. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .\n";
 	cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;				//display health
 	Check_Oxygen(oxygen);
 	cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;			//display oxygen level
@@ -709,6 +716,7 @@ void locationDemeter(int oxygen)
 		if (won == true) {
 			cout << "*VICTORY* Congratulations VST-7426, you have successfully acquired and integrated all necessary materials\n"
 				<< "to fix the Demeter. All systems are now nominal. Commencing departure from the surface of Minerva." << endl << endl;
+			continueGame = false;
 			system("pause");
 			mainMenu();
 		}
@@ -775,8 +783,6 @@ void options(int playerMode, int oxygen, string optionLocation) {
 
 	int input = convertToInt(menuChoice);		//input validation
 	input = inputValidation(input, 0, 3);
-
-	cout << "\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n";
 
 	if (input == 1) {		//main menu
 		continueGame = true;
