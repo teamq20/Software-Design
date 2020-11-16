@@ -1,6 +1,7 @@
 ﻿  Functions.cpp
-c:\users\eliji\documents\github\software-design\text-based game\team_20_textbasedgame\team_20_textbasedgame\game_classes.h(776): warning C4584: 'Path': base-class 'Player' is already a base-class of 'Enemy'
+c:\users\eliji\documents\github\software-design\text-based game\team_20_textbasedgame\team_20_textbasedgame\game_classes.h(797): warning C4584: 'Path': base-class 'Player' is already a base-class of 'Enemy'
   c:\users\eliji\documents\github\software-design\text-based game\team_20_textbasedgame\team_20_textbasedgame\game_classes.h(11): note: see declaration of 'Player'
   c:\users\eliji\documents\github\software-design\text-based game\team_20_textbasedgame\team_20_textbasedgame\game_classes.h(347): note: see declaration of 'Enemy'
-c:\users\eliji\documents\github\software-design\text-based game\team_20_textbasedgame\team_20_textbasedgame\functions.cpp(656): warning C4018: '<': signed/unsigned mismatch
+c:\users\eliji\documents\github\software-design\text-based game\team_20_textbasedgame\team_20_textbasedgame\functions.cpp(915): warning C4018: '<': signed/unsigned mismatch
+c:\users\eliji\documents\github\software-design\text-based game\team_20_textbasedgame\team_20_textbasedgame\game_classes.h(344): warning C4715: 'Ship_inventory::Win_condition': not all control paths return a value
   Team_20_TextBasedGame.vcxproj -> C:\Users\eliji\Documents\GitHub\Software-Design\Text-Based Game\Team_20_TextBasedGame\Debug\Team_20_TextBasedGame.exe

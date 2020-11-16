@@ -334,7 +334,7 @@ void locationSelection(int oxygen) {
 			locationSelection(oxygen);
 		}
 		else {
-			oxygen = oxygen - 4;
+			oxygen = oxygen - 10;
 			locationIntro("Minerva Volcanoes", oxygen);
 		}
 	}
@@ -345,7 +345,7 @@ void locationSelection(int oxygen) {
 			locationSelection(oxygen);
 		}
 		else {
-			oxygen = oxygen - 3;
+			oxygen = oxygen - 8;
 			locationIntro("Caves", oxygen);
 		}
 	}
@@ -356,7 +356,7 @@ void locationSelection(int oxygen) {
 			locationSelection(oxygen);
 		}
 		else {
-			oxygen = oxygen - 6;
+			oxygen = oxygen - 15;
 			locationIntro("Liquid Streams", oxygen);
 		}
 	}
@@ -367,7 +367,7 @@ void locationSelection(int oxygen) {
 			locationSelection(oxygen);
 		}
 		else {
-			oxygen = oxygen - 5;
+			oxygen = oxygen - 8;
 			locationIntro("Clusters of Rocks", oxygen);
 		}
 	}
@@ -431,6 +431,11 @@ void paths(string location, int oxygen)
 		else if (input == 1) {				//path 1 that differs per location
 			if (location == "Minerva Volcanoes") {
 				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material, *P1);		//go to path for enemies and hazards
+
+				cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;		//display health
+				Check_Oxygen(oxygen);
+				cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;		//display oxygen level
+
 				isAlive = pathC.died();				//check if player is dead or alive
 
 				if (isAlive == false) {
@@ -442,6 +447,11 @@ void paths(string location, int oxygen)
 			}
 			else if (location == "Caves") {
 				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material, *P1);
+
+				cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;		//display health
+				Check_Oxygen(oxygen);
+				cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;		//display oxygen level
+
 				isAlive = pathB.died();
 
 				if (isAlive == false) {
@@ -453,6 +463,11 @@ void paths(string location, int oxygen)
 			}
 			else if (location == "Liquid Streams") {
 				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material, *P1);
+
+				cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;		//display health
+				Check_Oxygen(oxygen);
+				cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;		//display oxygen level
+
 				isAlive = pathD.died();
 
 				if (isAlive == false) {
@@ -464,6 +479,11 @@ void paths(string location, int oxygen)
 			}
 			else if (location == "Clusters of Rocks") {
 				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material, *P1);
+
+				cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;		//display health
+				Check_Oxygen(oxygen);
+				cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;		//display oxygen level
+
 				isAlive = pathA.died();
 
 				if (isAlive == false) {
@@ -477,6 +497,11 @@ void paths(string location, int oxygen)
 		else if (input == 2) {				//path 2 that differs per location
 			if (location == "Minerva Volcanoes") {
 				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material, *P1);
+
+				cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;		//display health
+				Check_Oxygen(oxygen);
+				cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;		//display oxygen level
+
 				isAlive = pathB.died();
 
 				if (isAlive == false) {
@@ -488,6 +513,11 @@ void paths(string location, int oxygen)
 			}
 			else if (location == "Caves") {
 				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material, *P1);
+
+				cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;		//display health
+				Check_Oxygen(oxygen);
+				cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;		//display oxygen level
+
 				isAlive = pathC.died();
 
 				if (isAlive == false) {
@@ -499,6 +529,11 @@ void paths(string location, int oxygen)
 			}
 			else if (location == "Liquid Streams") {
 				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material, *P1);
+
+				cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;		//display health
+				Check_Oxygen(oxygen);
+				cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;		//display oxygen level
+
 				isAlive = pathB.died();
 
 				if (isAlive == false) {
@@ -510,6 +545,11 @@ void paths(string location, int oxygen)
 			}
 			else if (location == "Clusters of Rocks") {
 				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material, *P1);
+
+				cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;		//display health
+				Check_Oxygen(oxygen);
+				cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;		//display oxygen level
+
 				isAlive = pathC.died();
 
 				if (isAlive == false) {
@@ -523,6 +563,11 @@ void paths(string location, int oxygen)
 		else if (input == 3) {				//path 3 that differs per location
 			if (location == "Minerva Volcanoes") {
 				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material, *P1);
+
+				cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;		//display health
+				Check_Oxygen(oxygen);
+				cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;		//display oxygen level
+
 				isAlive = pathA.died();
 
 				if (isAlive == false) {
@@ -534,6 +579,11 @@ void paths(string location, int oxygen)
 			}
 			else if (location == "Caves") {
 				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material, *P1);
+
+				cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;		//display health
+				Check_Oxygen(oxygen);
+				cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;		//display oxygen level
+
 				isAlive = pathD.died();
 
 				if (isAlive == false) {
@@ -545,6 +595,11 @@ void paths(string location, int oxygen)
 			}
 			else if (location == "Liquid Streams") {
 				oxygen = pathC.goPath(*P1_Inventory, location, oxygen, material, *P1);
+
+				cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;		//display health
+				Check_Oxygen(oxygen);
+				cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;		//display oxygen level
+
 				isAlive = pathC.died();
 
 				if (isAlive == false) {
@@ -556,6 +611,11 @@ void paths(string location, int oxygen)
 			}
 			else if (location == "Clusters of Rocks") {
 				oxygen = pathB.goPath(*P1_Inventory, location, oxygen, material, *P1);
+
+				cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;		//display health
+				Check_Oxygen(oxygen);
+				cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;		//display oxygen level
+
 				isAlive = pathB.died();
 
 				if (isAlive == false) {
@@ -569,6 +629,11 @@ void paths(string location, int oxygen)
 		else if (input == 4) {				//path 4 that differs per location
 			if (location == "Minerva Volcanoes") {
 				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material, *P1);
+
+				cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;		//display health
+				Check_Oxygen(oxygen);
+				cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;		//display oxygen level
+
 				isAlive = pathD.died();
 
 				if (isAlive == false) {
@@ -580,6 +645,11 @@ void paths(string location, int oxygen)
 			}
 			else if (location == "Caves") {
 				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material, *P1);
+
+				cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;		//display health
+				Check_Oxygen(oxygen);
+				cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;		//display oxygen level
+
 				isAlive = pathA.died();
 
 				if (isAlive == false) {
@@ -591,6 +661,11 @@ void paths(string location, int oxygen)
 			}
 			else if (location == "Liquid Streams") {
 				oxygen = pathA.goPath(*P1_Inventory, location, oxygen, material, *P1);
+
+				cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;		//display health
+				Check_Oxygen(oxygen);
+				cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;		//display oxygen level
+
 				isAlive = pathA.died();
 
 				if (isAlive == false) {
@@ -602,6 +677,11 @@ void paths(string location, int oxygen)
 			}
 			else if (location == "Clusters of Rocks") {
 				oxygen = pathD.goPath(*P1_Inventory, location, oxygen, material, *P1);
+
+				cout << "\n[HEALTH: " << P1->getHealth() << "]" << endl;		//display health
+				Check_Oxygen(oxygen);
+				cout << "[OXYGEN LEVEL: " << oxygen << "]" << endl << endl;		//display oxygen level
+
 				isAlive = pathD.died();
 
 				if (isAlive == false) {
